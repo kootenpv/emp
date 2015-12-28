@@ -14,7 +14,7 @@ Introduction video **not yet here**.
 Blog post **not yet here**
 
 ### Screenshot
-<img src="https://raw.github.com/kootenpv/emp/master/python-screenshot.png" width="50%"></img>
+<img src="https://github.com/kootenpv/emp/blob/master/resources/python-screenshot.png" width="50%"></img>
 
 ### Table of contents
 
