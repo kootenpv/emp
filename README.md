@@ -5,7 +5,7 @@
 
 **STATUS: PRE-ALPHA** -- did not check for bugs yet
 
-Cross-platform settings for a nice EMacs Pyython environment. Easy to install, most powerful.
+Cross-platform settings for a nice EMacs Python environment. Easy to install, most powerful.
 
 And naturally configurable as Emacs.
 
@@ -78,7 +78,12 @@ Blog post **not yet here**
 
     `~/DISTRO/` such that `~/DISTRO/.emacs.d`
 
-2. Put `(load "/Users/pascal/emp-24.4/.emacs.d/init.el")` in `~/.emacs`.
+2. Put
+
+        (setq user-emacs-directory "/home/ubuntu/emp-24.4/")
+        (load (concat user-emacs-directory ".emacs.d/init.el"))
+
+   in `~/.emacs`, given that `/home/ubuntu/` is your `$HOME` / `~`.
 
    If you want to be able to use several versions of Emacs, you can test for that.
 
@@ -137,9 +142,10 @@ Keybinding                | Description
 
 ### File structure
 
-    .
+    . EMP
+    │  
+    ├──README.md
     ├── .emacs.d
-    │   ├── README.md
     │   ├── init
     │   │   ├── my-c++.el
     │   │   ├── my-custom.el
