@@ -93,6 +93,8 @@ Blog post **not yet here**
 
 Your setup is complete.
 
+Most likely there are issues. Have a look at [ubuntu_install.md](https://github.com/kootenpv/emp/blob/master/ubuntu_install.MD) to see if there are hints there. I get it working there from a clean VM image, or post an issue.
+
 ### Keyboard
 
 At any moment, press <kbd>C-h m</kbd> to view all current keybindings.
@@ -114,8 +116,19 @@ Keybinding                | Description
 <kbd>[backspace]   </kbd> | backspace-blank-lines-or-char
 <kbd>[delete]      </kbd> | delete-blank-lines-or-char
 
-#### Python Specific
+#### Keychords
 
+Key chords are awesome, just press two keys combinations quickly (in any order):
+
+Keybinding                | Description
+--------------------------|------------------------------------------------------------
+<kbd>x q           </kbd> | Use it all the time: quit emacs no questions asked (dangerous!)
+<kbd>s s           </kbd> | switch between buffers, can also work as "alt-tab"
+<kbd>V V           </kbd> | Move quickly on screen using `avy-goto-char`
+<kbd>h k           </kbd> | Reach your emacs config quickly
+<kbd>P G      </kbd>      | Search in your python files from this folder down
+
+#### Python Specific
 
 Keybinding                | Description
 --------------------------|------------------------------------------------------------
