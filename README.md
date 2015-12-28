@@ -1,17 +1,20 @@
 ## EMacs Python
 
-**STATUS: PRE-ALPHA** -- get out of here.
+<img src="https://github.com/kootenpv/emp/blob/master/resources/emacs.png" width="10%"></img>
+<img src="https://github.com/kootenpv/emp/blob/master/resources/python.png" width="10%"></img></div>
+
+**STATUS: PRE-ALPHA** -- did not check for bugs yet
 
 Cross-platform settings for a nice EMacs Pyython environment. Easy to install, most powerful.
 
 And naturally configurable as Emacs.
 
-Introduction video **here**.
+Introduction video **not yet here**.
 
-Blog post **here**
+Blog post **not yet here**
 
 ### Screenshot
-<img src="https://raw.github.com/kootenpv/emacs.python/master/python-screenshot.png" width="50%"></img>
+<img src="https://raw.github.com/kootenpv/emp/master/python-screenshot.png" width="50%"></img>
 
 ### Table of contents
 
