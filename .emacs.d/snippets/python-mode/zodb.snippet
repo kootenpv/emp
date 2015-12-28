@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: zodb
+# key: zodb
+# --
+import transaction
+from persistent.mapping import PersistentMapping
+
+storage = FileStorage('/Users/pascal/GDrive/tenderned/Data.fs')
+db = DB(storage)
+connection = db.open()
+zodb_root = connection.root()

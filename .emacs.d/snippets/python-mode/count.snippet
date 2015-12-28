@@ -1,0 +1,10 @@
+# -*- coding: utf-8 -*-
+# name: count
+# key: count
+# --
+def getCounts(items):
+    counts = {}
+    for item in items:
+        counts[item] = counts.get(item, 0) + 1
+    return counts    
+    

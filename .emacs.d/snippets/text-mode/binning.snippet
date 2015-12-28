@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: binning
+# key: binning
+# --
+<binning-set>
+    <call-function name="binning-set">
+        <with name="select">$${1:xpath}</with>
+        <with name="label">$$1</with>
+        <with name="bs-id">$1</with>
+        <with name="disable-bin-pruning">disable-bin-pruning</with>
+    </call-function>
+</binning-set>

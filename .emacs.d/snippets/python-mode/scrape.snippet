@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: walk
+# key: walk
+# expand-var: ((yas-indent-line 'fixed))
+# --
+import os
+for root, dirs, files in os.walk('$1', topdown=False):
+    for name in files:
+        if '.DS_STORE' not in name:
+            with open(root + name) as f:
+                f.read()

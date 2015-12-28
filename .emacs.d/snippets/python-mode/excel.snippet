@@ -1,0 +1,29 @@
+# -*- coding: utf-8 -*-
+# name: excel
+# key: excel
+# expand-var: ((yas-indent-line 'fixed))
+# --
+import xlrd 
+import re
+
+def getExcel(path_to_file, sheetName):
+    workbook = xlrd.open_workbook(path_to_file)
+    sheet = workbook.sheet_by_name(sheetName) 
+    found_companies = {}
+    for curr_row in range(sheet.nrows): 
+        if curr_row == 0: 
+            num_cols = sheet.ncols
+            headerCols = [sheet.cell_value(curr_row, curr_col) for curr_col in range(num_cols)] 
+            continue
+        row = [sheet.cell_value(curr_row, curr_col) for curr_col in range(num_cols)]
+        row = [str(x) if type(x) == float or type(x) == int else x for x in row]
+        row = [re.sub("&", "&amp;", x) if type(x) == float or type(x) == int else x for x in row ]
+        row = [re.sub('"', '', x) if type(x) == float or type(x) == int else x for x in row ] 
+        row = [re.sub("'", '', x) if type(x) == float or type(x) == int else x for x in row ] 
+        #cells = {i : str(j.encode('ascii', 'xmlcharrefreplace')).strip(".0") for i,j in zip(headerCols, row)}
+        cells = {i : j for i,j in zip(headerCols, row)}
+        #cells = {i : j for i,j in cells.items() if j}
+        return headerCols, cells    
+        
+
+header, data = getExcel('/Users/pascal/Downloads/AST_STO_FDT_Cdw tabellen.xlsm', 'Start')

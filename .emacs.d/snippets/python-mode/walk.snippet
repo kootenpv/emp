@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: walker
+# key: walker
+# --
+def get_fp(directory, endchar = ''):
+    file_paths = []
+    for root, directories, files in os.walk(directory):
+        for filename in files:
+            if endchar and not filename.endswith(endchar):
+                continue
+            filepath = os.path.join(root, filename)
+            file_paths.append(filepath)  # Add it to the list.
+    return file_paths

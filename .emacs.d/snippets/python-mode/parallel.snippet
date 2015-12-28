@@ -1,0 +1,15 @@
+# -*- coding: utf-8 -*-
+# name: parallel
+# key: parallel
+# expand-var: ((yas-indent-line 'fixed))
+# --
+def parallel(fn, data):
+    import multiprocessing
+    if isinstance(data, int):
+        data = range(data)
+    try:
+        pool = multiprocessing.Pool()
+        results = pool.map_async(fn, data).get(9999999)
+        return results
+    except KeyboardInterrupt:        
+        pool.terminate()        
