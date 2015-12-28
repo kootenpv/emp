@@ -1,4 +1,4 @@
-# emacs.python for Ubuntu
+# emp for Ubuntu
 
 Only to make VM look good:
 
