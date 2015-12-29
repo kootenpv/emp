@@ -41,9 +41,9 @@ To be able to display UTF8 nicely, add to `.bashrc` (or your own language code):
     export LC_ALL=en_US.UTF-8
     export LANG=en_US.UTF-8
 
-Needed to link `pip3` to `pip` for `elpy` (hacky):
+Proper linking to `python` bin
 
-    sudo ln -s /usr/bin/pip3 /usr/bin/pip
+    export PATH=~/.local/bin:$PATH
 
 Reboot to make VM look better, then start emacs:
 
@@ -53,3 +53,6 @@ Reboot to make VM look better, then start emacs:
 
 echo '(setq user-emacs-directory "/home/ubuntu/emp/")' > ~/.emacs
 echo '(load (concat user-emacs-directory ".emacs.d/init.el"))' >> ~/.emacs
+
+
+export PATH=/usr/.local/bin

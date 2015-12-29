@@ -104,10 +104,10 @@ class PylintRunner(LintRunner):
       render.py:32: [C0111, render] Missing docstring """
 
     output_matcher = re.compile(
-        b'(?P<filename>[^:]+):'
-        b'(?P<line_number>\d+):'
-        b'(?P<category>[a-z]+) '
-        b'\s*(?P<description>.*)$')
+        r'(?P<filename>[^:]+):'
+        r'(?P<line_number>\d+):'
+        r'(?P<category>[a-z]+) '
+        r'\s*(?P<description>.*)$')
 
     sane_default_ignore_codes = set([
         "C0103",  # Naming convention
