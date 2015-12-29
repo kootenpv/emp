@@ -1,0 +1,7 @@
+jedi
+pylint
+importmagic
+autopep8
+yapf
+ipython
+matplotlib
