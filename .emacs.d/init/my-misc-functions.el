@@ -274,4 +274,4 @@ might be bad."
   (browse-url "http://localhost:5000")
   )
 
-(provide 'my-misc-functions)
+(provide 'emp-misc-functions)

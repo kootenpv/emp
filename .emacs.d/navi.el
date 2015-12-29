@@ -11,22 +11,22 @@
     ;; Find files/buffers
 
     (,(kbd "f d") . (lambda () (interactive)
-                      (find-file (concat myinit "my-display.el")) (Navi-mode -1)))
+                      (find-file (concat empinit "my-display.el")) (Navi-mode -1)))
 
     (,(kbd "f c") . (lambda () (interactive)
-                      (find-file (concat myinit "my-c++.el")) (Navi-mode -1)))
+                      (find-file (concat empinit "my-c++.el")) (Navi-mode -1)))
 
     (,(kbd "f m") . (lambda () (interactive)
-                      (find-file (concat myinit "my-misc-functions.el")) (Navi-mode -1)))
+                      (find-file (concat empinit "my-misc-functions.el")) (Navi-mode -1)))
 
     (,(kbd "f e") . (lambda () (interactive)
-                      (find-file (concat myinit "my-external-plugins.el")) (Navi-mode -1)))
+                      (find-file (concat empinit "my-external-plugins.el")) (Navi-mode -1)))
 
     (,(kbd "f k") . (lambda () (interactive)
-                      (find-file (concat myinit "my-keybindings.el")) (Navi-mode -1)))
+                      (find-file (concat empinit "my-keybindings.el")) (Navi-mode -1)))
 
     (,(kbd "f i") . (lambda () (interactive)
-                      (find-file (concat myinit "my-init.el")) (Navi-mode -1)))
+                      (find-file (concat empinit "my-init.el")) (Navi-mode -1)))
 
     (,(kbd "f S") . (lambda () (interactive)
                       (find-file (concat emacsd "smart.el")) (Navi-mode -1)))
@@ -35,7 +35,7 @@
                       (switch-to-buffer "*scratch*") (Navi-mode -1)))
 
     (,(kbd "f P") . (lambda () (interactive)
-                      (find-file (concat myinit "my-python.el")) (Navi-mode -1)))
+                      (find-file (concat empinit "my-python.el")) (Navi-mode -1)))
 
     (,(kbd "f p") . (lambda () (interactive)
                       (find-file (concat emacsd "Navi-empty/empty.py")) (Navi-mode -1)))
@@ -47,10 +47,10 @@
                       (find-file "~/.emacs") (Navi-mode -1)))
 
     (,(kbd "f L") . (lambda () (interactive)
-                      (find-file (concat myinit "my-latex.el")) (Navi-mode -1)))
+                      (find-file (concat empinit "my-latex.el")) (Navi-mode -1)))
 
     (,(kbd "f R") . (lambda () (interactive)
-                      (find-file (concat myinit "my-r.el")) (Navi-mode -1)))
+                      (find-file (concat empinit "my-r.el")) (Navi-mode -1)))
 
 
     )
@@ -89,7 +89,7 @@
   (interactive "P")
   (require 'bookmark)
   ;;  (load "D:/emacs-24.1/site-lisp/ess1209/lisp/ess-site")
-  (load "/home/pascal/GDrive/.emacs.d/init-kooten/my-r")
+  ;;(load "/home/pascal/GDrive/.emacs.d/init-kooten/my-r")
   (bookmark-maybe-load-default-file)
   (bookmark-jump (concat "last" (int-to-string arg)))
   (message (concat "Went to most recent bookmark " (int-to-string arg) "."))

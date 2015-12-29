@@ -5,9 +5,9 @@
 
 (setq emacsd (concat user-emacs-directory ".emacs.d/"))
 
-(setq myinit (concat emacsd "init/"))
+(setq empinit (concat emacsd "init/"))
 
-(setq custom-file (concat myinit "my-custom.el"))
+(setq custom-file (concat empinit "emp-custom.el"))
 (when (file-exists-p custom-file)
   (load custom-file))
 
@@ -59,20 +59,20 @@
 
 ;; (setq explicit-bash-args '("--noediting" "--login" "-i"))
 
-(require 'my-display)
+(require 'emp-display)
 
-(require 'my-external-plugins)
+(require 'emp-external-plugins)
 
-(require 'my-keybindings)
+(require 'emp-keybindings)
 
-(require 'my-misc-functions)
+(require 'emp-misc-functions)
 
-(require 'my-misc-settings)
+(require 'emp-misc-settings)
 
-(require 'my-c++)
+(require 'emp-c++)
 
-(provide 'my-init)
+(provide 'emp-init)
 
-(require 'my-dired)
+(require 'emp-dired)
 
 (maximize-frame)

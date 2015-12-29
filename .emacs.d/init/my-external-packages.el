@@ -41,4 +41,4 @@
     kooten-theme
     ) "a list of packages to ensure are installed at launch.")
 
-(provide 'my-external-packages)
+(provide 'emp-external-packages)

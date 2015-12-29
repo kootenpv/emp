@@ -24,9 +24,13 @@ Blog post **not yet here**
 
 - Nice separation of functionality for init
 
-- Easy to add packages (just add them in the list in "my-external-packages.el")
+- Easy to add packages (just add them in the list in "emp-external-packages.el")
 
-- Nice standard theme, easy to take another theme
+- Nice standard theme, easy to take another theme, e.g.
+
+  - [zenburn](http://wikemacs.org/wiki/File:Zenburn-theme.png)
+
+  - [solarized-dark](http://wikemacs.org/wiki/File:Solarized-dark-theme.png)
 
 - All Emacs benefits, among:
 
@@ -160,19 +164,19 @@ Keybinding                | Description
     ├──README.md
     ├── .emacs.d
     │   ├── init
-    │   │   ├── my-c++.el
-    │   │   ├── my-custom.el
-    │   │   ├── my-dired.el
-    │   │   ├── my-display.el
-    │   │   ├── my-external-packages.el
-    │   │   ├── my-external-plugins.el
-    │   │   ├── my-ido-hacks.el
-    │   │   ├── my-init.el
-    │   │   ├── my-keybindings.el
-    │   │   ├── my-misc-functions.el
-    │   │   ├── my-misc-settings.el
-    │   │   ├── my-r.el
-    │   │   ├── my-python.el
+    │   │   ├── emp-c++.el
+    │   │   ├── emp-custom.el
+    │   │   ├── emp-dired.el
+    │   │   ├── emp-display.el
+    │   │   ├── emp-external-packages.el
+    │   │   ├── emp-external-plugins.el
+    │   │   ├── emp-ido-hacks.el
+    │   │   ├── emp-init.el
+    │   │   ├── emp-keybindings.el
+    │   │   ├── emp-misc-functions.el
+    │   │   ├── emp-misc-settings.el
+    │   │   ├── emp-r.el
+    │   │   ├── emp-python.el
     │   │   └── navi.el
     │   ├── package-loader.el
     │   ├── packages

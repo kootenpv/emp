@@ -50,4 +50,4 @@
 
 (setq dired-dwim-target t)
 
-(provide 'my-misc-settings)
+(provide 'emp-misc-settings)

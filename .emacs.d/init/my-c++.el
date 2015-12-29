@@ -1,8 +1,8 @@
 ;;;; c++
 
-(add-hook 'c++-mode-hook 'my-c++-mode-hook)
+(add-hook 'c++-mode-hook 'emp-c++-mode-hook)
 
-(defun my-c++-mode-hook ()
+(defun emp-c++-mode-hook ()
 
   (setq auto-mode-alist
     (append '(("\\.h$" . c++-mode)) auto-mode-alist))
@@ -46,4 +46,4 @@
 
   )
 
-(provide 'my-c++)
+(provide 'emp-c++)

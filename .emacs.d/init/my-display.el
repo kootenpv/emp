@@ -36,4 +36,4 @@
 
 (load-theme 'kooten)
 
-(provide 'my-display)
+(provide 'emp-display)

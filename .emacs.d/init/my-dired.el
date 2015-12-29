@@ -50,13 +50,13 @@
       (rename-uniquely))))
 (ad-activate 'shell-command)
 
-(defun my-dired-mode-hook ()
+(defun emp-dired-mode-hook ()
   ;; Let us have a key that puts the dired buffer into interactive renaming mode
   (local-set-key (kbd "C-c e") 'wdired-change-to-wdired-mode)
   (local-set-key (kbd "C-c C-e") 'wdired-change-to-wdired-mode)
   )
 
 (add-hook 'dired-mode-hook
-          'my-dired-mode-hook)
+          'emp-dired-mode-hook)
 
-(provide 'my-dired)
+(provide 'emp-dired)

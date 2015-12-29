@@ -159,11 +159,11 @@
 
 (global-set-key (kbd "C-M-\\") 'smart-indent-region)
 
-(provide 'my-keybindings)
-
 (global-set-key [delete] 'delete-blank-lines-or-char)
 
 (global-set-key [backspace] 'backspace-blank-lines-or-char)
 (global-set-key (kbd "C-)") 'smart-expand-pair)
 
 (global-set-key (kbd "C-(") 'smart-shrink-pair)
+
+(provide 'emp-keybindings)

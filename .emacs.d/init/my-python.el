@@ -280,4 +280,4 @@
 (setq py--imenu-create-index-p t)
 (setq py-split-windows-on-execute-function (quote split-window-horizontally))
 ;;(py-exception-name-face ((t (:foreground "#94bff3"))))
-(provide 'my-python)
+(provide 'emp-python)

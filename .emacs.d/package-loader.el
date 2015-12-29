@@ -12,7 +12,7 @@
 
 (add-to-list 'load-path (concat emacsd "el-get/el-get"))
 
-(require 'my-external-packages)
+(require 'emp-external-packages)
 
 (package-initialize)
 
