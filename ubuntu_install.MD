@@ -1,4 +1,4 @@
-# emp for Ubuntu
+# emp for clean Ubuntu install
 
 Only to make VM look good:
 
@@ -7,11 +7,23 @@ Only to make VM look good:
 "On-The-Way" requirements:
 
     sudo apt-get install python3-dev python3-tk libfreetype6-dev
-    sudo apt-get install cairocffi    # for python 3.4 + ipython
 
 Higher level Requirements:
 
     sudo apt-get install git emacs python3-pip
+
+To be able to display UTF8 nicely, add to `.bashrc` (or your own language code):
+
+    export LC_ALL=en_US.UTF-8
+    export LANG=en_US.UTF-8
+
+Proper linking to local `python` bin
+
+    export PATH=~/.local/bin:$PATH
+
+Do a reboot:
+
+    reboot
 
 Installing `emp`
 
@@ -22,37 +34,13 @@ Installing python packages useful for Emacs:
     cd emp
     pip3 install -r requirements.txt
 
-Direct the initialization to the right path:
+*Important*: the following code wipes existing `.emacs settings` (no problem if it's a clean install)
 
-    # Manually use nano to edit .emacs:
-    nano ~/.emacs
+Direct the initialization settings from .emacs to emp's init:
 
-And add (removing `#` comment):
+    echo '(setq user-emacs-directory "/home/ubuntu/emp/")' > ~/.emacs
+    echo '(load (concat user-emacs-directory ".emacs.d/init.el"))' >> ~/.emacs
 
-    # (setq user-emacs-directory "/home/ubuntu/emp/")
-    # (load (concat user-emacs-directory ".emacs.d/init.el"))
+Start emacs:
 
-    # On a fresh install you might do:
-    # echo '(setq user-emacs-directory "/home/ubuntu/emp/")' > ~/.emacs
-    # echo '(load (concat user-emacs-directory ".emacs.d/init.el"))' >> ~/.emacs
-
-To be able to display UTF8 nicely, add to `.bashrc` (or your own language code):
-
-    export LC_ALL=en_US.UTF-8
-    export LANG=en_US.UTF-8
-
-Proper linking to `python` bin
-
-    export PATH=~/.local/bin:$PATH
-
-Reboot to make VM look better, then start emacs:
-
-    reboot
     emacs
-
-
-echo '(setq user-emacs-directory "/home/ubuntu/emp/")' > ~/.emacs
-echo '(load (concat user-emacs-directory ".emacs.d/init.el"))' >> ~/.emacs
-
-
-export PATH=/usr/.local/bin
