@@ -32,6 +32,8 @@ Blog post **not yet here**
 
   - [solarized-dark](http://wikemacs.org/wiki/File:Solarized-dark-theme.png)
 
+  - [ubuntu](https://github.com/rocher/ubuntu-theme)
+
 - All Emacs benefits, among:
 
   - Great version control support by `magit`
