@@ -36,6 +36,8 @@
 (add-to-list 'completion-ignored-extensions '".snm")
 (add-to-list 'completion-ignored-extensions '".synctex.gz")
 (add-to-list 'completion-ignored-extensions '".out")
+(add-to-list 'ido-ignore-files '"*#*")
+(setq ido-ignore-extensions t)
 (add-to-list 'ido-ignore-buffers '"ESS")
 (add-to-list 'ido-ignore-buffers '"Help")
 

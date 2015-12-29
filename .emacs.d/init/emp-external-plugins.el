@@ -76,8 +76,6 @@
 
 (require 'etags-select)
 
-(provide 'emp-external-plugins)
-
 (require 'tabbar-tweak)
 
 ;; (require 'init-cedet)  ; custom init
@@ -174,3 +172,5 @@
 (require 'ag)
 
 (require 'avy)
+
+(provide 'emp-external-plugins)
