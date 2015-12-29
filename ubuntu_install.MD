@@ -12,13 +12,13 @@ Higher level Requirements:
 
     sudo apt-get install git emacs python3-pip
 
-Installing `emacs.python`
+Installing `emp`
 
-    git clone https://github.com/kootenpv/emacs.python
+    git clone https://github.com/kootenpv/emp
 
 Installing python packages useful for Emacs:
 
-    cd emacs.python
+    cd emp
     pip3 install -r requirements.txt
 
 Direct the initialization to the right path:
@@ -32,11 +32,11 @@ Needed to link `pip3` to `pip` for `elpy` (hacky):
 
 And add (removing `#` comment):
 
-    # (setq user-emacs-directory "/home/ubuntu/emacs.python/")
+    # (setq user-emacs-directory "/home/ubuntu/emp/")
     # (load (concat user-emacs-directory ".emacs.d/init.el"))
 
     # On a fresh install you might do:
-    # echo '(setq user-emacs-directory "/home/ubuntu/emacs.python/")' > ~/.emacs
+    # echo '(setq user-emacs-directory "/home/ubuntu/emp/")' > ~/.emacs
     # echo '(load (concat user-emacs-directory ".emacs.d/init.el"))' >> ~/.emacs
 
 Reboot to make VM look better, then start emacs:
@@ -45,5 +45,5 @@ Reboot to make VM look better, then start emacs:
     emacs
 
 
-echo '(setq user-emacs-directory "/home/ubuntu/emacs.python/")' > ~/.emacs
+echo '(setq user-emacs-directory "/home/ubuntu/emp/")' > ~/.emacs
 echo '(load (concat user-emacs-directory ".emacs.d/init.el"))' >> ~/.emacs
