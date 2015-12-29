@@ -71,10 +71,7 @@ class LintRunner(object):
                 fixed_data['description'] = (
                     '%s...' %
                     fixed_data['description'][:MAX_DESCRIPTION_LENGTH - 3])
-            fixed_data['description'] = fixed_data['description'].decode().lstrip(',')
-            for k, v in fixed_data.items():
-                if isinstance(v, bytes):
-                    fixed_data[k] = v.decode()
+            fixed_data['description'] = fixed_data['description'].lstrip(',')
             fixed_data['category'] = fixed_data['category'].upper()
             print(cls.output_format.format(**fixed_data))
 
