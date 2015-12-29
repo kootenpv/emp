@@ -1,7 +1,7 @@
 #*
 *#
 *~
-*flymake.py
+*_flymake.py
 *.pyc
 .emacs.d/themes/
 .emacs.d/packages/

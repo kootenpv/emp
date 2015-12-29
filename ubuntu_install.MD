@@ -7,6 +7,7 @@ Only to make VM look good:
 "On-The-Way" requirements:
 
     sudo apt-get install python3-dev python3-tk libfreetype6-dev
+    sudo apt-get install cairocffi    # for python 3.4 + ipython
 
 Higher level Requirements:
 
@@ -34,6 +35,11 @@ And add (removing `#` comment):
     # On a fresh install you might do:
     # echo '(setq user-emacs-directory "/home/ubuntu/emp/")' > ~/.emacs
     # echo '(load (concat user-emacs-directory ".emacs.d/init.el"))' >> ~/.emacs
+
+To be able to display UTF8 nicely, add to `.bashrc` (or your own language code):
+
+    export LC_ALL=en_US.UTF-8
+    export LANG=en_US.UTF-8
 
 Needed to link `pip3` to `pip` for `elpy` (hacky):
 

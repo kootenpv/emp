@@ -1,0 +1,226 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import imp
+import os
+import re
+import sys
+from subprocess import PIPE, Popen
+
+MAX_DESCRIPTION_LENGTH = 100
+
+
+class LintRunner(object):
+    """ Base class provides common functionality to run
+          python code checkers. """
+
+    sane_default_ignore_codes = set([])
+    command = None
+    output_matcher = None
+
+    custom_ignore_codes = None
+    # flymake: ("\\(.*\\) at \\([^ \n]+\\) line \\([0-9]+\\)[,.\n]" 2 3 nil 1)
+    # or in non-retardate: b'(.*) at ([^ \n]) line ([0-9])[,.\n]'
+    output_format = ("[{category}] {description} | {filename}:{line_number}")
+
+    def __init__(self, config):
+        self.config = config
+        if self.config.VIRTUALENV:
+            # This is the least we can get away with (hopefully).
+            self.env = {
+                'VIRTUAL_ENV': self.config.VIRTUALENV,
+                'PATH': self.config.VIRTUALENV + '/bin:' + os.environ['PATH']}
+        else:
+            self.env = {}
+
+        self.env.update(self.config.ENV)
+
+    @property
+    def operative_ignore_codes(self):
+        ignore_codes = self.config.IGNORE_CODES
+        ignore_codes |= set(getattr(self.config, self.custom_ignore_codes))
+        if self.config.USE_SANE_DEFAULTS:
+            return ignore_codes ^ self.sane_default_ignore_codes
+        else:
+            return ignore_codes
+
+    @property
+    def run_flags(self):
+        return ()
+
+    @staticmethod
+    def fixup_data(data):
+        return data
+
+    @property
+    def stream(self):
+        return 'stdout'
+
+    @classmethod
+    def process_output(cls, line):
+        line = line if isinstance(line, str) else line.decode()
+        m = cls.output_matcher.match(line)
+        if m:
+            fixed_data = dict.fromkeys(('level', 'category', 'description',
+                                        'filename', 'line_number'),
+                                       '')
+            fixed_data['tool'] = cls.__name__.split('Runner')[0].lower()
+            fixed_data.update(cls.fixup_data(m.groupdict()))
+            if len(fixed_data['description']) > MAX_DESCRIPTION_LENGTH:
+                # truncate long descriptions
+                fixed_data['description'] = (
+                    '%s...' %
+                    fixed_data['description'][:MAX_DESCRIPTION_LENGTH - 3])
+            fixed_data['description'] = fixed_data['description'].decode().lstrip(',')
+            for k, v in fixed_data.items():
+                if isinstance(v, bytes):
+                    fixed_data[k] = v.decode()
+            fixed_data['category'] = fixed_data['category'].upper()
+            print(cls.output_format.format(**fixed_data))
+
+    def run(self, filename):
+        cmdline = [self.command]
+        cmdline.extend(self.run_flags)
+        cmdline.append(filename)
+
+        env = dict(os.environ, **self.env)
+        try:
+            process = Popen(cmdline, stdout=PIPE, stderr=PIPE, env=env)
+        except OSError as exc:
+            raise OSError('failed to run command %s (%s)' % (
+                cmdline, exc))
+
+        for line in getattr(process, self.stream):
+            self.process_output(line)
+
+
+class PylintRunner(LintRunner):
+    """ Run pylint, producing flymake readable output.
+
+    The raw output looks like:
+      render.py:49: [C0301] Line too long (82/80)
+      render.py:1: [C0111] Missing docstring
+      render.py:3: [E0611] No name 'Response' in module 'werkzeug'
+      render.py:32: [C0111, render] Missing docstring """
+
+    output_matcher = re.compile(
+        b'(?P<filename>[^:]+):'
+        b'(?P<line_number>\d+):'
+        b'(?P<category>[a-z]+) '
+        b'\s*(?P<description>.*)$')
+
+    sane_default_ignore_codes = set([
+        "C0103",  # Naming convention
+        # "C0111",  # Missing Docstring
+        "E1002",  # Use super on old-style class
+        "W0232",  # No __init__
+        # "I0011",  # Warning locally suppressed using disable-msg
+        # "I0012",  # Warning locally suppressed using disable-msg
+        # "W0511",  # FIXME/TODO
+        # "W0142",  # *args or **kwargs magic.
+        "R0904",  # Too many public methods
+        "R0903",  # Too few public methods
+        "R0201",  # Method could be a function
+    ])
+
+    fixup_map = {'E': 'error', 'C': 'info', None: 'warning'}
+
+    custom_ignore_codes = 'IGNORE_CODES_PYLINT'
+
+    def __init__(self, *args, **kwargs):
+        super(PylintRunner, self).__init__(*args, **kwargs)
+        self.command = self.config.PYLINT_COMMAND
+
+    @staticmethod
+    def fixup_data(data):
+        fixup_map = PylintRunner.fixup_map
+        return data
+
+    @property
+    def run_flags(self):
+        return ('--msg-template', '{path}:{line}:{category} {msg} ({symbol})',
+                '--reports', 'n',
+                '--disable=' + ','.join(self.operative_ignore_codes))
+
+
+def find_config(path, trigger_type):
+    if path in ('', '/'):
+        module = DefaultConfig()
+    else:
+        try:
+            parent_dir = os.path.join(path, '.pyflymakerc')
+            # dirtiest trick ever:
+            __builtins__.TRIGGER_TYPE = trigger_type
+            module = imp.load_source('config', parent_dir)
+            del __builtins__.TRIGGER_TYPE
+        except IOError:
+            module = find_config(os.path.split(path)[0], trigger_type)
+    return module
+
+
+class DefaultConfig(object):
+
+    def __init__(self):
+        self.VIRTUALENV = None
+        self.ENV = {}
+        self.PYLINT = True
+        self.IGNORE_CODES = ()
+        self.USE_SANE_DEFAULTS = True
+
+DEFAULT_CONFIG = dict(
+    VIRTUALENV=None,
+    ENV={},
+    PYLINT_COMMAND='pylint',
+    IGNORE_CODES=(),
+    IGNORE_CODES_PYLINT=(),
+    USE_SANE_DEFAULTS=True)
+
+
+def main():
+    from optparse import OptionParser
+    parser = OptionParser()
+    parser.add_option("-e", "--virtualenv",
+                      dest="virtualenv",
+                      default=None,
+                      help="virtualenv directory")
+    parser.add_option("-t", "--trigger-type",
+                      dest="trigger_type",
+                      default=None,
+                      choices=('open', 'edit', 'save', 'force'),
+                      help="flymake trigger type")
+    parser.add_option("-i", "--ignore_codes",
+                      dest="ignore_codes",
+                      default=None,
+                      help="error codes to ignore")
+    options, args = parser.parse_args()
+
+    config = find_config(os.path.realpath(args[0]), options.trigger_type)
+    for key, value in DEFAULT_CONFIG.items():
+        if not hasattr(config, key):
+            setattr(config, key, value)
+
+    for option in 'virtualenv', 'ignore_codes':
+        value = getattr(options, option)
+        if value is not None:
+            setattr(config, option.upper(), value)
+    config.IGNORE_CODES = set(config.IGNORE_CODES)
+
+    def run(runner_class):
+        runner = runner_class(config)
+        runner.run(args[0])
+
+    run(PylintRunner)
+
+    sys.exit()
+
+if __name__ == '__main__':
+    main()
+
+
+# (flymake-parse-line "[CONVENTION] Missing function docstring (missing-docstring) | pyflymake.py:208")
+
+# (add-to-list 'flymake-err-line-patterns '("\\([^|]+\\)| \\([^:]+\\):\\([0-9]+\\)$" 2 3 nil 1))
+
+# (setq flymake-warning-predicate "^.[^E]")
+
+# (symbol-function flymake-warning-predicate)
