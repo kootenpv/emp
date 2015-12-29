@@ -26,10 +26,6 @@ Direct the initialization to the right path:
     # Manually use nano to edit .emacs:
     nano ~/.emacs
 
-Needed to link `pip3` to `pip` for `elpy` (hacky):
-
-    sudo ln -s /usr/bin/pip3 /usr/bin/pip
-
 And add (removing `#` comment):
 
     # (setq user-emacs-directory "/home/ubuntu/emp/")
@@ -38,6 +34,10 @@ And add (removing `#` comment):
     # On a fresh install you might do:
     # echo '(setq user-emacs-directory "/home/ubuntu/emp/")' > ~/.emacs
     # echo '(load (concat user-emacs-directory ".emacs.d/init.el"))' >> ~/.emacs
+
+Needed to link `pip3` to `pip` for `elpy` (hacky):
+
+    sudo ln -s /usr/bin/pip3 /usr/bin/pip
 
 Reboot to make VM look better, then start emacs:
 
