@@ -7,3 +7,4 @@
 .emacs.d/packages/
 .emacs.d/init/my-graveyard.el
 .emacs.d/init/my-custom.el
+backups/

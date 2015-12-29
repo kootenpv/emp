@@ -11,22 +11,22 @@
     ;; Find files/buffers
 
     (,(kbd "f d") . (lambda () (interactive)
-                      (find-file (concat myinit "emp-display.el")) (Navi-mode -1)))
+                      (find-file (concat empinit "emp-display.el")) (Navi-mode -1)))
 
     (,(kbd "f c") . (lambda () (interactive)
-                      (find-file (concat myinit "emp-c++.el")) (Navi-mode -1)))
+                      (find-file (concat empinit "emp-c++.el")) (Navi-mode -1)))
 
     (,(kbd "f m") . (lambda () (interactive)
-                      (find-file (concat myinit "emp-misc-functions.el")) (Navi-mode -1)))
+                      (find-file (concat empinit "emp-misc-functions.el")) (Navi-mode -1)))
 
     (,(kbd "f e") . (lambda () (interactive)
-                      (find-file (concat myinit "emp-external-plugins.el")) (Navi-mode -1)))
+                      (find-file (concat empinit "emp-external-plugins.el")) (Navi-mode -1)))
 
     (,(kbd "f k") . (lambda () (interactive)
-                      (find-file (concat myinit "emp-keybindings.el")) (Navi-mode -1)))
+                      (find-file (concat empinit "emp-keybindings.el")) (Navi-mode -1)))
 
     (,(kbd "f i") . (lambda () (interactive)
-                      (find-file (concat myinit "emp-init.el")) (Navi-mode -1)))
+                      (find-file (concat empinit "emp-init.el")) (Navi-mode -1)))
 
     (,(kbd "f S") . (lambda () (interactive)
                       (find-file (concat emacsd "smart.el")) (Navi-mode -1)))
@@ -35,7 +35,7 @@
                       (switch-to-buffer "*scratch*") (Navi-mode -1)))
 
     (,(kbd "f P") . (lambda () (interactive)
-                      (find-file (concat myinit "emp-python.el")) (Navi-mode -1)))
+                      (find-file (concat empinit "emp-python.el")) (Navi-mode -1)))
 
     (,(kbd "f p") . (lambda () (interactive)
                       (find-file (concat emacsd "Navi-empty/empty.py")) (Navi-mode -1)))
@@ -47,10 +47,10 @@
                       (find-file "~/.emacs") (Navi-mode -1)))
 
     (,(kbd "f L") . (lambda () (interactive)
-                      (find-file (concat myinit "emp-latex.el")) (Navi-mode -1)))
+                      (find-file (concat empinit "emp-latex.el")) (Navi-mode -1)))
 
     (,(kbd "f R") . (lambda () (interactive)
-                      (find-file (concat myinit "emp-r.el")) (Navi-mode -1)))
+                      (find-file (concat empinit "emp-r.el")) (Navi-mode -1)))
 
 
     )
