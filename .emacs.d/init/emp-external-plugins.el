@@ -152,6 +152,14 @@
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
+(defun elpy-add-import-on-save ()
+  (elpy-importmagic-add-import "-")
+  )
+
+(add-hook 'python-mode-hook
+          (lambda ()
+            (add-hook 'after-save-hook 'elpy-add-import-on-save nil 'make-it-local)))
+
 (require 'py-autopep8)
 (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
 (setq py-autopep8-options '("--max-line-length=99"))

@@ -1,18 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+
 import imp
 import os
 import re
 import sys
 from subprocess import PIPE, Popen
 
+
 MAX_DESCRIPTION_LENGTH = 100
 
 
 class LintRunner(object):
-    """ Base class provides common functionality to run
-          python code checkers. """
+    """ Base class provides common functionality to run python code checkers. """
 
     sane_default_ignore_codes = set([])
     command = None
@@ -79,7 +80,6 @@ class LintRunner(object):
         cmdline = [self.command]
         cmdline.extend(self.run_flags)
         cmdline.append(filename)
-
         env = dict(os.environ, **self.env)
         try:
             process = Popen(cmdline, stdout=PIPE, stderr=PIPE, env=env)

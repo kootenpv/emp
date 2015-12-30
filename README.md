@@ -74,6 +74,8 @@ Blog post **not yet here**
 
     - *No need to check for correctness of `PEP8`*; autopep8 / yapf for automatic formatting, on file-save
 
+    - Imports ordered on save
+
 - Best error reporting on the sideline, flymake & pylint + showing symbollic names for easy disabling
 
 - `git-gutter` to see recent modifications in git repos

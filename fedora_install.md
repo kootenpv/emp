@@ -25,6 +25,8 @@ Installing python packages useful for Emacs:
 
 Direct the initialization settings from .emacs to emp's init:
 
+    # Make backup of previous .emacs if it existed
+    mv ~/.emacs ~/.emacs_before_emp
     echo '(setq user-emacs-directory "/home/fedora/emp/")' > ~/.emacs
     echo '(load (concat user-emacs-directory ".emacs.d/init.el"))' >> ~/.emacs
 
