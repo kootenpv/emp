@@ -22,8 +22,6 @@ Blog post **not yet here**
 
 #### General features
 
-- Nice separation of functionality for init
-
 - Easy to add packages (just add them in the list in "emp-external-packages.el")
 
 - Nice standard theme, easy to take another theme, e.g.
@@ -34,9 +32,11 @@ Blog post **not yet here**
 
   - [ubuntu](https://github.com/rocher/ubuntu-theme)
 
+- Nice separation of functionality for init
+
 - All Emacs benefits, among:
 
-  - Great version control support by `magit`
+  - Great version control support by `magit` (emacs layer on top of git/svn etc)
 
   - Great local backups for file changes
 
