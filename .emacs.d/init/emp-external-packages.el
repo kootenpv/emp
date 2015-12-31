@@ -39,6 +39,7 @@
     elpy
     markdown-mode
     kooten-theme
+    sphinx-doc
     ) "a list of packages to ensure are installed at launch.")
 
 (provide 'emp-external-packages)

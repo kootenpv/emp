@@ -176,9 +176,14 @@
 (setq ns-use-srgb-colorspace nil)
 (powerline-default-theme)
 
+(require 'eashy)
 
 (require 'ag)
 
 (require 'avy)
+
+(require 'sphinx-doc)
+
+(add-hook 'python-mode-hook 'sphinx-doc-mode)
 
 (provide 'emp-external-plugins)
