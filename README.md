@@ -14,7 +14,8 @@ Introduction video **not yet here**.
 Blog post **not yet here**
 
 ### Screenshot
-<img src="https://github.com/kootenpv/emp/blob/master/resources/python-screenshot.png" width="50%"></img>
+<img src="https://github.com/kootenpv/emp/blob/master/resources/python-screenshot.png" width="49%"></img>
+<img src="https://github.com/kootenpv/emp/blob/master/resources/python-screenshot.png" width="49%"></img>
 
 ### Table of contents
 
@@ -45,6 +46,8 @@ Blog post **not yet here**
   - Modes for everything; `markdown-mode`, `dockerfile-mode` and so on
 
   - Recently opened files using `C-c r`
+
+  - Find file with autocomplete using `C-x C-f`
 
 #### Python features
 
@@ -80,8 +83,9 @@ Blog post **not yet here**
 
 - `git-gutter` to see recent modifications in git repos
 
-### Installation
+### Generic Installation
 
+Next to the
 1. Clone this where you want. I choose a folder for a specific version of a distro.
 
     `~/DISTRO/` such that `~/DISTRO/.emacs.d`
@@ -101,11 +105,23 @@ Blog post **not yet here**
 
 Your setup is complete.
 
-Most likely there are issues. Have a look at [ubuntu_install.md](https://github.com/kootenpv/emp/blob/master/ubuntu_install.MD) to see if there are hints there. I get it working there from a clean VM image, or post an issue.
+Most likely there are issues. Have a look at [ubuntu_install.md](https://github.com/kootenpv/emp/blob/master/ubuntu_install.MD) to see if there are hints there. Please post an issue if it anything isn't working for you.
 
 ### Keyboard
 
 At any moment, press <kbd>C-h m</kbd> to view all current keybindings.
+
+Personal advice:
+
+If using a laptop:
+
+- bind <capslock> to control instead, much better
+
+PC:
+
+- Use both controls and alt's
+
+Don't use C-f C-p etc, use arrows instead to prevent emacs pinky
 
 #### Global
 

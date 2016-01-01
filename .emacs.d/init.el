@@ -11,7 +11,7 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
-(setq custom-theme-directory (concat emacsd "themes"))
+(setq custom-theme-directory (concat emacsd "themes/"))
 
 ;;;;;;;; LOAD-PATHS: .emacs.d and all it's first level subdirecties.
 (add-to-list 'load-path emacsd)

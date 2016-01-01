@@ -4,6 +4,8 @@
 
 (delete-selection-mode 1)
 
+(setq load-prefer-newer t)
+
 (set-fill-column 100)
 
 (recentf-mode 1)

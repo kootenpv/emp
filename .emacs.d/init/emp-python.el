@@ -90,7 +90,9 @@
 
 (define-key python-mode-map (kbd "<tab>") 'py-shift-right)
 (define-key python-mode-map [backtab] 'py-shift-left)
+
 (define-key python-mode-map (kbd "C-<backspace>") 'backward-delete-word)
+(define-key py-ipython-shell-mode-map (kbd "C-<backspace>") 'backward-delete-word)
 
 (define-key python-mode-map [backspace] 'backspace-blank-lines-or-char)
 (define-key python-mode-map [delete] 'delete-blank-lines-or-char)
@@ -248,6 +250,9 @@
     (other-window -1)
     )
   )
+
+(require 'sphinx-doc)
+(add-hook 'python-mode-hook 'sphinx-doc-mode)
 
 (add-hook 'python-mode-hook
           '(lambda ()
