@@ -41,7 +41,7 @@
     kooten-theme
     ubuntu-theme
     zenburn-theme
-    solarized-dark-theme
+    solarized-theme
     sphinx-doc
     ) "a list of packages to ensure are installed at launch.")
 

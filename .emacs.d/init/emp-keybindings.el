@@ -12,7 +12,6 @@
 (key-chord-define emacs-lisp-mode-map "fd" 'find-function)
 
 ;;(key-chord-define ess-mode-map "vv" 'ess-R-object-popup)
-(key-chord-define-global "dk"  'dabbrev-expand)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Pascal function keybindings ;;;
@@ -165,5 +164,6 @@
 (global-set-key (kbd "C-)") 'smart-expand-pair)
 
 (global-set-key (kbd "C-(") 'smart-shrink-pair)
+
 
 (provide 'emp-keybindings)
