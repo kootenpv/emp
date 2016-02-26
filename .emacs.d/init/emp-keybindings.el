@@ -7,6 +7,28 @@
 (key-chord-define-global "VV"    'avy-goto-char)
 (key-chord-define-global "xq"   'kill-emacs)
 
+(key-chord-define-global "L!"   '(lambda () (interactive) (shelly 1)))
+(key-chord-define-global "L@"   '(lambda () (interactive) (shelly 2)))
+(key-chord-define-global "L#"   '(lambda () (interactive) (shelly 3)))
+(key-chord-define-global "L$"   '(lambda () (interactive) (shelly 4)))
+
+(key-chord-define-global "LA"   '(lambda () (interactive) (elscreen-goto 0)))
+(key-chord-define-global "LS"   '(lambda () (interactive) (elscreen-goto 1)))
+(key-chord-define-global "LD"   '(lambda () (interactive) (elscreen-goto 2)))
+(key-chord-define-global "LF"   '(lambda () (interactive) (elscreen-goto 3)))
+
+(key-chord-define-global "L%"   '(lambda () (interactive) (shelly 5)))
+(key-chord-define-global "L^"   '(lambda () (interactive) (shelly 6)))
+(key-chord-define-global "L&"   '(lambda () (interactive) (shelly 7)))
+(key-chord-define-global "L*"   '(lambda () (interactive) (shelly 8)))
+
+(key-chord-define-global "LQ"   '(lambda () (interactive) (elscreen-goto 4)))
+(key-chord-define-global "LW"   '(lambda () (interactive) (elscreen-goto 5)))
+(key-chord-define-global "LE"   '(lambda () (interactive) (elscreen-goto 6)))
+(key-chord-define-global "LR"   '(lambda () (interactive) (elscreen-goto 7)))
+
+(key-chord-define-global "LG" 'shelly-go)
+
 (key-chord-define-global "MF"     'magit-file-log)
 
 (key-chord-define emacs-lisp-mode-map "fd" 'find-function)
@@ -20,8 +42,6 @@
 (key-chord-define-global "hk"   'Navi-mode)
 
 ;; bookmark keybindings
-
-(key-chord-define-global "DF" 'dabbrev-expand)
 
 (key-chord-define-global "WF" '(lambda () (interactive) (other-frame 1)))
 
@@ -39,6 +59,10 @@
 ;;;   Extension keybindings   ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; kill buffer instead of keyboard macro
+
+;; (define-key key-translation-map (kbd "C-x k") (kbd "C-z k"))
+(define-key key-translation-map (kbd "C-x C-k") (kbd "C-x k"))
 
 (key-chord-define-global "qf" 'delete-other-windows)
                                         ;(global-set-key (kbd "M-2") 'split-window-below)
@@ -165,5 +189,8 @@
 
 (global-set-key (kbd "C-(") 'smart-shrink-pair)
 
+(global-set-key (kbd "M-j") 'join-line)
+
+(global-set-key (kbd "M-i") 'yas-expand)
 
 (provide 'emp-keybindings)

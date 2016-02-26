@@ -115,11 +115,11 @@ Personal advice:
 
 If using a laptop:
 
-- bind <capslock> to control instead, much better
+- bind \<capslock> to control instead, it is much better
 
 PC:
 
-- Use both controls and alt's
+- Use both control's and alt's
 
 Don't use C-f C-p etc, use arrows instead to prevent emacs pinky
 

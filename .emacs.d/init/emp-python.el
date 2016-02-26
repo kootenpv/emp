@@ -285,4 +285,11 @@
 (setq py--imenu-create-index-p t)
 (setq py-split-windows-on-execute-function (quote split-window-horizontally))
 ;;(py-exception-name-face ((t (:foreground "#94bff3"))))
+
+(add-hook 'python-mode-hook
+          (lambda ()
+            (local-set-key "\C-ca" 'pytest-all)
+            (local-set-key "\C-c0" 'pytest-pdb-one)
+            (local-set-key "\C-c1" 'pytest-one)))
+
 (provide 'emp-python)

@@ -28,9 +28,13 @@
 (setq backup-by-copying t
       backup-directory-alist `(("." . ,(concat default-directory "backups")))
       delete-old-versions t
-      kept-new-versions 6
-      kept-old-versions 2
+      kept-new-versions 10
+      kept-old-versions 10
       version-control t)
+
+;; should be better now
+(setq auto-save-file-name-transforms
+      `((".*" ,(concat user-emacs-directory "auto-saves") t)))
 
 ;;; mode associations
 (add-to-list 'auto-mode-alist '("\\.snippet\\'" . snippet-mode))
@@ -59,9 +63,10 @@
 
 ;; (setq explicit-bash-args '("--noediting" "--login" "-i"))
 
-(require 'emp-display)
 
 (require 'emp-external-plugins)
+
+(require 'emp-display)
 
 (require 'emp-keybindings)
 
@@ -75,4 +80,7 @@
 
 (require 'emp-dired)
 
-(maximize-frame)
+(setq ns-auto-hide-menu-bar t)
+(set-frame-position nil 0 -21)
+(tool-bar-mode 0)
+(set-frame-size nil 206 54)

@@ -1,5 +1,8 @@
 (setq ido-file-extensions-order '(".py" ".r" ".tex" ".cpp" ".h" ".txt" ".el"))
 
+
+
+
 (setq yas/key-syntaxes '("w_" "w_." "^ "))
 
 (delete-selection-mode 1)
@@ -74,5 +77,7 @@
                       (face-attribute 'font-lock-function-name-face :foreground)))))
 
 (add-hook 'post-command-hook 'yasnippet-can-fire-p)
+
+(set-default 'truncate-lines t)
 
 (provide 'emp-misc-settings)

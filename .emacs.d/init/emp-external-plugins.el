@@ -1,6 +1,11 @@
 ;; suppress warnings introduced in recent emacs versions
 (setq ad-redefinition-action 'accept)
 
+;; needs to be early
+(elscreen-start)
+(setq elscreen-display-tab nil)
+;;(elscreen-separate-buffer-list-mode)
+
 (require 'ffap)
 
 (electric-pair-mode)
@@ -59,6 +64,8 @@
 (add-hook 'log-view-mode-hook 'turn-on-tempbuf-mode)        ; Idle VC change log closed
 (add-hook 'diff-mode-hook 'turn-on-tempbuf-mode)        ; Idle VC diff closed
 
+(add-hook 'ag-mode-hook 'turn-on-tempbuf-mode)
+
 ;; eldoc mode for lispy languages
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
@@ -76,7 +83,7 @@
 
 (require 'etags-select)
 
-(require 'tabbar-tweak)
+; (require 'tabbar-tweak)
 
 ;; (require 'init-cedet)  ; custom init
 
@@ -92,6 +99,7 @@
 ;; (require 'frame-cmds)
 
 (require 'json-reformat)
+(defalias 'reformat-json 'json-reformat-region)
 
 ;; (require 'buffer-move)
 
@@ -101,7 +109,6 @@
 
 (autoload 'groovy-mode "groovy-mode" "Major mode for editing Groovy code." t)
 (add-to-list 'auto-mode-alist '("\.groovy$" . groovy-mode))
-(add-to-list 'auto-mode-alist '("\.ts$" . ts-mode))
 (add-to-list 'interpreter-mode-alist '("groovy" . groovy-mode))
 
 (require 'magit)
@@ -152,13 +159,13 @@
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
-(defun elpy-add-import-on-save ()
-  (elpy-importmagic-add-import "-")
-  )
+;; (defun elpy-add-import-on-save ()
+;;   (elpy-importmagic-add-import "-")
+;;   )
 
-(add-hook 'python-mode-hook
-          (lambda ()
-            (add-hook 'after-save-hook 'elpy-add-import-on-save nil 'make-it-local)))
+;; (add-hook 'python-mode-hook
+;;           (lambda ()
+;;             (add-hook 'after-save-hook 'elpy-add-import-on-save nil 'make-it-local)))
 
 (require 'py-autopep8)
 (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
@@ -182,4 +189,23 @@
 
 (require 'avy)
 
+;; If use bundled typescript.el,
+(require 'typescript)
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
+
+;; sample config
+(add-hook 'typescript-mode-hook
+          (lambda ()
+            (tide-setup)
+            (flycheck-mode +1)
+            (setq flycheck-check-syntax-automatically '(save mode-enabled))
+            (eldoc-mode +1)
+            ;; company is an optional dependency. You have to
+            ;; install it separately via package-install
+            (company-mode-on)))
+
+;; aligns annotation to the right hand side
+(setq company-tooltip-align-annotations t)
+
+(elscreen-persist-restore)
 (provide 'emp-external-plugins)

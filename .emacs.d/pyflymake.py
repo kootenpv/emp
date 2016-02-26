@@ -107,8 +107,8 @@ class PylintRunner(LintRunner):
         r'\s*(?P<description>.*)$')
 
     sane_default_ignore_codes = set([
-        # "C0103",  # Naming convention
-        # "C0111",  # Missing Docstring
+        "C0103",  # Naming convention
+        "C0111",  # Missing Docstring
         "E1002",  # Use super on old-style class
         "W0232",  # No __init__
         "I0011",  # Warning locally suppressed using disable-msg
@@ -167,6 +167,7 @@ class DefaultConfig(object):
 DEFAULT_CONFIG = dict(
     VIRTUALENV=None,
     ENV={},
+    # /Users/pascal/GDrive/pylint/bin/pylint
     PYLINT_COMMAND='pylint',
     IGNORE_CODES=(),
     IGNORE_CODES_PYLINT=(),
