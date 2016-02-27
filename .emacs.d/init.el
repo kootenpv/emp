@@ -34,7 +34,7 @@
 
 ;; should be better now
 (setq auto-save-file-name-transforms
-      `((".*" ,(concat user-emacs-directory "auto-saves") t)))
+      `((".*" ,(concat default-directory "auto-saves") t)))
 
 ;;; mode associations
 (add-to-list 'auto-mode-alist '("\\.snippet\\'" . snippet-mode))

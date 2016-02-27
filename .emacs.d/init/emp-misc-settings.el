@@ -80,4 +80,7 @@
 
 (set-default 'truncate-lines t)
 
+(autoload 'comint-dynamic-complete-filename "comint" nil t)
+
+
 (provide 'emp-misc-settings)

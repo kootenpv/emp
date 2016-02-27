@@ -193,4 +193,6 @@
 
 (global-set-key (kbd "M-i") 'yas-expand)
 
+(global-set-key "\M-]" 'comint-dynamic-complete-filename)
+
 (provide 'emp-keybindings)

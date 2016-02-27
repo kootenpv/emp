@@ -16,7 +16,6 @@
     switch-window
     ffap
     etags-select
-    tabbar
     json-reformat
     buffer-move
     flymake-cursor
@@ -26,7 +25,6 @@
     flymake-easy
     flymake-jslint
     flycheck
-    solidity-mode
     flx-ido
     powerline
     flymake
@@ -43,6 +41,12 @@
     zenburn-theme
     solarized-theme
     sphinx-doc
+    backup-walker
+    pytest
+    flymake-json
+    yaml-mode
+    elscreen
+    elscreen-persist
     ) "a list of packages to ensure are installed at launch.")
 
 (provide 'emp-external-packages)
