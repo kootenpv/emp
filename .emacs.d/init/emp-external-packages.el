@@ -47,6 +47,10 @@
     yaml-mode
     elscreen
     elscreen-persist
+    solidity-mode
+    tide
+    groovy-mode
+    typescript
     ) "a list of packages to ensure are installed at launch.")
 
 (provide 'emp-external-packages)
