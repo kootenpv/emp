@@ -294,3 +294,14 @@
             (local-set-key "\C-c1" 'pytest-one)))
 
 (provide 'emp-python)
+
+
+(require 'linum)
+(require 'pycoverage)
+
+(defun my-coverage ()
+  (interactive)
+  (when (derived-mode-p 'python-mode)
+    (progn
+      (linum-mode)
+      (pycoverage-mode))))

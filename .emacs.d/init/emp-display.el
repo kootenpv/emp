@@ -40,9 +40,9 @@
  '(fringe ((t (:foreground "#14151E")))))
 
 ;; it is used two times, also here and init.el for some reason
-(setq ns-auto-hide-menu-bar t)
-(set-frame-position nil 0 -21)
-(tool-bar-mode 0)
-(set-frame-size nil 206 54)
+;; (setq ns-auto-hide-menu-bar t)
+;; (set-frame-position nil 0 -21)
+;; (tool-bar-mode 0)
+;; (set-frame-size nil 206 54)
 
 (provide 'emp-display)

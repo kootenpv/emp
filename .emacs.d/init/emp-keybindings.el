@@ -153,7 +153,7 @@
 
 (global-set-key (kbd "M-f") 'flymake-goto-next-error)
 
-(global-set-key (kbd "M-DEL") 'smart-backward-kill-word)
+(global-set-key (kbd "M-DEL") 'kill-word)
 
 (defun markdown-mode-config ()
   "Modify keymaps used by `markdown-mode'."
