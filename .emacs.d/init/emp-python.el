@@ -233,7 +233,7 @@
 
 (defun phgrep (str)
   (interactive "sgrep for: ")
-  (shell-command (concat "grep -rsnH \"" str "\" ~/GDrive --include=\"*.py\"&"))
+  (shell-command (concat "grep -rsnH \"" str "\" ~/egoroot --include=\"*.py\"&"))
   )
 
 
@@ -268,7 +268,6 @@
                (setq flymake-no-changes-timeout 0.5)
                (define-key elpy-mode-map (kbd "C-<return>") 'new-python-eval)
                (setq elpy-test-runner 'elpy-test-pytest-runner)
-               (add-hook 'before-save-hook 'elpy-importmagic-fixup)
                )))
 
 (add-hook 'python-mode-hook

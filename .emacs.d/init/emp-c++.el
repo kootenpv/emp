@@ -1,5 +1,4 @@
 ;;;; c++
-
 (add-hook 'c++-mode-hook 'emp-c++-mode-hook)
 
 (defun emp-c++-mode-hook ()
@@ -16,34 +15,29 @@
   (setq auto-mode-alist
     (append '(("\\.fs$" . c++-mode)) auto-mode-alist))
 
-  (defun g-compile-run ()
-    (interactive)
-    (save-buffer)
-    (shell-command (concat "g++ -std=c++11 " (buffer-file-name)
-               " -o " (substring (buffer-file-name) 0 -4)))
-    (shell-command (substring (buffer-file-name) 0 -4))
-    )
-
-  (defun g-compile-so ()
-    (interactive)
-    (save-buffer)
-    (let ((filename (concat "g++ -shared -fPIC " (buffer-file-name)
-                " -o " (file-name-directory (buffer-file-name))
-                "lib" (substring (buffer-name) 0 -4) ".so")))
-      (shell-command filename)
-      (message filename))
-    )
-
-  (defun c++-semi-colon ()
-    (interactive)
-    (end-of-line)
-    (insert ";")
-    )
-
-  (define-key c++-mode-map (kbd "C-c c") 'g-compile-run)
-  (define-key c++-mode-map (kbd ";") 'c++-semi-colon)
-  (define-key c++-mode-map (kbd "C-c n") 'next-error)
-
   )
+
+(add-hook 'c++-mode-hook (lambda () (flymake-mode t)))
+
+(defvar flymake-additional-compilation-flags nil)
+(put 'flymake-additional-compilation-flags 'safe-local-variable 'listp)
+
+;; no need to arrange Makefile
+(defun flymake-cc-init ()
+  (let* ((temp-file (flymake-init-create-temp-buffer-copy
+                     'flymake-create-temp-inplace))
+         (local-file (file-relative-name
+                      temp-file
+                      (file-name-directory buffer-file-name)))
+         (common-args (append (list "-Wall" "-W" "-fsyntax-only" local-file)
+                              flymake-additional-compilation-flags)))
+    (list "g++" common-args)))
+
+(loop for ext in '("\\.c$" "\\.h$" "\\.cc$" "\\.cpp$" "\\.hh$")
+      do
+      (push `(,ext flymake-cc-init) flymake-allowed-file-name-masks))
+
+(add-hook 'c-mode-hook (lambda () (flymake-mode t)))
+(add-hook 'c++-mode-hook (lambda () (flymake-mode t)))
 
 (provide 'emp-c++)

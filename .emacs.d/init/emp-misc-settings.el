@@ -82,5 +82,11 @@
 
 (autoload 'comint-dynamic-complete-filename "comint" nil t)
 
+(setenv "TMPDIR" "/tmp")
+
+;; tramp use sudo: /sudo:mediqt:<enter>
+(add-to-list 'tramp-default-proxies-alist '(".*" "\`root\'" "/ssh:%h:"))
+
+(setq compilation-always-kill t)
 
 (provide 'emp-misc-settings)

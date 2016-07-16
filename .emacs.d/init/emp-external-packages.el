@@ -51,6 +51,12 @@
     tide
     groovy-mode
     typescript
+    flymake-solidity
+    go-mode
+    perspective
+    projectile
+    persp-projectile
+    ivy
     ) "a list of packages to ensure are installed at launch.")
 
 (provide 'emp-external-packages)

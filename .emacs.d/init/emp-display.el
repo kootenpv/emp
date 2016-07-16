@@ -36,6 +36,8 @@
 
 (load-theme 'kooten)
 
+(powerline-reset)
+
 (custom-set-faces
  '(fringe ((t (:foreground "#14151E")))))
 

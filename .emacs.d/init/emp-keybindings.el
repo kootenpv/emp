@@ -114,7 +114,7 @@
 
 (global-set-key (kbd "s-SPC") 'just-one-space)
 
-(global-set-key (kbd "C-c r") 'recentf-open-files)
+(global-set-key (kbd "C-c r") 'ivy-recentf)
 
 (define-key isearch-mode-map [(backspace)] 'isearch-delete-char)
 

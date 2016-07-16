@@ -144,7 +144,7 @@
 (require 'uniquify)
 
 (require 'web-mode)
-
+(add-to-list 'auto-mode-alist '("\\.gsp\\'" . web-mode))
 (setq web-mode-engines-alist
       '(("django"    . ".html"))
       )
@@ -178,6 +178,16 @@
 
 (require 'flycheck)
 (require 'solidity-mode)
+(require 'flymake-solidity)
+
+(add-hook 'solidity-mode-hook 'flymake-solidity-load)
+(add-hook 'solidity-mode-hook (lambda () (c-set-style "awk")))
+
+;; (add-hook 'markdown-mode-hook '(lambda () (flyspell-mode 1)))
+;; (set-face-attribute 'flyspell-incorrect nil :underline "line")
+;; (set-face-attribute 'flyspell-duplicate nil :underline "line")
+
+;; (setq flyspell-duplicate-distance 0)
 
 (require 'powerline)
 (setq ns-use-srgb-colorspace nil)
@@ -186,6 +196,7 @@
 (require 'eashy)
 
 (require 'ag)
+(setq ag-ignore-list (list "node_modules"))
 
 (require 'avy)
 
@@ -206,6 +217,14 @@
 
 ;; aligns annotation to the right hand side
 (setq company-tooltip-align-annotations t)
+
+(add-to-list 'auto-mode-alist '("\\.puml\\'" . puml-mode))
+(add-to-list 'auto-mode-alist '("\\.plantuml\\'" . puml-mode))
+
+(projectile-global-mode)
+(setq projectile-enable-caching t)
+(persp-mode)
+(setq projectile-completion-system 'ivy)
 
 (elscreen-persist-restore)
 (provide 'emp-external-plugins)
