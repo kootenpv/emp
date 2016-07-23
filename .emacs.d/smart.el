@@ -394,7 +394,7 @@
 
 (defun smart-expand-pair-bracket()
   (interactive)
-  (smart-expand-pair ")"))
+  (smart-expand-pair "]"))
 
 (defun smart-shrink-pair (closing-char)
   (interactive)
@@ -412,7 +412,7 @@
 
 (defun smart-shrink-pair-paren()
   (interactive)
-  (smart-shrink-pair "]"))
+  (smart-shrink-pair ")"))
 
 (defun smart-shrink-pair-bracket()
   (interactive)
