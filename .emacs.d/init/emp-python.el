@@ -1,3 +1,5 @@
+;; pip install ipython[notebook] && apt-get install python-matplotlib && ipython notebook --ip=0.0.0.0
+
 ;; ELPY YAPF NEEDS TO BE IN RECENT RELEASE
 ;; IMPORTMAGIC UPGRADE
 
@@ -69,6 +71,51 @@
   (end-of-buffer)
   (other-window -1))
 
+(defun new-python-eval2 (arg)
+  ;; NOTE THAT I CHANGED IPYTHON's
+  ;; /Library/Python/2.7/site-packages/ipython-2.0.0_dev-py2.7.egg/IPython/core/magics/execution.py
+  ;; /Library/Python/2.7/site-packages/ipython-2.0.0_dev-py2.7.egg/IPython/terminal/interactiveshell.py
+  ;; IN ORDER TO PREVENT SILLY PRINTING
+  (interactive "p")
+  (when (eq arg 0)
+    (setq python-python-command "ipython")
+    (setq  pybuffname (concat "*IPython" (int-to-string arg) "*")))
+  (when (eq arg 2)
+    (setq python-python-command "ipython2")
+    (setq  pybuffname (concat "*IPython" (int-to-string arg) "*")))
+  (when (eq arg 3)
+    (setq python-python-command "ipython3")
+    (setq  pybuffname (concat "*IPython" (int-to-string arg) "*")))
+  (when (eq arg 9)
+    ;; make it so that pypy's ipython is linked to "ipypy" in your bin, yes.. ipypy is a new name,
+    ;; e.g.: (setq python-python-command "/Users/pascal/Downloads/pypy-2.5.1-osx64/bin/ipython")
+    (setq python-python-command "ipypy")
+    (setq  pybuffname (concat "*IPyPy" (int-to-string arg) "*")))
+  (new-python-get-text)
+  (if (get-buffer pybuffname)
+      (switch-to-buffer-other-window pybuffname)
+    (delete-other-windows)
+    (if (not (string-match "pypy" python-python-command))
+        (progn
+          (py-shell nil t python-python-command pybuffname)
+          (switch-to-buffer-other-window pybuffname))
+      (split-window-right)
+      (switch-window)
+      (ansi-term "ipypy" (concat "IPyPy" (int-to-string arg)))
+      ))
+  (end-of-buffer)
+  (insert (car kill-ring))
+  (if (eq major-mode 'term-mode)
+      (term-send-input)
+    (comint-send-input t))
+  (accept-process-output (get-buffer-process (current-buffer)))
+  (setq kill-ring (cdr kill-ring))
+  (end-of-buffer)
+  (comint-send-input nil t)
+  (end-of-buffer)
+  (comint-goto-process-mark)
+  (other-window -1))
+
 
 (defun python-send-buffer2 ()
   (interactive)
@@ -131,7 +178,7 @@
 (defun run-all-functions ()
   (interactive)
   (let ((a t))
-    (while a
+    (while ay
       (when (eq major-mode 'ess-mode)
         (setq a (search-forward-regexp "[-=] function" nil t)))
       (if a (ess-eval-function-or-paragraph-and-step t))

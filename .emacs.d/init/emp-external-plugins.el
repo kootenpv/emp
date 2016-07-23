@@ -102,7 +102,7 @@
 (defalias 'reformat-json 'json-reformat-region)
 
 ;; (require 'buffer-move)
-
+(require 'dired-x)
 (require 'dired-fixups)
 
 ;;; GROOVY
@@ -221,10 +221,17 @@
 (add-to-list 'auto-mode-alist '("\\.puml\\'" . puml-mode))
 (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . puml-mode))
 
+(setq projectile-keymap-prefix (kbd "M-p"))
+
 (projectile-global-mode)
 (setq projectile-enable-caching t)
 (persp-mode)
 (setq projectile-completion-system 'ivy)
+;;(setq magit-completing-read-function 'ivy-completing-read)
+(setq ivy-re-builders-alist
+     '((ivy-switch-buffer . ivy--regex-plus)
+       (t . ivy--regex-fuzzy)))
+(setq ivy-initial-inputs-alist nil)
 
 (elscreen-persist-restore)
 (provide 'emp-external-plugins)

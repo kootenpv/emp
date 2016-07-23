@@ -3,6 +3,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (key-chord-define-global "SS" 'ido-switch-buffer)
+(key-chord-define-global "BB" 'projectile-switch-to-buffer)
 
 (key-chord-define-global "VV"    'avy-goto-char)
 (key-chord-define-global "xq"   'kill-emacs)
@@ -185,9 +186,11 @@
 (global-set-key [delete] 'delete-blank-lines-or-char)
 
 (global-set-key [backspace] 'backspace-blank-lines-or-char)
-(global-set-key (kbd "C-)") 'smart-expand-pair)
 
-(global-set-key (kbd "C-(") 'smart-shrink-pair)
+(global-set-key (kbd "C-)") 'smart-expand-pair-paren)
+(global-set-key (kbd "C-(") 'smart-shrink-pair-paren)
+(global-set-key (kbd "M-[") 'smart-expand-pair-bracket)
+(global-set-key (kbd "C-]") 'smart-shrink-pair-bracket)
 
 (global-set-key (kbd "M-j") 'join-line)
 
