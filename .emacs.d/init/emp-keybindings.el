@@ -189,8 +189,8 @@
 
 (global-set-key (kbd "C-)") 'smart-expand-pair-paren)
 (global-set-key (kbd "C-(") 'smart-shrink-pair-paren)
-(global-set-key (kbd "M-[") 'smart-expand-pair-bracket)
-(global-set-key (kbd "C-]") 'smart-shrink-pair-bracket)
+(global-set-key (kbd "C-]") 'smart-expand-pair-bracket)
+(global-set-key (kbd "M-[") 'smart-shrink-pair-bracket)
 
 (global-set-key (kbd "M-j") 'join-line)
 
