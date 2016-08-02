@@ -88,7 +88,7 @@ Blog post **not yet here**
 Next to the
 1. Clone this where you want. I choose a folder for a specific version of a distro.
 
-    `~/DISTRO/` such that `~/DISTRO/.emacs.d`
+    `~/DISTRO/` such that `~/DISTRO/.emacs.d` (e.g. emp-24.4)
 
 2. Put
 
@@ -105,7 +105,7 @@ Next to the
 
 Your setup is complete.
 
-Most likely there are issues. Have a look at [ubuntu_install.md](https://github.com/kootenpv/emp/blob/master/ubuntu_install.MD) to see if there are hints there. Please post an issue if it anything isn't working for you.
+Most likely there are issues. Have a look at [ubuntu_install.md](https://github.com/kootenpv/emp/blob/master/ubuntu_install.md) to see if there are hints there. Please post an issue if it anything isn't working for you.
 
 ### Keyboard
 
