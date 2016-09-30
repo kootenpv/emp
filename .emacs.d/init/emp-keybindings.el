@@ -25,8 +25,7 @@
 
 (key-chord-define-global "LQ"   '(lambda () (interactive) (elscreen-goto 4)))
 (key-chord-define-global "LW"   '(lambda () (interactive) (elscreen-goto 5)))
-(key-chord-define-global "LE"   '(lambda () (interactive) (elscreen-goto 6)))
-(key-chord-define-global "LR"   '(lambda () (interactive) (elscreen-goto 7)))
+
 
 (key-chord-define-global "LG" 'shelly-go)
 
@@ -109,7 +108,7 @@
 
 (global-set-key (kbd "C-o") 'smart-delete-or-restore-windows)
 
-(global-set-key (kbd "C-w") 'kill-buffer)
+(global-set-key (kbd "C-w") 'kill-this-buffer)
 
 (global-set-key "\r" 'newline-and-indent)
 
@@ -118,6 +117,11 @@
 (global-set-key (kbd "C-c r") 'ivy-recentf)
 
 (define-key isearch-mode-map [(backspace)] 'isearch-delete-char)
+
+(define-key typescript-mode-map (kbd "C-c a") 'switch-angular)
+(define-key web-mode-map (kbd "C-c a") 'switch-angular)
+
+(define-key dired-mode-map [backspace] 'dired-up-directory)
 
 (global-unset-key '[C-down-mouse-1])
 

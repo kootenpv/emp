@@ -26,15 +26,13 @@
 (load (concat emacsd "package-loader.el"))
 
 (setq backup-by-copying t
-      backup-directory-alist `(("." . ,(concat default-directory "backups")))
+      backup-directory-alist `(("." . ,(concat default-directory "backups/")))
       delete-old-versions t
       kept-new-versions 10
       kept-old-versions 10
       version-control t)
 
-;; should be better now
-(setq auto-save-file-name-transforms
-      `((".*" ,(concat default-directory "auto-saves") t)))
+(setq auto-save-file-name-transforms `((".*" ,(concat default-directory "auto-saves") t)))
 
 ;;; mode associations
 (add-to-list 'auto-mode-alist '("\\.snippet\\'" . snippet-mode))

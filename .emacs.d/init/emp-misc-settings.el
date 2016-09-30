@@ -11,6 +11,7 @@
 
 (set-fill-column 100)
 
+(require 'recentf)
 (recentf-mode 1)
 (setq recentf-max-saved-items 70)
 (setq recentf-max-menu-items 70)
@@ -19,9 +20,7 @@
 (normal-erase-is-backspace-mode 1)
 
 (require 'uniquify)
-(setq
- uniquify-buffer-name-style 'post-forward
- uniquify-separator ":")
+(setq uniquify-buffer-name-style 'post-forward uniquify-separator ":")
 
 
 ;;;;;;;;   Ignore certain extensions   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -85,8 +84,34 @@
 (setenv "TMPDIR" "/tmp")
 
 ;; tramp use sudo: /sudo:mediqt:<enter>
+(require 'tramp)
 (add-to-list 'tramp-default-proxies-alist '(".*" "\`root\'" "/ssh:%h:"))
 
 (setq compilation-always-kill t)
+
+(defun tscbuild ()
+ (when (or (eq major-mode 'typescript-mode) (eq major-mode 'web-mode))
+ (start-process "tscbuild" nil "npm" "run" "build")))
+
+(add-hook 'after-save-hook 'tscbuild)
+
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+(setq ediff-split-window-function 'split-window-horizontally)
+(setq ediff-diff-options "-w")
+(winner-mode)
+(add-hook 'ediff-after-quit-hook-internal 'winner-undo)
+
+(defun ora-ediff-hook ()
+  (ediff-setup-keymap)
+  (define-key ediff-mode-map "j" 'ediff-next-difference)
+  (define-key ediff-mode-map "k" 'ediff-previous-difference))
+
+(add-hook 'ediff-mode-hook 'ora-ediff-hook)
+
+;; Terminal buffer configuration.
+(add-hook 'term-mode-hook 'my-term-mode-hook)
+(defun my-term-mode-hook ()
+  ;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=20611
+  (setq bidi-paragraph-direction 'left-to-right))
 
 (provide 'emp-misc-settings)

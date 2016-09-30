@@ -111,7 +111,6 @@
 (add-to-list 'auto-mode-alist '("\.groovy$" . groovy-mode))
 (add-to-list 'interpreter-mode-alist '("groovy" . groovy-mode))
 
-(require 'magit)
 
 (when (load "flymake" t)
   (defun flymake-pylint-init ()
@@ -130,6 +129,8 @@
 (require 'git-gutter)
 (add-hook 'python-mode-hook 'git-gutter-mode)
 (add-hook 'emacs-lisp-mode-hook 'git-gutter-mode)
+(add-hook 'solidity-mode-hook 'git-gutter-mode)
+(add-hook 'typescript-mode-hook 'git-gutter-mode)
 (add-hook 'git-gutter:update-hooks 'magit-revert-buffer-hook)
 
 (global-set-key (kbd "M-g M-s") 'git-gutter:stage-hunk)
@@ -145,9 +146,12 @@
 
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.gsp\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
 (setq web-mode-engines-alist
       '(("django"    . ".html"))
       )
+
+(add-hook 'web-mode-hook 'rainbow-mode)
 
 (add-to-list 'auto-mode-alist '("\.html$" . web-mode))
 
@@ -166,10 +170,6 @@
 ;; (add-hook 'python-mode-hook
 ;;           (lambda ()
 ;;             (add-hook 'after-save-hook 'elpy-add-import-on-save nil 'make-it-local)))
-
-(require 'py-autopep8)
-(add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
-(setq py-autopep8-options '("--max-line-length=99"))
 
 (require 'flymake-easy)
 (require 'flymake-jslint)
@@ -215,6 +215,10 @@
             ;; install it separately via package-install
             (company-mode-on)))
 
+(require 'py-autopep8)
+(add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+(setq py-autopep8-options '("--max-line-length=99"))
+
 ;; aligns annotation to the right hand side
 (setq company-tooltip-align-annotations t)
 
@@ -222,11 +226,16 @@
 (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . puml-mode))
 
 (setq projectile-keymap-prefix (kbd "M-p"))
-
 (projectile-global-mode)
 (setq projectile-enable-caching t)
 (persp-mode)
 (setq projectile-completion-system 'ivy)
+(add-to-list 'projectile-globally-ignored-directories "__pycache__")
+(add-to-list 'projectile-globally-ignored-files "*.pyc")
+
+(add-to-list 'projectile-other-file-alist '("component.html" "component.ts"))
+(add-to-list 'projectile-other-file-alist '("component.ts" "component.html"))
+
 ;;(setq magit-completing-read-function 'ivy-completing-read)
 (setq ivy-re-builders-alist
      '((ivy-switch-buffer . ivy--regex-plus)
@@ -234,4 +243,10 @@
 (setq ivy-initial-inputs-alist nil)
 
 (elscreen-persist-restore)
+
+(require 'realgud)
+
+(autoload 'dired-async-mode "dired-async.el" nil t)
+(dired-async-mode 1)
+
 (provide 'emp-external-plugins)

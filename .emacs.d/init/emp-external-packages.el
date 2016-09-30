@@ -57,6 +57,8 @@
     projectile
     persp-projectile
     ivy
+    git-timemachine
+    company
     ) "a list of packages to ensure are installed at launch.")
 
 (provide 'emp-external-packages)

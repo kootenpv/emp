@@ -131,7 +131,8 @@
 
 (add-hook 'python-mode-hook
           '(lambda()
-             (define-key python-mode-map (kbd "C-<return>") 'new-python-eval)))
+             (define-key python-mode-map (kbd "C-<return>") 'new-python-eval)
+             (define-key python-mode-map (kbd "C-M-<backspace>") 'py-straighten)))
 
 (define-key python-mode-map (kbd "C-c c") 'python-send-my-buffer)
 
@@ -166,7 +167,7 @@
     (let ((buf (buffer-file-name) ))
       (other-window 1)
       (eshell)
-      (insert (concat "python3 " buf)))
+      (insert (concat "python3.5 " buf)))
     (eshell-send-input)
     (other-window 1)))
 
@@ -315,6 +316,7 @@
                (setq flymake-no-changes-timeout 0.5)
                (define-key elpy-mode-map (kbd "C-<return>") 'new-python-eval)
                (setq elpy-test-runner 'elpy-test-pytest-runner)
+               (add-hook 'before-save-hook (lambda () (when (eq major-mode 'python-mode)) 'elpy-format-code))
                )))
 
 (add-hook 'python-mode-hook
@@ -335,9 +337,9 @@
 
 (add-hook 'python-mode-hook
           (lambda ()
-            (local-set-key "\C-ca" 'pytest-all)
-            (local-set-key "\C-c0" 'pytest-pdb-one)
-            (local-set-key "\C-c1" 'pytest-one)))
+            (local-set-key "\C-ca" 'pytest-pdb-all)
+            (local-set-key "\C-cC-a" 'pytest-pdb-all)
+            (local-set-key "\C-c0" 'pytest-pdb-one)))
 
 (provide 'emp-python)
 
@@ -351,3 +353,9 @@
     (progn
       (linum-mode)
       (pycoverage-mode))))
+
+(defun py-straighten ()
+  (interactive)
+  (when (not (bolp)) (beginning-of-line))
+  (backspace-blank-lines-or-char)
+  (newline-and-indent))

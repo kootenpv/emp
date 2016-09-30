@@ -298,4 +298,43 @@ might be bad."
           (message "File '%s' successfully renamed to '%s'"
                    name (file-name-nondirectory new-name)))))))
 
+(defun find-file-angular (arg)
+  (find-file-existing (concat (file-name-sans-extension (buffer-file-name)) "." arg)))
+
+(defun switch-angular ()
+  (interactive)
+  (cond
+   ((string-equal (file-name-extension (buffer-file-name)) "ts") (find-file-angular "html"))
+   ((string-equal (file-name-extension (buffer-file-name)) "html") (find-file-angular "ts"))))
+
+(defun kooten-dired-zip-file ()
+  "ZIP the current file and all subdir's; or unZIP if already a ZIP."
+  (interactive)
+  (let* ((fn (dired-get-filename)) (nd (file-name-nondirectory fn)) cmd msg)
+    (cond ((and (string-match ".zip$" fn)
+                (y-or-n-p (format "unzip %s? " fn)))
+           (setq msg "unZIPing file %s..." cmd (concat "unzip " nd)))
+          ((and (or (string-match ".tgz$" fn) (string-match ".tar.gz$" fn))
+                (y-or-n-p (format "tar xfz `%s'? " fn)))
+           (setq msg "unTAR/GZIPing file %s..." cmd (concat "tar xfz " nd)))
+          ((and (or (string-match ".tbz2$" fn) (string-match ".tar.bz2$" fn))
+                (y-or-n-p (format "tar xfj `%s'? " fn)))
+           (setq msg "unTAR/BZIPing file %s..." cmd (concat "tar xfj " nd)))
+          ((and (string-match ".tar$" fn)
+                (y-or-n-p (format "tar xf `%s'? " fn)))
+           (setq msg "unTARing file %s..." cmd (concat "tar xf " nd)))
+          ((and (string-match ".rar$" fn)
+                (y-or-n-p (format "unrar x `%s'? " fn)))
+           (setq msg "unRARing file %s..." cmd (concat "unrar x " nd)))
+          ((and (file-directory-p fn)
+                (y-or-n-p (format "zip -rv9 `%s'? " fn)))
+           (setq msg "ZIPing directory %s..."
+                 cmd (concat "zip -rv9 " nd ".zip " nd)))
+          ((y-or-n-p "(un?)compress? ") (dired-do-compress)))
+    (when cmd
+      (message msg fn)
+      (shell-command (concat "cd " (file-name-directory fn) " && " cmd))
+      (revert-buffer))))
+(define-key dired-mode-map "Z" 'kooten-dired-zip-file)
+
 (provide 'emp-misc-functions)
