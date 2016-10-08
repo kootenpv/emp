@@ -23,9 +23,13 @@
 (key-chord-define-global "L&"   '(lambda () (interactive) (shelly 7)))
 (key-chord-define-global "L*"   '(lambda () (interactive) (shelly 8)))
 
-(key-chord-define-global "LQ"   '(lambda () (interactive) (elscreen-goto 4)))
-(key-chord-define-global "LW"   '(lambda () (interactive) (elscreen-goto 5)))
+(key-chord-define-global "LQ"   '(lambda () (interactive) (elscreen-goto 4) (jabber-connect-all) (jabber-switch-to-roster-buffer)))
+(key-chord-define-global "LW"   'switch-to-notmuch)
 
+(key-chord-define-global "JA"   'jabber-connect-all)
+(key-chord-define-global "JW"   'jabber-chat-with)
+(key-chord-define-global "JR"   'jabber-display-roster)
+(key-chord-define-global "NM"   'notmuch)
 
 (key-chord-define-global "LG" 'shelly-go)
 
@@ -125,6 +129,8 @@
 
 (global-unset-key '[C-down-mouse-1])
 
+(global-unset-key (kbd "C-x k"))
+
 (global-set-key (kbd "<XF86Back>") 'scroll-down)
 (global-set-key (kbd "<XF86Forward>") 'scroll-up)
 
@@ -196,7 +202,13 @@
 (global-set-key (kbd "C-]") 'smart-expand-pair-bracket)
 (global-set-key (kbd "M-[") 'smart-shrink-pair-bracket)
 
-(global-set-key (kbd "M-j") 'join-line)
+(global-set-key (kbd "M-j") 'join-lines)
+(global-set-key (kbd "M-J") 'join-line)
+
+(global-set-key (kbd "C-M-=") 'make-directory)
+(global-set-key (kbd "M-a") 'ag)
+
+(global-set-key (kbd "M-r") 'rename-current-buffer-file)
 
 (global-set-key (kbd "M-i") 'yas-expand)
 

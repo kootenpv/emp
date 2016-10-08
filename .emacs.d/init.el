@@ -74,11 +74,8 @@
 
 (require 'emp-c++)
 
-(provide 'emp-init)
-
 (require 'emp-dired)
 
-;; (setq ns-auto-hide-menu-bar t)
-;; (set-frame-position nil 0 -21)
-;; (tool-bar-mode 0)
-;; (set-frame-size nil 206 54)
+(setq default-directory (concat user-emacs-directory ".."))
+
+(provide 'emp-init)

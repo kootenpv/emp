@@ -1,0 +1,3 @@
+.eldeps*
+*.elc
+notmuch-version.el

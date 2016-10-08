@@ -53,12 +53,15 @@
     typescript
     flymake-solidity
     go-mode
-    perspective
+    ;;perspective
     projectile
-    persp-projectile
+    ;;persp-projectile
     ivy
     git-timemachine
     company
+    jabber
+    notify
+    gnus-alias
     ) "a list of packages to ensure are installed at launch.")
 
 (provide 'emp-external-packages)
