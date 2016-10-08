@@ -22,11 +22,20 @@
     (,(kbd "f e") . (lambda () (interactive)
                       (find-file (concat empinit "emp-external-plugins.el")) (Navi-mode -1)))
 
+    (,(kbd "f a") . (lambda () (interactive)
+                      (find-file (concat empinit "emp-external-packages.el")) (Navi-mode -1)))
+
+    (,(kbd "f j") . (lambda () (interactive)
+                      (find-file (concat emacsd "my-jabber.el")) (Navi-mode -1)))
+
+    (,(kbd "f N") . (lambda () (interactive)
+                      (find-file (concat emacsd "my-notmuch.el")) (Navi-mode -1)))
+
     (,(kbd "f k") . (lambda () (interactive)
                       (find-file (concat empinit "emp-keybindings.el")) (Navi-mode -1)))
 
     (,(kbd "f i") . (lambda () (interactive)
-                      (find-file (concat empinit "emp-init.el")) (Navi-mode -1)))
+                      (find-file (concat emacsd "init.el")) (Navi-mode -1)))
 
     (,(kbd "f S") . (lambda () (interactive)
                       (find-file (concat emacsd "smart.el")) (Navi-mode -1)))
@@ -41,7 +50,7 @@
                       (find-file (concat emacsd "Navi-empty/empty.py")) (Navi-mode -1)))
 
     (,(kbd "f n") . (lambda () (interactive)
-                      (find-file (concat emacsd "navi.el")) (Navi-mode -1)))
+                      (find-file (concat empinit "navi.el")) (Navi-mode -1)))
 
     (,(kbd "f .") . (lambda () (interactive)
                       (find-file "~/.emacs") (Navi-mode -1)))

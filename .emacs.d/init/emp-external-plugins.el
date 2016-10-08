@@ -173,8 +173,10 @@
 
 (require 'flymake-easy)
 (require 'flymake-jslint)
-(add-hook 'javascript-mode-hook
-          (lambda () (flymake-mode t)))
+(add-hook 'javascript-mode-hook (lambda () (flymake-mode t)))
+
+(add-hook 'json-mode-hook (lambda () (flycheck-mode t)))
+(add-hook 'yaml-mode-hook (lambda () (flycheck-mode t)))
 
 (require 'flycheck)
 (require 'solidity-mode)
@@ -196,7 +198,7 @@
 (require 'eashy)
 
 (require 'ag)
-(setq ag-ignore-list (list "node_modules"))
+(setq ag-ignore-list (list "node_modules" "*cache"))
 
 (require 'avy)
 
@@ -213,6 +215,7 @@
             (eldoc-mode +1)
             ;; company is an optional dependency. You have to
             ;; install it separately via package-install
+            (require 'company)
             (company-mode-on)))
 
 (require 'py-autopep8)
@@ -228,10 +231,11 @@
 (setq projectile-keymap-prefix (kbd "M-p"))
 (projectile-global-mode)
 (setq projectile-enable-caching t)
-(persp-mode)
+;;(persp-mode)
 (setq projectile-completion-system 'ivy)
 (add-to-list 'projectile-globally-ignored-directories "__pycache__")
 (add-to-list 'projectile-globally-ignored-files "*.pyc")
+(add-to-list 'projectile-globally-ignored-files "*cache")
 
 (add-to-list 'projectile-other-file-alist '("component.html" "component.ts"))
 (add-to-list 'projectile-other-file-alist '("component.ts" "component.html"))
@@ -248,5 +252,33 @@
 
 (autoload 'dired-async-mode "dired-async.el" nil t)
 (dired-async-mode 1)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Terminal notifier
+;; requires 'brew install terminal-notifier'
+;; stolen from erc-notifier
+
+(defvar terminal-notifier-command (executable-find "terminal-notifier") "The path to terminal-notifier.")
+
+; (terminal-notifier-notify "Emacs notification" "Something amusing happened")
+
+(defun terminal-notifier-notify (title message)
+  "Show a message with
+terminal-notifier-command
+."
+  (start-process "terminal-notifier"
+                 "terminal-notifier"
+                 terminal-notifier-command
+                 "-title" title
+                 "-message" message
+                 "-activate" "org.gnu.Emacs"))
+
+(defun timed-notification (time msg)
+  (interactive "sNotification when (e.g: 2 minutes, 60 seconds, 3 days): \nsMessage: ")
+  (run-at-time time nil (lambda (msg) (terminal-notifier-notify "Emacs" msg)) msg))
+
+(require 'my-jabber)
+
+(require 'my-notmuch)
 
 (provide 'emp-external-plugins)
