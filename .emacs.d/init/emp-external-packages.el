@@ -60,7 +60,6 @@
     ivy
     git-timemachine
     company
-    jabber
     notify
     gnus-alias
     intero
