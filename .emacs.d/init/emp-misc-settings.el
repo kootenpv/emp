@@ -1,7 +1,4 @@
-(setq ido-file-extensions-order '(".py" ".r" ".tex" ".cpp" ".h" ".txt" ".el"))
-
-
-
+(setq ido-file-extensions-order '(".py" ".md" ".ts" ".html" ".r" ".tex" ".cpp" ".h" ".txt" ".el" ".js" ".rst"))
 
 (setq yas/key-syntaxes '("w_" "w_." "^ "))
 
@@ -113,5 +110,15 @@
 (defun my-term-mode-hook ()
   ;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=20611
   (setq bidi-paragraph-direction 'left-to-right))
+
+(setq mouse-autoselect-window t)
+
+(add-hook 'sh-mode-hook 'flycheck-mode)
+
+(display-battery-mode 1)
+(setq display-time-24hr-format t
+      display-time-day-and-date t)
+
+             (display-time)
 
 (provide 'emp-misc-settings)

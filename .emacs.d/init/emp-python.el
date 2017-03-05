@@ -1,4 +1,17 @@
+;;;; /usr/local/bin/ipython_fix
+;; export DISPLAY="localhost:10.0"
+;; echo 'DISPLAY="localhost:10.0" ipython3 --simple-prompt -i' > /usr/local/bin/ipython_fix && chmod +x /usr/local/bin/ipython_fix
+;; SHELL
+;; yum install / apt-get install xclip
+;; pip3 install pylint
+;; .BASHRC
+;; export LC_ALL=en_US.UTF-8
+;; export LANG=en_US.UTF-8
+
+
 ;; pip install ipython[notebook] && apt-get install python-matplotlib && ipython notebook --ip=0.0.0.0
+;; ein:notebooklist-open
+;; ein:connect-to-buffer
 
 ;; ELPY YAPF NEEDS TO BE IN RECENT RELEASE
 ;; IMPORTMAGIC UPGRADE
@@ -41,12 +54,19 @@
   (when (eq arg 3)
     (setq python-python-command "ipython3")
     (setq  pybuffname (concat "*IPython" (int-to-string arg) "*")))
+  ;; remote
+  (when (eq arg 4)
+    (setq python-python-command "/usr/local/bin/ipython_fix")
+    (setq  pybuffname (concat "*IPython" (int-to-string arg) "*")))
+  ;;pypy
   (when (eq arg 9)
     ;; make it so that pypy's ipython is linked to "ipypy" in your bin, yes.. ipypy is a new name,
     ;; e.g.: (setq python-python-command "/Users/pascal/Downloads/pypy-2.5.1-osx64/bin/ipython")
     (setq python-python-command "ipypy")
     (setq  pybuffname (concat "*IPyPy" (int-to-string arg) "*")))
   (new-python-get-text)
+  (if (string-equal python-python-command "/usr/local/bin/ipython_fix")
+      (shell-command (concat "echo \"" (s-replace "\"" "\\\"" (substring-no-properties (car kill-ring))) "\" | xclip -selection clipboard") nil))
   (if (get-buffer pybuffname)
       (switch-to-buffer-other-window pybuffname)
     (delete-other-windows)
@@ -211,11 +231,6 @@
   (smart-eval-ess-executer)
   )
 
-
-
-
-
-
 (defun new-python-get-start ()
   (interactive)
   (ignore-errors
@@ -225,7 +240,7 @@
   (move-end-of-line 1)
   (search-backward-regexp "^[@a-zA-Z0-9#\[\{]" 0 t)
   (when (or (looking-at "else") (looking-at "elif") (looking-at "except") (looking-at "finally"))
-    (search-backward-regexp "^if" 0 t)
+    (search-backward-regexp "^if\\|^try" 0 t)
     )
   (ignore-errors
     (previous-line)
@@ -261,14 +276,15 @@
 
 (defun new-python-get-text ()
   (interactive)
-  (ignore-errors
+  (cond
+   ((region-active-p) (kill-ring-save (region-beginning) (region-end)))
+   (t (ignore-errors
     (let ((start (new-python-get-start))
           (end (new-python-get-end)))
       (when (eq (point-max) end)
         (goto-char end))
       (kill-ring-save start end)
-      ))
-  )
+      )))))
 
 (setenv "LC_CTYPE" "UTF-8")
 
@@ -307,33 +323,46 @@
              (progn
                (elpy-enable)
                (elpy-mode)
-               (setq-local flymake-start-syntax-check-on-newline t)
+               ;;(setq-local flymake-start-syntax-check-on-newline t)
                (setq elpy-rpc-python-command "python3")
                (elpy-use-ipython)
                ;;(setq elpy-rpc-backend "jedi")
                ;;(jedi:ac-setup)
                (setq python-check-command (concat emacsd "pyflymake.py"))
-               (setq flymake-no-changes-timeout 0.5)
                (define-key elpy-mode-map (kbd "C-<return>") 'new-python-eval)
+               (define-key elpy-mode-map (kbd "M-<left>") nil)
+               (define-key elpy-mode-map (kbd "M-<right>") nil)
                (setq elpy-test-runner 'elpy-test-pytest-runner)
-               (add-hook 'before-save-hook (lambda () (when (eq major-mode 'python-mode)) 'elpy-format-code))
+               ;(add-hook 'before-save-hook (lambda () (when (eq major-mode 'python-mode)) 'elpy-format-code))
                )))
 
 (add-hook 'python-mode-hook
-          (lambda () (flymake-mode t)))
+          (lambda () (flycheck-mode t)))
 
 (add-hook 'elpy-mode-hook
           '(lambda ()
              (progn
                (add-to-list 'flymake-err-line-patterns '("\\([^|]+\\)| \\([^:]+\\):\\([0-9]+\\)$" 2 3 nil 1))
                 (set (make-local-variable 'flymake-warning-predicate) "^.[^EF]")
-               )))
+                )))
+
 (require 'expand-region)
 (require 'python-mode-expansions)
 
 (setq py--imenu-create-index-p t)
 (setq py-split-windows-on-execute-function (quote split-window-horizontally))
 ;;(py-exception-name-face ((t (:foreground "#94bff3"))))
+
+(require 'linum)
+(require 'pycoverage)
+
+(defun my-coverage ()
+  (interactive)
+  (when (derived-mode-p 'python-mode)
+    (progn
+      (linum-mode t)
+      (pycoverage-mode))))
+
 
 (add-hook 'python-mode-hook
           (lambda ()
@@ -343,19 +372,68 @@
 
 (provide 'emp-python)
 
-
-(require 'linum)
-(require 'pycoverage)
-
-(defun my-coverage ()
-  (interactive)
-  (when (derived-mode-p 'python-mode)
-    (progn
-      (linum-mode)
-      (pycoverage-mode))))
+(defun pycoverage-line-format (linenum)
+  (cond
+   ((member linenum pycoverage-data)
+    (propertize " " 'face '(:background "#FF7177" :foreground "#FF7177")))
+   (pycoverage-data
+    ;; covered data
+    (propertize " " 'face '(:background "#181a26" :foreground "#14151E")))))
 
 (defun py-straighten ()
   (interactive)
   (when (not (bolp)) (beginning-of-line))
   (backspace-blank-lines-or-char)
   (newline-and-indent))
+
+(defun py-ipython-shell-paste ()
+  (interactive)
+  (end-of-buffer)
+  (insert "%time %paste")
+  (if (eq major-mode 'term-mode)
+      (term-send-input)
+    (comint-send-input)
+    (comint-add-to-input-history (s-trim-right (substring-no-properties (car kill-ring)))))
+  )
+
+
+
+(company-mode 1)
+
+(require 'cl)
+(require 'tramp)
+
+(defun c5-enable-x-forward (methods)
+   (let ((ssh-method (find-if (lambda (x) (string-equal (car x) "ssh"))
+methods)))
+     (pushnew (list "-Y") (second (assoc 'tramp-login-args (cdr
+ssh-method)))
+              :test 'equal)))
+
+(c5-enable-x-forward tramp-methods)
+
+
+(defun c6-enable-x-forward (methods)
+   (let ((ssh-method (find-if (lambda (x) (string-equal (car x) "scp"))
+methods)))
+     (pushnew (list "-Y") (second (assoc 'tramp-login-args (cdr
+ssh-method)))
+              :test 'equal)))
+
+
+(c6-enable-x-forward tramp-methods)
+
+
+
+
+(global-set-key (kbd "C-M-k") 'py-kill-def-or-class)
+(global-set-key (kbd "M-d") 'elpy-goto-definition)
+
+
+
+
+
+
+;;comint-preoutput-filter-functions
+
+;;(remove-hook 'comint-preoutput-filter-functions 'comintyd)

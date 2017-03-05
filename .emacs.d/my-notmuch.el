@@ -8,22 +8,28 @@
 (define-key notmuch-search-mode-map (kbd "M") '(lambda () (interactive) (notmuch-search-tag (list "-unread")) (next-line)))
 (define-key notmuch-show-mode-map (kbd "X") '(lambda () (interactive) (notmuch-search-tag (list "-unread")) (kill-this-buffer)))
 (define-key notmuch-show-mode-map (kbd "M") '(lambda () (interactive) (notmuch-search-tag (list "-unread")) (kill-this-buffer)))
+(define-key notmuch-show-mode-map (kbd "U") '(lambda () (interactive) (notmuch-search-tag (list "+unread")) (kill-this-buffer)))
 (define-key notmuch-tree-mode-map (kbd "X") '(lambda () (interactive) (notmuch-tree-tag (list "-unread")) (next-line)))
 (define-key notmuch-tree-mode-map (kbd "M") '(lambda () (interactive) (notmuch-tree-tag (list "-unread")) (next-line)))
+(define-key notmuch-tree-mode-map (kbd "U") '(lambda () (interactive) (notmuch-tree-tag (list "+unread")) (next-line)))
+(define-key notmuch-tree-mode-map (kbd "S") '(lambda () (interactive) (notmuch-tree-tag (list "+spam")) (next-line)))
 (define-key notmuch-search-mode-map (kbd "S") '(lambda () (interactive) (notmuch-search-tag (list "+spam"))))
-(define-key notmuch-show-mode-map (kbd "S") '(lambda () (interactive) (notmuch-search-tag (list "+spam"))))
-(define-key notmuch-show-mode-map (kbd "B") '(lambda () (interactive) (browse-url-at-point)))
+(define-key notmuch-show-mode-map (kbd "S") '(lambda () (interactive) (notmuch-show-tag (list "+spam"))))
 
 (defun notmuch-goto-unread-tree ()
   (interactive)
-  (notmuch-tree "tag:unread"))
+  (if (get-buffer "*notmuch-tree-tag:unread*")
+      (switch-to-buffer (get-buffer "*notmuch-tree-tag:unread*"))
+    (notmuch-tree "tag:unread"))
+  (notmuch-tree-refresh-view))
 
 (defun switch-to-notmuch ()
   (interactive)
   (elscreen-goto 5)
   (if (get-buffer "*notmuch-hello*")
       (notmuch-goto-unread-tree)
-    (notmuch)))
+    (notmuch))
+  (delete-other-windows))
 
 ;; Define two identities, "home" and "work"
 (setq gnus-alias-identity-alist

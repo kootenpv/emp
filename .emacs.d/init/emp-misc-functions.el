@@ -51,10 +51,23 @@ With argument ARG, do this that many times."
 
 (defun kill-line-or-region ()
   (interactive)
-  (if  (region-active-p)
-      (kill-region (region-beginning) (region-end))
-    (kill-line))
-  )
+  (cond
+   ((region-active-p) (sp-kill-region (region-beginning) (region-end)))
+   ((looking-at "[ ]*class")
+    (py-kill-def-or-class))
+   ((looking-at "[ ]*\\(def\\|async def\\)")
+    (py-kill-paragraph))  ;; hack
+   ((looking-at "[ ]*\\(for\\|if\\|elif\\|else\\|try\\|except\\|finally\\|while\\)")
+    (next-line) ;; hack
+    (py-kill-clause))
+   ((looking-back "^[ ]*")
+    (if (looking-at "[ ]*$")
+        (delete-blank-lines)
+      (back-to-indentation)
+      (sp-kill-hybrid-sexp 1)))
+   (t (sp-kill-sexp))))
+
+(looking-at "[ ]*\\(if\\|else\\)")  if
 
 (defun neq (obj1 obj2)
   (interactive)
@@ -361,5 +374,17 @@ might be bad."
           (set-buffer-modified-p nil)
           (message "File '%s' successfully renamed to '%s'"
                    name (file-name-nondirectory new-name)))))))
+
+(defun sudo-edit (&optional arg)
+  "Edit currently visited file as root.
+
+With a prefix ARG prompt for a file to visit.
+Will also prompt for a file to visit if current
+buffer is not visiting a file."
+  (interactive "P")
+  (if (or arg (not buffer-file-name))
+      (find-file (concat "/sudo:root@localhost:"
+                         (ido-read-file-name "Find file(as root): ")))
+    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
 (provide 'emp-misc-functions)

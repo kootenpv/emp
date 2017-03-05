@@ -25,7 +25,7 @@
    jabber-chat-foreign-prompt-format my-chat-prompt
    jabber-chat-local-prompt-format my-chat-prompt
    jabber-groupchat-prompt-format my-chat-prompt
-   jabber-muc-private-foreign-prompt-format "[%t] %g/%n>\n"
+   jabber-muc-private-foreign-prompt-format "[%t] %g/%n: \n"
    )
   )
 
