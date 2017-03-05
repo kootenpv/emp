@@ -25,9 +25,6 @@
     (,(kbd "f a") . (lambda () (interactive)
                       (find-file (concat empinit "emp-external-packages.el")) (Navi-mode -1)))
 
-    (,(kbd "f j") . (lambda () (interactive)
-                      (find-file (concat emacsd "my-jabber.el")) (Navi-mode -1)))
-
     (,(kbd "f N") . (lambda () (interactive)
                       (find-file (concat emacsd "my-notmuch.el")) (Navi-mode -1)))
 

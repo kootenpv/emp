@@ -289,8 +289,6 @@ terminal-notifier-command
   (interactive "sNotification when (e.g: 2 minutes, 60 seconds, 3 days): \nsMessage: ")
   (run-at-time time nil (lambda (msg) (terminal-notifier-notify "Emacs" msg)) msg))
 
-(require 'my-jabber)
-
 (require 'my-notmuch)
 
 (require 'my-elfeeds)
