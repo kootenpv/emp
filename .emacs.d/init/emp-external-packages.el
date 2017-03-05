@@ -46,22 +46,27 @@
     flymake-json
     yaml-mode
     elscreen
-    elscreen-persist
+    ;;elscreen-persist
     solidity-mode
     tide
     groovy-mode
     typescript
     flymake-solidity
     go-mode
-    ;;perspective
     projectile
-    ;;persp-projectile
+    perspective
+    persp-mode
+    persp-projectile
     ivy
     git-timemachine
     company
     jabber
     notify
     gnus-alias
+    intero
+    wgrep
+    howdoi
+    smartparens
     ) "a list of packages to ensure are installed at launch.")
 
 (provide 'emp-external-packages)

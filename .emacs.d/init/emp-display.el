@@ -47,4 +47,8 @@
 ;; (tool-bar-mode 0)
 ;; (set-frame-size nil 206 54)
 
+(toggle-frame-maximized)
+
+(setq company-tooltip-minimum-width 40)
+
 (provide 'emp-display)

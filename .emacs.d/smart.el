@@ -10,6 +10,7 @@
 ;; This variable will be used for repeating commands.
 
 (defvar smart-last-command 0)
+(defvar smart-numbers 0)
 
 
 ;; (defun smart-yas ()
@@ -90,6 +91,16 @@
       (progn (funcall function) t)
     nil)
   )
+
+(defun one-or-zero-whitespace ()
+    (interactive)
+    (cond
+   ((smart-when-repeat-command 1 '(lambda () (just-one-space 0))))
+   (t (just-one-space) (setq smart-last-command 0)))
+  (incf smart-last-command))
+
+
+
 
 (defun sc-when-no-repeat ()
   (cond
@@ -239,14 +250,14 @@
   (cond
    ((region-active-p) (delete-region (region-beginning) (region-end)))
    ((smart-delete-pairs-around))
-   ((looking-back "\n\n\\s-+")
-    (while (or (looking-back "\\s-") (looking-back "\n"))
-      (delete-char -1))
-    (insert "\n\n")
-    (indent-for-tab-command))
+   ;; ((looking-back "\n\n\\s-+")
+   ;;  (while (or (looking-back "\\s-") (looking-back "\n"))
+   ;;    (delete-char -1))
+   ;;  (insert "\n\n")
+   ;; (indent-for-tab-command))
    ((looking-back "\n\n\n") (previous-line) (delete-blank-lines) (next-line))
    ((looking-back "\n\n") (previous-line) (delete-blank-lines))
-   ((looking-back "\n\\s-+") (just-one-space) (delete-char -2) (just-one-space))
+   ;;((looking-back "\n\\s-+") (just-one-space) (delete-char -2) (just-one-space))
    (t (backward-delete-char 1)))
   )
 
@@ -340,19 +351,20 @@
 
 
 
-(defadvice backspace-blank-lines-or-char (around smart-backspace-parenthesis activate)
-  (cond
-   ((looking-back "(")
-    (save-excursion
-      (ignore-errors (backward-char 1) (forward-list 1) (delete-char -1)))
-    (delete-char -1))
-   ((looking-back ")")
-    (save-excursion
-      (ignore-errors (backward-list 1))
-      (if (looking-at "(") (delete-char 1)))
-    (delete-char -1))
-   (t ad-do-it))
-  )
+;; (defadvice backspace-blank-lines-or-char (around smart-backspace-parenthesis activate)
+;;   (cond
+;;    ((region-active-p ad-do-it))
+;;    ((looking-back "(")
+;;     (save-excursion
+;;       (ignore-errors (backward-char 1) (forward-list 1) (delete-char -1)))
+;;     (delete-char -1))
+;;    ((looking-back ")")
+;;     (save-excursion
+;;       (ignore-errors (backward-list 1))
+;;       (if (looking-at "(") (delete-char 1)))
+;;     (delete-char -1))
+;;    (t ad-do-it))
+;;   )
 
 
 
@@ -379,14 +391,15 @@
 
 (defun smart-expand-pair (closing-char)
   (interactive)
-  (when (not (member (following-char) 'smart-pair-closers))
+  (save-excursion
+    (when (not (member (following-char) 'smart-pair-closers))
       (search-forward closing-char)
       (left-char))
-  (let ((ec (following-char)))
-    (delete-char 1)
-    (ignore-errors (forward-sexp))
-    (insert-char ec)
-    (left-char)))
+    (let ((ec (following-char)))
+      (delete-char 1)
+      (ignore-errors (forward-sexp))
+      (insert-char ec)
+      (left-char))))
 
 (defun smart-expand-pair-paren()
   (interactive)
@@ -395,6 +408,10 @@
 (defun smart-expand-pair-bracket()
   (interactive)
   (smart-expand-pair "]"))
+
+(defun smart-expand-pair-curly()
+  (interactive)
+  (smart-expand-pair "}"))
 
 (defun smart-shrink-pair (closing-char)
   (interactive)
@@ -417,3 +434,7 @@
 (defun smart-shrink-pair-bracket()
   (interactive)
   (smart-shrink-pair "]"))
+
+(defun smart-shrink-pair-curly()
+  (interactive)
+  (smart-shrink-pair "}"))

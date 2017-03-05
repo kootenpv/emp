@@ -56,6 +56,8 @@
   (local-set-key (kbd "C-c C-e") 'wdired-change-to-wdired-mode)
   )
 
+(setq dired-use-ls-dired nil)
+
 (add-hook 'dired-mode-hook
           'emp-dired-mode-hook)
 

@@ -4,6 +4,17 @@
 ;; needs to be early
 (elscreen-start)
 (setq elscreen-display-tab nil)
+
+(elscreen-create)
+(elscreen-create)
+(elscreen-create)
+(elscreen-create)
+(elscreen-create)
+(elscreen-create)
+(elscreen-create)
+(elscreen-create)
+(elscreen-create)
+
 ;;(elscreen-separate-buffer-list-mode)
 
 (require 'ffap)
@@ -112,19 +123,19 @@
 (add-to-list 'interpreter-mode-alist '("groovy" . groovy-mode))
 
 
-(when (load "flymake" t)
-  (defun flymake-pylint-init ()
-    (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-inplace))
-           (local-file (file-relative-name
-                        temp-file
-                        (file-name-directory buffer-file-name))))
-      ;;(list "epylint" (list local-file))
-      (list (concat emacsd "pyflymake.py") (list local-file))))
-  (add-to-list 'flymake-allowed-file-name-masks
-               '("\\.py\\'" flymake-pylint-init)))
+;; (when (load "flymake" t)
+;;   (defun flymake-pylint-init ()
+;;     (let* ((temp-file (flymake-init-create-temp-buffer-copy
+;;                        'flymake-create-temp-inplace))
+;;            (local-file (file-relative-name
+;;                         temp-file
+;;                         (file-name-directory buffer-file-name))))
+;;       ;;(list "epylint" (list local-file))
+;;       (list (concat emacsd "pyflymake.py") (list local-file))))
+;;   (add-to-list 'flymake-allowed-file-name-masks
+;;                '("\\.py\\'" flymake-pylint-init)))
 
-(require 'flymake-cursor)
+;; (require 'flymake-cursor)
 
 (require 'git-gutter)
 (add-hook 'python-mode-hook 'git-gutter-mode)
@@ -178,12 +189,15 @@
 (add-hook 'json-mode-hook (lambda () (flycheck-mode t)))
 (add-hook 'yaml-mode-hook (lambda () (flycheck-mode t)))
 
-(require 'flycheck)
 (require 'solidity-mode)
-(require 'flymake-solidity)
+;; (require 'flymake-solidity)
 
-(add-hook 'solidity-mode-hook 'flymake-solidity-load)
-(add-hook 'solidity-mode-hook (lambda () (c-set-style "awk")))
+(require 'flycheck)
+
+(add-to-list 'auto-mode-alist '("\\.sol\\'" . solidity-mode))
+(add-hook 'solidity-mode-hook '(lambda () (flycheck-mode t) (flycheck-set-checker-executable "/usr/local/bin/solc")))
+
+;;(add-hook 'solidity-mode-hook (lambda () (c-set-style "awk")))
 
 ;; (add-hook 'markdown-mode-hook '(lambda () (flyspell-mode 1)))
 ;; (set-face-attribute 'flyspell-incorrect nil :underline "line")
@@ -231,7 +245,7 @@
 (setq projectile-keymap-prefix (kbd "M-p"))
 (projectile-global-mode)
 (setq projectile-enable-caching t)
-;;(persp-mode)
+
 (setq projectile-completion-system 'ivy)
 (add-to-list 'projectile-globally-ignored-directories "__pycache__")
 (add-to-list 'projectile-globally-ignored-files "*.pyc")
@@ -245,8 +259,6 @@
      '((ivy-switch-buffer . ivy--regex-plus)
        (t . ivy--regex-fuzzy)))
 (setq ivy-initial-inputs-alist nil)
-
-(elscreen-persist-restore)
 
 (require 'realgud)
 
@@ -281,4 +293,59 @@ terminal-notifier-command
 
 (require 'my-notmuch)
 
+(require 'my-elfeeds)
+
 (provide 'emp-external-plugins)
+
+(with-eval-after-load "persp-mode-autoloads"
+  (setq wg-morph-on nil) ;; switch off animation
+  (setq persp-autokill-buffer-on-remove 'kill-weak)
+  (add-hook 'after-init-hook #'(lambda () (persp-mode 1))))
+
+(with-eval-after-load "persp-mode-autoload"
+  (with-eval-after-load "dired"
+    (def-auto-persp "dired"
+      :parameters '((dont-save-to-file . t))
+      :mode 'dired-mode
+      :dyn-env '(after-switch-to-buffer-functions ;; prevent recursion
+                 (persp-add-buffer-on-find-file nil)
+                 persp-add-buffer-on-after-change-major-mode)
+      :hooks '(after-switch-to-buffer-functions)
+      :switch 'window)))
+
+
+(defvar config-layouts-after-find-file-hook nil)
+(def-auto-persp "projectile"
+  :parameters '((dont-save-to-file . t))
+  :hooks '(config-layouts-after-find-file-hook)
+  :switch 'frame
+  :predicate
+  (lambda (_buffer)
+    (when (and (buffer-file-name) (projectile-project-p))
+
+      t))
+  :get-name-expr
+  (lambda ()
+    (abbreviate-file-name (projectile-project-root))))
+
+(add-hook 'haskell-mode-hook 'intero-mode)
+(add-hook 'haskell-mode-hook '(lambda () (interactive-haskell-mode 1)))
+(add-hook 'haskell-mode-hook 'hi2-mode)
+(add-hook 'haskell-mode-hook 'eldoc-mode)
+
+(setq pytest-cmd-flags "-x -s --cov")
+
+(require 'json-snatcher)
+
+(setq diredp-hide-details-initially-flag nil)
+(diredp-toggle-find-file-reuse-dir 1)
+
+(setq web-mode-enable-current-element-highlight t)
+
+(add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
+
+(add-hook 'minibuffer-setup-hook 'turn-on-smartparens-strict-mode)
+
+(require 'smartparens-python)
+
+(require 'howdoi)

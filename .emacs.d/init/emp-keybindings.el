@@ -23,12 +23,15 @@
 (key-chord-define-global "L&"   '(lambda () (interactive) (shelly 7)))
 (key-chord-define-global "L*"   '(lambda () (interactive) (shelly 8)))
 
-(key-chord-define-global "LQ"   '(lambda () (interactive) (elscreen-goto 4) (jabber-connect-all) (jabber-switch-to-roster-buffer)))
+(key-chord-define-global "LQ"   '(lambda () (interactive) (elscreen-goto 4) (when (not (ignore-errors jabber-connections)) (jabber-connect-all)) (when (not (string-match "jabber" (buffer-name (current-buffer)))) (jabber-switch-to-roster-buffer))))
 (key-chord-define-global "LW"   'switch-to-notmuch)
 
-(key-chord-define-global "JA"   'jabber-connect-all)
-(key-chord-define-global "JW"   'jabber-chat-with)
-(key-chord-define-global "JR"   'jabber-display-roster)
+(defun goto-4-jabber-chat-with ()
+  (interactive)
+  (elscreen-goto 4)
+  (call-interactively 'jabber-chat-with))
+
+(key-chord-define-global "JW"   'goto-4-jabber-chat-with)
 (key-chord-define-global "NM"   'notmuch)
 
 (key-chord-define-global "LG" 'shelly-go)
@@ -83,9 +86,9 @@
 (global-set-key (kbd "C-\"") 'neg-expand-region)
 
 ;; mark-more-like-this
-(global-set-key (kbd "C-,") 'mark-previous-like-this)
-(global-set-key (kbd "C-.") 'mark-next-like-this)
-(global-set-key (kbd "C-*") 'mark-all-like-this)
+(global-set-key (kbd "C-,") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-.") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-*") 'mc/mark-all-like-this)
 
 ;; multiple-cursors
 (global-set-key (kbd "C->") 'mc/edit-lines)
@@ -116,7 +119,7 @@
 
 (global-set-key "\r" 'newline-and-indent)
 
-(global-set-key (kbd "s-SPC") 'just-one-space)
+(global-set-key (kbd "M-SPC") 'one-or-zero-whitespace)
 
 (global-set-key (kbd "C-c r") 'ivy-recentf)
 
@@ -126,6 +129,13 @@
 (define-key web-mode-map (kbd "C-c a") 'switch-angular)
 
 (define-key dired-mode-map [backspace] 'dired-up-directory)
+
+(with-eval-after-load 'python-mode
+  (define-key py-ipython-shell-mode-map (kbd "C-<return>") 'py-ipython-shell-paste))
+
+
+(with-eval-after-load 'magit-log
+  (define-key magit-mode-map (kbd "C-w") 'kill-this-buffer))
 
 (global-unset-key '[C-down-mouse-1])
 
@@ -154,12 +164,7 @@
 
 (key-chord-define-global "WF" 'eashy-switch-or-create)
 
-(global-set-key (kbd "M-<left>") 'tabbar-backward)
-(global-set-key (kbd "M-<right>") 'tabbar-forward)
-
-(key-chord-define-global "SF" '(lambda () (interactive) (switch-to-buffer eashy-last-buf)))
-
-(global-set-key (kbd "M-<right>") 'tabbar-forward)
+(key-chord-define-global "SF" 'avy-goto-word-0)
 
 
 (global-set-key (kbd "M-f") 'flymake-goto-next-error)
@@ -197,13 +202,19 @@
 
 (global-set-key [backspace] 'backspace-blank-lines-or-char)
 
-(global-set-key (kbd "C-)") 'smart-expand-pair-paren)
-(global-set-key (kbd "C-(") 'smart-shrink-pair-paren)
-(global-set-key (kbd "C-]") 'smart-expand-pair-bracket)
-(global-set-key (kbd "M-[") 'smart-shrink-pair-bracket)
+(global-set-key (kbd "M-<right>") 'sp-down-sexp)
+(global-set-key (kbd "M-<left>") '(lambda () (interactive) (sp-up-sexp) (backward-sexp)))
+(global-set-key (kbd "C-)") 'sp-forward-slurp-sexp)
+(global-set-key (kbd "C-(") 'sp-forward-barf-sexp)
 
-(global-set-key (kbd "M-j") 'join-lines)
-(global-set-key (kbd "M-J") 'join-line)
+
+(global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
+(global-set-key (kbd "C-M-<right>") 'sp-backward-barf-sexp)
+
+
+
+(global-set-key (kbd "M-J") 'join-lines)
+(global-set-key (kbd "M-j") 'join-line)
 
 (global-set-key (kbd "C-M-=") 'make-directory)
 (global-set-key (kbd "M-a") 'ag)
@@ -213,5 +224,10 @@
 (global-set-key (kbd "M-i") 'yas-expand)
 
 (global-set-key "\M-]" 'comint-dynamic-complete-filename)
+
+(global-set-key "\M-/" 'hippie-expand)
+
+(global-set-key (kbd "C-n") 'flycheck-next-error)
+(global-set-key (kbd "C-p") 'flycheck-previous-error)
 
 (provide 'emp-keybindings)
