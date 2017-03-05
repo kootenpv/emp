@@ -14,18 +14,6 @@
  '(elpy-syntax-check-command "/Users/pascal/egoroot/emp-24.4/.emacs.d/pyflymake.py")
  '(elpy-test-pytest-runner-command (quote ("py.test")))
  '(flycheck-check-syntax-automatically (quote (save idle-change new-line mode-enabled)))
- '(jabber-auto-reconnect t)
- '(jabber-avatar-verbose nil)
- '(jabber-backlog-days 30)
- '(jabber-backlog-number 40)
- '(jabber-chat-buffer-format "*-jabber-%n-*")
- '(jabber-history-enabled t)
- '(jabber-mode-line-mode t)
- '(jabber-roster-buffer "*-jabber-*")
- '(jabber-roster-line-format " %c %-25n %u %-8s (%r)")
- '(jabber-show-offline-contacts nil)
- '(jabber-use-global-history nil)
- '(jabber-vcard-avatars-retrieve nil)
  '(notmuch-saved-searches
    (quote
     ((:name "inbox" :query "tag:inbox" :key "i")
