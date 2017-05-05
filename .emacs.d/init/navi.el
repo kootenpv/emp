@@ -22,6 +22,9 @@
     (,(kbd "f e") . (lambda () (interactive)
                       (find-file (concat empinit "emp-external-plugins.el")) (Navi-mode -1)))
 
+    (,(kbd "f E") . (lambda () (interactive)
+                      (find-file (concat empinit "emp-external-packages.el")) (Navi-mode -1)))
+
     (,(kbd "f a") . (lambda () (interactive)
                       (find-file (concat empinit "emp-external-packages.el")) (Navi-mode -1)))
 

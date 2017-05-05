@@ -73,11 +73,15 @@
     (if (not (string-match "pypy" python-python-command))
         (progn
           (py-shell nil t python-python-command pybuffname)
-          (switch-to-buffer-other-window pybuffname))
+          (switch-to-buffer-other-window pybuffname)
+          ;; on startup "hooks"
+          (insert "def _get_modules(): return set([x for x in globals() if isinstance(globals()[x], ModuleType) and not x.startswith('_')]);")
+          (comint-send-input)
+          (insert "import pdir; import imp; import sys; from types import ModuleType; _init_modules = _get_modules(); del sys; del types")
+          (comint-send-input))
       (split-window-right)
       (switch-window)
-      (ansi-term "ipypy" (concat "IPyPy" (int-to-string arg)))
-      ))
+      (ansi-term "ipypy" (concat "IPyPy" (int-to-string arg)))))
   (end-of-buffer)
   (insert "%time %paste")
   (if (eq major-mode 'term-mode)
@@ -91,72 +95,16 @@
   (end-of-buffer)
   (other-window -1))
 
-(defun new-python-eval2 (arg)
-  ;; NOTE THAT I CHANGED IPYTHON's
-  ;; /Library/Python/2.7/site-packages/ipython-2.0.0_dev-py2.7.egg/IPython/core/magics/execution.py
-  ;; /Library/Python/2.7/site-packages/ipython-2.0.0_dev-py2.7.egg/IPython/terminal/interactiveshell.py
-  ;; IN ORDER TO PREVENT SILLY PRINTING
-  (interactive "p")
-  (when (eq arg 0)
-    (setq python-python-command "ipython")
-    (setq  pybuffname (concat "*IPython" (int-to-string arg) "*")))
-  (when (eq arg 2)
-    (setq python-python-command "ipython2")
-    (setq  pybuffname (concat "*IPython" (int-to-string arg) "*")))
-  (when (eq arg 3)
-    (setq python-python-command "ipython3")
-    (setq  pybuffname (concat "*IPython" (int-to-string arg) "*")))
-  (when (eq arg 9)
-    ;; make it so that pypy's ipython is linked to "ipypy" in your bin, yes.. ipypy is a new name,
-    ;; e.g.: (setq python-python-command "/Users/pascal/Downloads/pypy-2.5.1-osx64/bin/ipython")
-    (setq python-python-command "ipypy")
-    (setq  pybuffname (concat "*IPyPy" (int-to-string arg) "*")))
-  (new-python-get-text)
-  (if (get-buffer pybuffname)
-      (switch-to-buffer-other-window pybuffname)
-    (delete-other-windows)
-    (if (not (string-match "pypy" python-python-command))
-        (progn
-          (py-shell nil t python-python-command pybuffname)
-          (switch-to-buffer-other-window pybuffname))
-      (split-window-right)
-      (switch-window)
-      (ansi-term "ipypy" (concat "IPyPy" (int-to-string arg)))
-      ))
-  (end-of-buffer)
-  (insert (car kill-ring))
-  (if (eq major-mode 'term-mode)
-      (term-send-input)
-    (comint-send-input t))
-  (accept-process-output (get-buffer-process (current-buffer)))
-  (setq kill-ring (cdr kill-ring))
-  (end-of-buffer)
-  (comint-send-input nil t)
-  (end-of-buffer)
-  (comint-goto-process-mark)
-  (other-window -1))
-
-
-(defun python-send-buffer2 ()
-  (interactive)
-  (switch-to-buffer "*Python*")
-  (ignore-errors (process-kill-without-query (get-buffer-process (current-buffer))))
-  (kill-buffer "*Python*")
-  (delete-other-windows)
-  (python-send-buffer)
-  (split-window-right)
-  (other-window 1)
-  (switch-to-buffer "*Python*")
-  (other-window -1))
-
 (add-hook 'python-mode-hook
           '(lambda()
              (define-key python-mode-map (kbd "C-<return>") 'new-python-eval)
-             (define-key python-mode-map (kbd "C-M-<backspace>") 'py-straighten)))
+             (define-key python-mode-map (kbd "C-M-<backspace>") 'py-straighten)
+             (define-key python-mode-map (kbd "C-<") 'python-eval-upwards)
+             (define-key python-mode-map (kbd "C->") 'python-eval-buffer)))
 
 (define-key python-mode-map (kbd "C-c c") 'python-send-my-buffer)
 
-(define-key python-mode-map (kbd "<tab>") 'py-shift-right)
+;(define-key python-mode-map (kbd "<tab>") 'py-shift-right)
 (define-key python-mode-map [backtab] 'py-shift-left)
 
 (define-key python-mode-map (kbd "C-<backspace>") 'backward-delete-word)
@@ -175,6 +123,7 @@
   )
 
 (add-hook 'comint-mode-hook 'add-inferior-python-keywords)
+(add-hook 'comint-mode-hook 'smartparens-mode)
 
 (define-key python-mode-map (kbd "C-c p") 'shell-this-file)
 
@@ -368,7 +317,8 @@
           (lambda ()
             (local-set-key "\C-ca" 'pytest-pdb-all)
             (local-set-key "\C-cC-a" 'pytest-pdb-all)
-            (local-set-key "\C-c0" 'pytest-pdb-one)))
+            (local-set-key "\C-c0" 'pytest-pdb-one)
+            (local-set-key "\C-co" 'pytest-pdb-one)))
 
 (provide 'emp-python)
 
@@ -396,7 +346,30 @@
     (comint-add-to-input-history (s-trim-right (substring-no-properties (car kill-ring)))))
   )
 
+(defun python-find-arg-bounds (arg)
+  (interactive "p")
+  (let ((start (save-excursion (search-backward-regexp "[,(]" 0 t)))
+        (end (save-excursion (search-forward-regexp "[,)]" (point-max) t))))
+    (delete-region (+ 1 start) (- end 1))
+    (delete-horizontal-space)))
 
+
+
+
+(defun python-eval-upwards (arg)
+  (interactive "p")
+  (save-excursion
+    (set-mark-command nil)
+    (beginning-of-buffer)
+    (new-python-eval arg)))
+
+(defun python-eval-buffer (arg)
+  (interactive "p")
+  (save-excursion
+    (beginning-of-buffer)
+    (set-mark-command nil)
+    (end-of-buffer)
+    (new-python-eval arg)))
 
 (company-mode 1)
 
@@ -404,10 +377,8 @@
 (require 'tramp)
 
 (defun c5-enable-x-forward (methods)
-   (let ((ssh-method (find-if (lambda (x) (string-equal (car x) "ssh"))
-methods)))
-     (pushnew (list "-Y") (second (assoc 'tramp-login-args (cdr
-ssh-method)))
+  (let ((ssh-method (find-if (lambda (x) (string-equal (car x) "ssh"))methods)))
+     (pushnew (list "-Y") (second (assoc 'tramp-login-args (cdr ssh-method)))
               :test 'equal)))
 
 (c5-enable-x-forward tramp-methods)
@@ -426,13 +397,27 @@ ssh-method)))
 
 
 
+
 (global-set-key (kbd "C-M-k") 'py-kill-def-or-class)
 (global-set-key (kbd "M-d") 'elpy-goto-definition)
 
 
+(defun py-reload-all ()
+  (interactive)
+  (switch-to-buffer-other-window pybuffname)
+  (insert "import sys; _ = [imp.reload(globals()[x]) for x in _get_modules() - _init_modules if x in sys.modules]; print('Reloaded.')")
+  (comint-send-input))
 
+(defun flip-boolean ()
+  (interactive)
+  (search-forward-regexp "\\(False\\|True\\)")
+  (if (string-equal (substring-no-properties (match-string 0)) "False")
+      (message (replace-match "True"))
+    (message (replace-match "False"))))
 
+(global-set-key (kbd "C-b") 'flip-boolean)
 
+(require 'smartparens-python)
 
 ;;comint-preoutput-filter-functions
 

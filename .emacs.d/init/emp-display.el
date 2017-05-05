@@ -45,9 +45,11 @@
 ;; (setq ns-auto-hide-menu-bar t)
 ;; (set-frame-position nil 0 -21)
 ;; (tool-bar-mode 0)
-;; (set-frame-size nil 206 54)
+;;
 
-(toggle-frame-maximized)
+;; (set-frame-size nil 236 61)
+
+;; (toggle-frame-maximized)
 
 (setq company-tooltip-minimum-width 40)
 

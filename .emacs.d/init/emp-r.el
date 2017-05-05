@@ -103,7 +103,7 @@
 (setq-default ess-dialect "R")
 (key-chord-define-global "vv" 'ess-R-object-popup)
 
-(add-hook 'ess-noweb-mode-hook 'local-set-key "TAB" 'yas-expand)
+;;(add-hook 'ess-noweb-mode-hook 'local-set-key "TAB" 'yas-expand)
 
                     ; better auto-pair behavior
 (defadvice autopair-insert-opening (before autopair-ess-advise activate)

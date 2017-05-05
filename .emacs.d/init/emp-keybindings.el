@@ -13,18 +13,18 @@
 (key-chord-define-global "L#"   '(lambda () (interactive) (shelly 3)))
 (key-chord-define-global "L$"   '(lambda () (interactive) (shelly 4)))
 
-(key-chord-define-global "LA"   '(lambda () (interactive) (elscreen-goto 0)))
-(key-chord-define-global "LS"   '(lambda () (interactive) (elscreen-goto 1)))
-(key-chord-define-global "LD"   '(lambda () (interactive) (elscreen-goto 2)))
-(key-chord-define-global "LF"   '(lambda () (interactive) (elscreen-goto 3)))
+;; (key-chord-define-global "LA"   '(lambda () (interactive) (elscreen-goto 0)))
+;; (key-chord-define-global "LS"   '(lambda () (interactive) (elscreen-goto 1)))
+;; (key-chord-define-global "LD"   '(lambda () (interactive) (elscreen-goto 2)))
+;; (key-chord-define-global "LF"   '(lambda () (interactive) (elscreen-goto 3)))
 
 (key-chord-define-global "L%"   '(lambda () (interactive) (shelly 5)))
 (key-chord-define-global "L^"   '(lambda () (interactive) (shelly 6)))
 (key-chord-define-global "L&"   '(lambda () (interactive) (shelly 7)))
 (key-chord-define-global "L*"   '(lambda () (interactive) (shelly 8)))
 
-(key-chord-define-global "LQ"   '(lambda () (interactive) (elscreen-goto 4) (when (not (ignore-errors jabber-connections)) (jabber-connect-all)) (when (not (string-match "jabber" (buffer-name (current-buffer)))) (jabber-switch-to-roster-buffer))))
-(key-chord-define-global "LW"   'switch-to-notmuch)
+;; (key-chord-define-global "LQ"   '(lambda () (interactive) (elscreen-goto 4) (when (not (ignore-errors jabber-connections)) (jabber-connect-all)) (when (not (string-match "jabber" (buffer-name (current-buffer)))) (jabber-switch-to-roster-buffer))))
+;; (key-chord-define-global "LW"   'switch-to-notmuch)
 
 (defun goto-4-jabber-chat-with ()
   (interactive)
@@ -85,10 +85,10 @@
 (global-set-key (kbd "C-'") 'er/expand-region)
 (global-set-key (kbd "C-\"") 'neg-expand-region)
 
-;; mark-more-like-this
-(global-set-key (kbd "C-,") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-.") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-*") 'mc/mark-all-like-this)
+(global-set-key (kbd "C-,") 'mark-previous-like-this)
+(global-set-key (kbd "C-.") 'mark-next-like-this)
+(global-set-key (kbd "C-*") 'mark-all-like-this)
+
 
 ;; multiple-cursors
 (global-set-key (kbd "C->") 'mc/edit-lines)
@@ -109,7 +109,7 @@
 
 (global-set-key (kbd "C-x e") 'eval-last-sexp)
 
-(global-set-key (kbd "C-k") 'kill-line-or-region)
+;(global-set-key (kbd "C-k") 'kill-line-or-region)
 
 (global-set-key (kbd "C-S-g") 'minibuffer-keyboard-quit)
 
@@ -211,7 +211,7 @@
 (global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
 (global-set-key (kbd "C-M-<right>") 'sp-backward-barf-sexp)
 
-
+(global-set-key (kbd "M-+") 'make-directory)
 
 (global-set-key (kbd "M-J") 'join-lines)
 (global-set-key (kbd "M-j") 'join-line)
@@ -229,5 +229,10 @@
 
 (global-set-key (kbd "C-n") 'flycheck-next-error)
 (global-set-key (kbd "C-p") 'flycheck-previous-error)
+
+(global-set-key (kbd "C-x t") 'neotree-toggle)
+;(global-set-key (kbd "C-s") 'helm-swoop)
+
+(global-set-key (kbd "C-M-c") 'compile)
 
 (provide 'emp-keybindings)

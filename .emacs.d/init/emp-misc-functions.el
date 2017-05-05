@@ -67,7 +67,7 @@ With argument ARG, do this that many times."
       (sp-kill-hybrid-sexp 1)))
    (t (sp-kill-sexp))))
 
-(looking-at "[ ]*\\(if\\|else\\)")  if
+
 
 (defun neq (obj1 obj2)
   (interactive)

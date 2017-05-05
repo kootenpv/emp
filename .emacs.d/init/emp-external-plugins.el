@@ -19,11 +19,11 @@
 
 (require 'ffap)
 
-(electric-pair-mode)
+;(electric-pair-mode)
 (require 'yasnippet)
 (yas/load-directory (concat emacsd "snippets"))
 (setq yas-snippet-dirs (concat emacsd "snippets"))
-(yas-global-mode t)
+;; (yas-global-mode t)
 
 (require 'multiple-cursors)
 
@@ -74,8 +74,6 @@
 (add-hook 'vc-annotate-mode-hook 'turn-on-tempbuf-mode)     ; Idle VC annotate closed
 (add-hook 'log-view-mode-hook 'turn-on-tempbuf-mode)        ; Idle VC change log closed
 (add-hook 'diff-mode-hook 'turn-on-tempbuf-mode)        ; Idle VC diff closed
-
-(add-hook 'ag-mode-hook 'turn-on-tempbuf-mode)
 
 ;; eldoc mode for lispy languages
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
@@ -212,7 +210,7 @@
 (require 'eashy)
 
 (require 'ag)
-(setq ag-ignore-list (list "node_modules" "*cache"))
+(setq ag-ignore-list (list "node_modules" "*cache" "*.json" "*archive-contents"))
 
 (require 'avy)
 
@@ -340,10 +338,22 @@ terminal-notifier-command
 
 (setq web-mode-enable-current-element-highlight t)
 
-(add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
+(require 'smartparens-config)
+(smartparens-global-mode t)
+(show-smartparens-global-mode t)
 
-(add-hook 'minibuffer-setup-hook 'turn-on-smartparens-strict-mode)
+(require 'wgrep)
+
+(define-key wgrep-mode-map (kbd "C-,") 'mc/mark-previous-like-this)
+(define-key wgrep-mode-map (kbd "C-.") 'mc/mark-next-like-this)
+(define-key wgrep-mode-map (kbd "C-*") 'mc/mark-all-like-this)
+
+(add-hook 'ag-mode-hook 'turn-on-tempbuf-mode)
+
+(require 'smartparens-config)
 
 (require 'smartparens-python)
+
+(require 'modulous)
 
 (require 'howdoi)

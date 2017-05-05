@@ -23,14 +23,16 @@
         finally (return t)))
 
 ;; if not all packages are installed, fcheck one by one and install the missing ones.
-(unless (packages-installed-p)
+(when (assoc "en0" (network-interface-list))
   ;; check for new packages (package versions)
-  (message "%s" "Emacs is now refreshing its package database...")
-  (package-refresh-contents)
-  (message "%s" " done.")
-  ;; install the missing packages
-  (dolist (p required-packages)
-    (when (not (package-installed-p p))
-      (package-install p))))
+  (unless (packages-installed-p)
+    (message "%s" "Emacs is now refreshing its package database...")
+    (package-refresh-contents)
+    (message "%s" " done.")
+    ;; install the missing packages
+    (dolist (p required-packages)
+      (when (not (package-installed-p p))
+        (package-install p)))
+    (package-refresh-contents)))
 
 (provide 'package-loader)
