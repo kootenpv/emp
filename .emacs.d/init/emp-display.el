@@ -28,7 +28,7 @@
 ;; ; cursor as bar
 (set-default 'cursor-type 'bar)
 
-(set-frame-parameter (selected-frame) 'internal-border-width 10)
+;;(set-frame-parameter (selected-frame) 'internal-border-width 0)
 
 (setq frame-title-format '(buffer-file-name "%f" ("%b")))
 

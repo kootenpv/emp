@@ -47,7 +47,8 @@ With argument ARG, do this that many times."
   (interactive)
   (save-excursion
     (mark-paragraph -1)
-    (eval-region (region-beginning) (region-end ) t)))
+    (eval-region (region-beginning) (region-end ) t)
+    (deactivate-mark)))
 
 (defun kill-line-or-region ()
   (interactive)

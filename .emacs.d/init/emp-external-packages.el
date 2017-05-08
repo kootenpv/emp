@@ -66,6 +66,10 @@
     wgrep
     howdoi
     smartparens
+    json-snatcher
+    dired+
+    counsel
+    pycoverage
     ) "a list of packages to ensure are installed at launch.")
 
 (provide 'emp-external-packages)

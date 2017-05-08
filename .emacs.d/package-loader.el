@@ -23,7 +23,7 @@
         finally (return t)))
 
 ;; if not all packages are installed, fcheck one by one and install the missing ones.
-(when (assoc "en0" (network-interface-list))
+(when (assoc "wlp3s0" (network-interface-list))
   ;; check for new packages (package versions)
   (unless (packages-installed-p)
     (message "%s" "Emacs is now refreshing its package database...")

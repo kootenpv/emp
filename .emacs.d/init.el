@@ -22,6 +22,8 @@
                (not (equal f ".")))
       (add-to-list 'load-path name))))
 
+(message (concat emacsd "pkd"))
+
 ;; load external packages
 (load (concat emacsd "package-loader.el"))
 

@@ -1,4 +1,4 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;        Keychords          ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -56,7 +56,8 @@
 
 
 ;; goto-line-with-feedback
-(global-set-key (kbd "M-g M-g") 'goto-line-with-feedback)
+;;(global-set-key (kbd "M-g M-g") 'goto-line-with-feedback)
+(global-set-key (kbd "s-g s-g") 'goto-line-with-feedback)
 
 (global-set-key "\C-xf" 'smart-find-at-point)
 
@@ -94,6 +95,7 @@
 (global-set-key (kbd "C->") 'mc/edit-lines)
 
 (global-set-key [?\M-o] 'imenu-anywhere)
+(global-set-key [?\s-o] 'imenu-anywhere)
 
 (global-set-key [delete]  'delete-blank-lines-or-char)
 
@@ -121,7 +123,7 @@
 
 (global-set-key (kbd "M-SPC") 'one-or-zero-whitespace)
 
-(global-set-key (kbd "C-c r") 'ivy-recentf)
+(global-set-key (kbd "C-c r") 'counsel-recentf)
 
 (define-key isearch-mode-map [(backspace)] 'isearch-delete-char)
 
@@ -154,7 +156,19 @@
 (global-set-key (kbd "C-c h") 'hs-hide-all)
 (global-set-key (kbd "C-c s") 'hs-show-all)
 
+;; default meta in super
+(global-set-key (kbd "s-w") 'kill-ring-save)
+(global-set-key (kbd "s-x") 'execute-extended-command)
+(global-set-key (kbd "C-s-f") 'forward-sexp)
+(global-set-key (kbd "C-s-b") 'backward-sexp)
+(global-set-key (kbd "s-<") 'beginning-of-buffer)
+(global-set-key (kbd "s->") 'end-of-buffer)
+(global-set-key (kbd "s-a") 'ag)
+
+
+
 (global-set-key (kbd "C-M-m") 'magit-status)
+(global-set-key (kbd "C-s-<return>") 'magit-status)
 
 (define-key restclient-mode-map (kbd "C-<return>") 'restclient-http-send-current)
 
@@ -202,14 +216,14 @@
 
 (global-set-key [backspace] 'backspace-blank-lines-or-char)
 
-(global-set-key (kbd "M-<right>") 'sp-down-sexp)
-(global-set-key (kbd "M-<left>") '(lambda () (interactive) (sp-up-sexp) (backward-sexp)))
 (global-set-key (kbd "C-)") 'sp-forward-slurp-sexp)
 (global-set-key (kbd "C-(") 'sp-forward-barf-sexp)
 
 
 (global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
 (global-set-key (kbd "C-M-<right>") 'sp-backward-barf-sexp)
+
+
 
 (global-set-key (kbd "M-+") 'make-directory)
 

@@ -105,8 +105,8 @@
  (defun sc-when-no-repeat ()
    (cond
     ((region-active-p) (comment-region (region-beginning) (region-end)))
-    ((or (bobp) (looking-back "\\\\")) (insert comment-start))
-    ((or (bolp) (looking-back comment-start)) (insert comment-start " "))
+    ((or (bobp) (looking-back "\\\\" 0)) (insert comment-start))
+    ((or (bolp) (looking-back comment-start 0)) (insert comment-start " "))
     ((looking-at comment-start) (skip-chars-forward comment-start) (insert comment-start))
     (t (end-of-line) (just-one-space) (insert comment-start " ")))
    )
@@ -182,13 +182,13 @@
  ;; Smart hooks
 
  (defadvice autopair-skip-close-maybe (before smart-advice-close activate)
-   (when (looking-back " \\{2,\\}")
+   (when (looking-back " \\{2,\\}" 0)
      (just-one-space)
      (delete-char -1))
    )
 
  (defadvice forward-paragraph (after smart-center activate)
-   (recenter))
+   (ignore-errors (recenter)))
 
  (defvar smart-frame-save nil)
 
@@ -249,13 +249,11 @@
     ;;    (delete-char -1))
     ;;  (insert "\n\n")
     ;; (indent-for-tab-command))
-    ((looking-back "\n\n\n") (previous-line) (delete-blank-lines) (next-line))
-    ((looking-back "\n\n") (previous-line) (delete-blank-lines))
+    ((looking-back "\n\n\n" 0) (previous-line) (delete-blank-lines) (next-line))
+    ((looking-back "\n\n" 0) (previous-line) (delete-blank-lines))
     ;;((looking-back "\n\\s-+") (just-one-space) (delete-char -2) (just-one-space))
     (t (backward-delete-char 1)))
    )
-
-
 
  (defun smart-indent-region ()
    (interactive)
@@ -288,15 +286,15 @@
          (count 0))
      (dotimes (number (length smart-pair-alist) value)
        (cond
-        ((and (looking-back (regexp-quote (car (nth count smart-pair-alist))))
-              (looking-at (regexp-quote (cdr (nth count smart-pair-alist)))))
+        ((and (looking-back (regexp-quote (car (nth count smart-pair-alist))) 0)
+              (looking-at (regexp-quote (cdr (nth count smart-pair-alist))) 0))
          (delete-char 1) (delete-char -1)
          (setq smart-skipper t))
 
         ((and (eq this-command 'backspace-blank-lines-or-char)
               (looking-back (regexp-quote
                              (concat (car (nth count smart-pair-alist))
-                                     (cdr (nth count smart-pair-alist))))))
+                                     (cdr (nth count smart-pair-alist)))) 0))
          (delete-char -2)
          (setq smart-skipper t))
         ((and (eq this-command 'delete-blank-lines-or-char)
@@ -323,7 +321,7 @@
 
  (defadvice delete-blank-lines-or-char (around smart-delete-parenthesis activate)
    (cond
-    ((and (or (eq major-mode 'ess-mode) (eq major-mode 'python-mode)) (looking-at "(") (looking-back "[a-z0-9]"))
+    ((and (or (eq major-mode 'ess-mode) (eq major-mode 'python-mode)) (looking-at "(") (looking-back "[a-z0-9]" 0))
      (delete-region (point) (scan-sexps (point) -1))
      ;;(delete-region (point) (scan-lists (point) -1 1))
      (looking-at "(")

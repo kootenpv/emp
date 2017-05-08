@@ -19,7 +19,7 @@
 
 (require 'ffap)
 
-;(electric-pair-mode)
+;(electric-pair-mode)<
 (require 'yasnippet)
 (yas/load-directory (concat emacsd "snippets"))
 (setq yas-snippet-dirs (concat emacsd "snippets"))
@@ -62,7 +62,7 @@
 
 (require 'switch-window)
 
-;;(require 'emp-r)
+;; ;;(require 'emp-r)
 
 (require 'tempbuf)
 
@@ -114,7 +114,7 @@
 (require 'dired-x)
 (require 'dired-fixups)
 
-;;; GROOVY
+;; ;;; GROOVY
 
 (autoload 'groovy-mode "groovy-mode" "Major mode for editing Groovy code." t)
 (add-to-list 'auto-mode-alist '("\.groovy$" . groovy-mode))
@@ -186,6 +186,7 @@
 
 (add-hook 'json-mode-hook (lambda () (flycheck-mode t)))
 (add-hook 'yaml-mode-hook (lambda () (flycheck-mode t)))
+(add-hook 'emacs-lisp-mode-hook (lambda () (flycheck-mode t)))
 
 (require 'solidity-mode)
 ;; (require 'flymake-solidity)
@@ -244,13 +245,14 @@
 (projectile-global-mode)
 (setq projectile-enable-caching t)
 
-(setq projectile-completion-system 'ivy)
-(add-to-list 'projectile-globally-ignored-directories "__pycache__")
-(add-to-list 'projectile-globally-ignored-files "*.pyc")
-(add-to-list 'projectile-globally-ignored-files "*cache")
+;ARCH_TODO
+;(setq projectile-completion-system 'ivy)
+;(add-to-list 'projectile-globally-ignored-directories "__pycache__")
+;(add-to-list 'projectile-globally-ignored-files "*.pyc")
+;(add-to-list 'projectile-globally-ignored-files "*cache")
 
-(add-to-list 'projectile-other-file-alist '("component.html" "component.ts"))
-(add-to-list 'projectile-other-file-alist '("component.ts" "component.html"))
+;(add-to-list 'projectile-other-file-alist '("component.html" "component.ts"))
+;(add-to-list 'projectile-other-file-alist '("component.ts" "component.html"))
 
 ;;(setq magit-completing-read-function 'ivy-completing-read)
 (setq ivy-re-builders-alist
@@ -287,9 +289,9 @@ terminal-notifier-command
   (interactive "sNotification when (e.g: 2 minutes, 60 seconds, 3 days): \nsMessage: ")
   (run-at-time time nil (lambda (msg) (terminal-notifier-notify "Emacs" msg)) msg))
 
-(require 'my-notmuch)
+;(require 'my-notmuch)
 
-(require 'my-elfeeds)
+;(require 'my-elfeeds)
 
 (provide 'emp-external-plugins)
 
@@ -310,19 +312,19 @@ terminal-notifier-command
       :switch 'window)))
 
 
-(defvar config-layouts-after-find-file-hook nil)
-(def-auto-persp "projectile"
-  :parameters '((dont-save-to-file . t))
-  :hooks '(config-layouts-after-find-file-hook)
-  :switch 'frame
-  :predicate
-  (lambda (_buffer)
-    (when (and (buffer-file-name) (projectile-project-p))
+;; (defvar config-layouts-after-find-file-hook nil)
+;; (def-auto-persp "projectile"
+;;   :parameters '((dont-save-to-file . t))
+;;   :hooks '(config-layouts-after-find-file-hook)
+;;   :switch 'frame
+;;   :predicate
+;;   (lambda (_buffer)
+;;     (when (and (buffer-file-name) (projectile-project-p))
 
-      t))
-  :get-name-expr
-  (lambda ()
-    (abbreviate-file-name (projectile-project-root))))
+;;       t))
+;;   :get-name-expr
+;;   (lambda ()
+;;     (abbreviate-file-name (projectile-project-root))))
 
 (add-hook 'haskell-mode-hook 'intero-mode)
 (add-hook 'haskell-mode-hook '(lambda () (interactive-haskell-mode 1)))
@@ -331,7 +333,7 @@ terminal-notifier-command
 
 (setq pytest-cmd-flags "-x -s --cov")
 
-(require 'json-snatcher)
+;(require 'json-snatcher)
 
 (setq diredp-hide-details-initially-flag nil)
 (diredp-toggle-find-file-reuse-dir 1)
@@ -355,5 +357,7 @@ terminal-notifier-command
 (require 'smartparens-python)
 
 (require 'modulous)
+
+(require 'counsel)
 
 (require 'howdoi)

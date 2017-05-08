@@ -12,7 +12,10 @@
 (recentf-mode 1)
 (setq recentf-max-saved-items 70)
 (setq recentf-max-menu-items 70)
+(run-at-time nil (* 5 60) 'recentf-save-list)
 
+(set-language-environment "UTF-8")
+(set-default-coding-systems 'utf-8)
 
 (normal-erase-is-backspace-mode 1)
 
