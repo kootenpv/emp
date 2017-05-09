@@ -113,6 +113,8 @@
 (define-key python-mode-map [backspace] 'backspace-blank-lines-or-char)
 (define-key python-mode-map [delete] 'delete-blank-lines-or-char)
 
+(define-key comint-mode-map (kbd "s-r") 'comint-history-isearch-backward-regexp)
+
 (defun add-inferior-python-keywords()
   "adds a few keywords for inferior-python mode"
   (font-lock-add-keywords nil
@@ -124,6 +126,8 @@
 
 (add-hook 'comint-mode-hook 'add-inferior-python-keywords)
 (add-hook 'comint-mode-hook 'smartparens-mode)
+
+
 
 (define-key python-mode-map (kbd "C-c p") 'shell-this-file)
 

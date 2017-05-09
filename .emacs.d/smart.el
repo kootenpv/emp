@@ -195,12 +195,10 @@
 
  (defun smart-delete-or-restore-windows ()
    (interactive)
-   (neotree-hide)
    (if (one-window-p)
        (jump-to-register smart-frame-save)
      (frame-configuration-to-register smart-frame-save)
-     (delete-other-windows))
-   (neotree-show))
+     (delete-other-windows)))
 
  (defun smart-find-at-point ()
    (interactive)
@@ -287,7 +285,7 @@
      (dotimes (number (length smart-pair-alist) value)
        (cond
         ((and (looking-back (regexp-quote (car (nth count smart-pair-alist))) 0)
-              (looking-at (regexp-quote (cdr (nth count smart-pair-alist))) 0))
+              (looking-at (regexp-quote (cdr (nth count smart-pair-alist)))))
          (delete-char 1) (delete-char -1)
          (setq smart-skipper t))
 

@@ -164,7 +164,14 @@
 (global-set-key (kbd "s-<") 'beginning-of-buffer)
 (global-set-key (kbd "s->") 'end-of-buffer)
 (global-set-key (kbd "s-a") 'ag)
-
+(global-set-key (kbd "s-y") 'yank-pop)
+(global-set-key (kbd "C-s-x") 'eval-defun)
+(global-set-key (kbd "C-s-/") 'hippie-expand)
+(global-set-key (kbd "C-s-\\") 'smart-indent-region)
+(global-set-key (kbd "s-t") 'transpose-words)
+(global-set-key (kbd "s-c") 'capitalize-word)
+(global-set-key (kbd "s-u") 'upcase-word)
+(global-set-key (kbd "s-l") 'downcase-word)
 
 
 (global-set-key (kbd "C-M-m") 'magit-status)
@@ -231,9 +238,10 @@
 (global-set-key (kbd "M-j") 'join-line)
 
 (global-set-key (kbd "C-M-=") 'make-directory)
-(global-set-key (kbd "M-a") 'ag)
+(global-set-key (kbd "s-+") 'make-directory)
 
 (global-set-key (kbd "M-r") 'rename-current-buffer-file)
+(global-set-key (kbd "s-r") 'rename-current-buffer-file)
 
 (global-set-key (kbd "M-i") 'yas-expand)
 
