@@ -14,7 +14,6 @@
     imenu-anywhere
     undo-tree
     switch-window
-    ffap
     etags-select
     json-reformat
     buffer-move

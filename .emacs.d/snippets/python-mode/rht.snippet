@@ -1,8 +1,0 @@
-# -*- coding: utf-8 -*-
-# name: rht
-# key: rht
-# --
-with open('$0') as fin:
-    indata, = fin.read()
-    inheader, indata = indata[0], indata[1:]
-    res = [x.split('\t') for x in indata.split('\n')]

@@ -85,7 +85,18 @@
 
 ;; tramp use sudo: /sudo:mediqt:<enter>
 (require 'tramp)
+(setq tramp-default-method "ssh")
+(tramp-set-completion-function "ssh"
+                               '((tramp-parse-sconfig "/etc/ssh_config")
+                                 (tramp-parse-sconfig "~/.ssh/config")))
 (add-to-list 'tramp-default-proxies-alist '(".*" "\`root\'" "/ssh:%h:"))
+(add-to-list 'tramp-default-proxies-alist
+             '(nil "\\`root\\'" "/ssh:%h:"))
+(add-to-list 'tramp-default-proxies-alist
+             '((regexp-quote (system-name)) nil nil))
+
+(defadvice projectile-project-root (around ignore-remote first activate)
+  (unless (file-remote-p default-directory) ad-do-it))
 
 (setq compilation-always-kill t)
 
@@ -131,4 +142,19 @@
   (toggle-read-only))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
+;; (defun minibuffer-complete ()
+;;   (interactive)
+;;   (ignore-errors (minibuffer-complete)))
+
+;(setq debug-on-error t)
+
+; ensure middle mouse button yanks at point and not where the mouse is located
+(setq mouse-yank-at-point t)
+
 (provide 'emp-misc-settings)
+
+(setq js-indent-level 2)
+
+(setq ivy-re-builders-alist
+      '((ivy-switch-buffer . ivy--regex-plus)
+        (t . ivy--regex-fuzzy)))

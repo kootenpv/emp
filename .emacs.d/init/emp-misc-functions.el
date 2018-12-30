@@ -16,6 +16,7 @@
 With argument ARG, do this that many times."
   (interactive)
   (cond
+   ((eq major-mode 'term-mode) (backward-kill-word 1))
    ((looking-back "\n")
     (backspace-blank-lines-or-char))
    ((looking-back "  ")
@@ -32,7 +33,7 @@ With argument ARG, do this that many times."
   (interactive)
   (kill-region (point) (progn (backward-word) (point)))
   (save-excursion
-    (when  (looking-back "(")
+    (when (looking-back "(")
       (append-next-kill)
       (kill-region (point) (progn (search-backward-regexp "[^(]" nil t) (+ (point) 1)))))
   )
@@ -53,20 +54,14 @@ With argument ARG, do this that many times."
 (defun kill-line-or-region ()
   (interactive)
   (cond
-   ((region-active-p) (sp-kill-region (region-beginning) (region-end)))
+   ((region-active-p) (kill-region (region-beginning) (region-end)))
    ((looking-at "[ ]*class")
     (py-kill-def-or-class))
    ((looking-at "[ ]*\\(def\\|async def\\)")
     (py-kill-paragraph))  ;; hack
-   ((looking-at "[ ]*\\(for\\|if\\|elif\\|else\\|try\\|except\\|finally\\|while\\)")
-    (next-line) ;; hack
-    (py-kill-clause))
-   ((looking-back "^[ ]*")
-    (if (looking-at "[ ]*$")
-        (delete-blank-lines)
-      (back-to-indentation)
-      (sp-kill-hybrid-sexp 1)))
-   (t (sp-kill-sexp))))
+   ((and (looking-back "^[ ]*") (looking-at "[ ]*$"))
+     (delete-blank-lines))
+   (t (kill-line))))
 
 
 
@@ -284,7 +279,7 @@ might be bad."
 
 (defun grip ()
   (interactive)
-  (compile (concat "grip " (buffer-file-name)))
+  (compile (concat "/home/pascal/python/bin/grip " (buffer-file-name)))
   (browse-url "http://localhost:6419")
   )
 
@@ -302,7 +297,7 @@ might be bad."
         (filename (buffer-file-name)))
     (if (not (and filename (file-exists-p filename)))
         (error "Buffer '%s' is not visiting a file!" name)
-      (let ((new-name (read-file-name "New name: " filename)))
+      (let ((new-name (read-file-name "New name: " nil filename)))
         (if (get-buffer new-name)
             (error "A buffer named '%s' already exists!" new-name)
           (rename-file filename new-name 1)
@@ -311,6 +306,24 @@ might be bad."
           (set-buffer-modified-p nil)
           (message "File '%s' successfully renamed to '%s'"
                    name (file-name-nondirectory new-name)))))))
+
+(defun move-buffer-file (dir)
+ "Moves both current buffer and file it's visiting to DIR." (interactive "DNew directory: ")
+ (let* ((name (buffer-name))
+     (filename (buffer-file-name))
+     (dir
+     (if (string-match dir "\\(?:/\\|\\\\)$")
+     (substring dir 0 -1) dir))
+     (newname (concat dir "/" name)))
+   (if (not filename)
+       (message "Buffer '%s' is not visiting a file!" name)
+     (progn
+       (copy-file filename newname 1)
+       (delete-file filename)
+       (set-visited-file-name newname)
+       (set-buffer-modified-p nil)
+       t))))
+
 
 (defun find-file-angular (arg)
   (find-file-existing (concat (file-name-sans-extension (buffer-file-name)) "." arg)))
@@ -388,4 +401,49 @@ buffer is not visiting a file."
                          (ido-read-file-name "Find file(as root): ")))
     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
+(defun set-region-writeable (begin end)
+  "Removes the read-only text property from the marked region."
+  ;; See http://stackoverflow.com/questions/7410125
+  (interactive "r")
+  (let ((modified (buffer-modified-p))
+        (inhibit-read-only t))
+    (remove-text-properties begin end '(read-only t))
+    (set-buffer-modified-p modified)))
+
+(defun tgolsson-remove-arg ()
+  (interactive)
+  (ignore-errors
+  (let (bounds start end)
+    (setq bounds (bounds-of-thing-at-point 'symbol))
+    (setq start (car bounds))
+    (setq end (cdr bounds))
+    (save-excursion
+      (goto-char end)
+      (cond ((looking-at "(") ; Followed by a sexp
+             (progn (forward-sexp)
+                    (setq end (point))))
+            ((looking-at "[ ,]") ; Whitespace or comma - zap until next symbol
+             (progn
+               (while (looking-at "[ ,]")
+                 (forward-char))
+               (setq end (point))))))
+    (goto-char start)
+    (cond ((looking-back "[ ,]") ; Args before current arg
+           (progn
+             (while (looking-back "[ ,]")
+               (backward-char))
+             (setq start (point)))))
+    (kill-region start end))))
+
+(require 'xah-close-files)
+
+(defun ag2 (string)
+  "Search using ag in a given DIRECTORY for a given literal search STRING,
+with STRING defaulting to the symbol under point.
+
+If called with a prefix, prompts for flags to pass to ag."
+  (interactive (list (ag/read-from-minibuffer "Search string")))
+  (ag/search string (expand-file-name ".")))
+
 (provide 'emp-misc-functions)
+;;; emp-misc-functions.el ends here

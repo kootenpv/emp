@@ -8,6 +8,10 @@
 (eval-after-load "dired"
   '(define-key dired-mode-map "z" 'dired-zip-files))
 
+(eval-after-load "dired"
+  '(define-key dired-mode-map "\M-a" 'ag))
+
+
 (defun dired-zip-files (zip-file)
   "Create an archive containing the marked files."
   (interactive "sEnter name of zip file: ")
@@ -15,9 +19,9 @@
   ;; create the zip file
   (let ((zip-file (if (string-match ".zip$" zip-file) zip-file (concat zip-file ".zip"))))
     (shell-command
-     (concat "zip "
+     (concat "zip '"
              zip-file
-             " "
+             "' "
              (concat-string-list
               (mapcar
                '(lambda (filename)
@@ -41,8 +45,10 @@
 ;; Make sizes human-readable by default, sort version numbers
 ;; correctly, and put dotfiles and capital-letters first.
 (setq-default dired-listing-switches "-alhv")
-;;Normally, when I try to copy a directory, dired asks me if I really want to do a recursive copy. I always want to do this, and even if I didn't, the cost of accidentally starting a recursive copy isn't really all that bad. This stops dired from prompting me:
+(setq dired-recursive-deletes 'always)
 (setq dired-recursive-copies 'always)
+
+
 ;; Allow running multiple async commands simultaneously
 (defadvice shell-command (after shell-in-new-buffer (command &optional output-buffer error-buffer))
   (when (get-buffer "*Async Shell Command*")
@@ -59,6 +65,8 @@
 (setq dired-use-ls-dired nil)
 
 (add-hook 'dired-mode-hook
-          'emp-dired-mode-hook)
+          (lambda ()
+            (dired-sort-toggle-or-edit))
+          (emp-dired-mode-hook))
 
 (provide 'emp-dired)

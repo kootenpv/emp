@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: pool
+# key: pool
+# --
+def pool(fn, data, processes=8):
+    from multiprocessing import Pool
+    pool = Pool(processes)
+    return pool.map(fn, data)

@@ -200,32 +200,8 @@
      (frame-configuration-to-register smart-frame-save)
      (delete-other-windows)))
 
- (defun smart-find-at-point ()
-   (interactive)
-
-   (cond
-
-    ((ffap-guess-file-name-at-point)
-     (find-file-at-point)
-     t)
-
-    ((and (symbol-at-point) (boundp (symbol-at-point)))
-     (describe-variable (symbol-at-point)))
-
-    ((function-called-at-point)
-     (delete-other-windows)
-     (describe-function (function-called-at-point))
-     (other-window 1)
-     (toggle-max-screen)
-     (split-window-vertically)
-     (find-function (function-called-at-point))
-     (other-window -1)
-     (call-interactively 'minibuffer-keyboard-quit))
-
-    (t
-     (call-interactively 'describe-variable)))
-
-   )
+(setq ido-use-filename-at-point 'guess)
+(setq ido-use-url-at-point t)
 
  (defun delete-blank-lines-or-char ()
    (interactive)
@@ -240,6 +216,7 @@
  (defun backspace-blank-lines-or-char ()
    (interactive)
    (cond
+    ((eq major-mode 'term-mode) (backward-delete-char 1))
     ((region-active-p) (delete-region (region-beginning) (region-end)))
     ((smart-delete-pairs-around))
     ;; ((looking-back "\n\n\\s-+")
@@ -365,7 +342,7 @@
          ("[" . "]")             ; key 1
          ("{" . "}")             ; key 2
          ("'" . "'")
-         ("\"" . "\"")
+         ;("\"" . "\"")
          ("<" . ">")
          ))
 
@@ -431,3 +408,52 @@
 
 (provide 'smart)
  ;;; smart.el ends here
+
+
+
+
+(defun smart-find-char-backwards (chr)
+  (save-excursion
+    (search-backward chr nil nil)))
+
+(defun smart-python-kill-arg ()
+  ;; TEST CASES
+  ;; fn(a|, b, c)
+  ;; fn(a, b|, c)
+  ;; fn(a, b, c|)
+  ;; fn(a, b|,c)
+  ;; fn(a,b|, c)
+  ;; fn(a,b|,c)
+  (interactive)
+  (let ((comma (smart-find-char-backwards ","))
+        (bracket (smart-find-char-backwards "("))
+        (obstacles 0)
+        (p (point)))
+    (goto-char (max comma bracket))
+    (right-char)
+    (while (or (not (looking-at "[,)]")) (not (eq obstacles 0)))
+      (when (looking-at "[(]")
+        (setq obstacles (+ obstacles 1)))
+      (when (looking-at "[)]")
+        (setq obstacles (- obstacles 1)))
+      (right-char))
+    (cond
+     ((looking-at ", ")
+      (setq post-offset 2)
+      (if (eq (max comma bracket) comma)
+          (setq pre-offset 2)
+        (setq pre-offset 1)))
+     ((looking-at ",")
+      (message "hi")
+      (setq post-offset 1)
+      (if (eq (max comma bracket) comma)
+          (setq pre-offset 2)
+        (setq pre-offset 1)))
+     ((looking-at "[)]")
+      (setq post-offset 0)
+      (setq pre-offset 0)))
+    (when (eq (char-after (+ pre-offset (max comma bracket))) 40) ;; (
+      (setq pre-offset (+ pre-offset 1)))
+    (kill-region (+ pre-offset (max comma bracket)) (+ post-offset (point)))
+    (when (and (not (looking-back "[ ,(]")) (not (looking-at "[)]")))
+      (delete-char -1))))

@@ -104,7 +104,7 @@
 (define-prefix-command 'modulous-kill-map)
 (define-prefix-command 'modulous-delete-map)
 
-(global-set-key (kbd "C-k") 'modulous-kill-map)
+(global-set-key (kbd "C-S-k") 'modulous-kill-map)
 (global-set-key (kbd "M-d") 'modulous-delete-map)
 
 
@@ -120,6 +120,7 @@
 (define-key modulous-kill-map (kbd "c") 'py-kill-class)
 (define-key modulous-kill-map (kbd "f") 'py-kill-def)
 (define-key modulous-kill-map (kbd "u") 'undo-tree-undo)
+(define-key modulous-kill-map (kbd "a") 'smart-python-kill-arg)
 
 
 (define-key modulous-kill-map (kbd "9") 'modulous-kill-inner-parens)
@@ -139,5 +140,6 @@
 (define-key modulous-delete-map (kbd "c") 'py-delete-class)
 (define-key modulous-delete-map (kbd "f") 'py-delete-def)
 (define-key modulous-delete-map (kbd "u") 'undo-tree-undo)
+(define-key modulous-delete-map (kbd "a") 'smart-python-kill-arg)
 
 (provide 'modulous)

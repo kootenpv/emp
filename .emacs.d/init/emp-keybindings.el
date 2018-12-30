@@ -1,4 +1,4 @@
-1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;        Keychords          ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -12,6 +12,9 @@
 (key-chord-define-global "L@"   '(lambda () (interactive) (shelly 2)))
 (key-chord-define-global "L#"   '(lambda () (interactive) (shelly 3)))
 (key-chord-define-global "L$"   '(lambda () (interactive) (shelly 4)))
+
+;(key-chord-define-global "ME"   '(lambda () (interactive) (diredp-find-a-file "/home/pascal/egoroot")))
+;(key-chord-define-global "MP"   '(lambda () (interactive) (diredp-find-a-file "/home/pascal")))
 
 ;; (key-chord-define-global "LA"   '(lambda () (interactive) (elscreen-goto 0)))
 ;; (key-chord-define-global "LS"   '(lambda () (interactive) (elscreen-goto 1)))
@@ -30,6 +33,8 @@
   (interactive)
   (elscreen-goto 4)
   (call-interactively 'jabber-chat-with))
+
+
 
 (key-chord-define-global "JW"   'goto-4-jabber-chat-with)
 (key-chord-define-global "NM"   'notmuch)
@@ -59,9 +64,34 @@
 ;;(global-set-key (kbd "M-g M-g") 'goto-line-with-feedback)
 (global-set-key (kbd "s-g s-g") 'goto-line-with-feedback)
 
-(global-set-key "\C-xf" 'smart-find-at-point)
 
 
+;; (defadvice ido-find-file (before keyboard-escape-quit-ad activate)
+;;   (ignore-errors (abort-recursive-edit)))
+
+;(global-set-key (kbd "C-x f") 'ido-find-file)
+;(global-set-key (kbd "C-x C-f") 'ido-find-file)
+(global-unset-key (kbd "C-x C-f"))
+(global-unset-key (kbd "C-x f"))
+(global-set-key (kbd "C-o") 'ido-find-file)
+
+(global-set-key (kbd "C-f") 'isearch-forward)
+(global-set-key (kbd "C-s") 'save-buffer)
+
+(defun bind-ido-keys ()
+  "Keybindings for ido mode."
+  (define-key ido-completion-map (kbd "C-o") 'ido-fallback-command))
+
+(add-hook 'ido-setup-hook 'bind-ido-keys)
+
+(define-key dired-mode-map (kbd "C-o") 'ido-find-file)
+
+(define-key isearch-mode-map (kbd "C-f") 'isearch-repeat-forward)
+
+(global-set-key (kbd "C-z") 'undo-tree-undo)
+(global-set-key (kbd "C-Z") 'undo-tree-redo)
+
+(global-set-key (kbd "C-x C-d") '(lambda () (interactive) (dired ".")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;   Extension keybindings   ;;;
@@ -84,7 +114,7 @@
 
 ;; expand-region
 (global-set-key (kbd "C-'") 'er/expand-region)
-(global-set-key (kbd "C-\"") 'neg-expand-region)
+(global-set-key (kbd "C-\"") 'sp-split-sexp)
 
 (global-set-key (kbd "C-,") 'mark-previous-like-this)
 (global-set-key (kbd "C-.") 'mark-next-like-this)
@@ -111,17 +141,20 @@
 
 (global-set-key (kbd "C-x e") 'eval-last-sexp)
 
-;(global-set-key (kbd "C-k") 'kill-line-or-region)
+(global-set-key (kbd "C-k") 'kill-line-or-region)
 
 (global-set-key (kbd "C-S-g") 'minibuffer-keyboard-quit)
 
-(global-set-key (kbd "C-o") 'smart-delete-or-restore-windows)
+(global-set-key (kbd "C-v") 'smart-delete-or-restore-windows)
 
-(global-set-key (kbd "C-w") 'kill-this-buffer)
+;(global-set-key (kbd "C-w") 'kill-this-buffer)
+(global-set-key (kbd "C-w") 'xah-close-current-buffer)
+(global-set-key (kbd "C-S-t") 'xah-open-last-closed) ; control+shift+t
 
 (global-set-key "\r" 'newline-and-indent)
 
 (global-set-key (kbd "M-SPC") 'one-or-zero-whitespace)
+(global-set-key (kbd "s-SPC") 'one-or-zero-whitespace)
 
 (global-set-key (kbd "C-c r") 'counsel-recentf)
 
@@ -150,7 +183,8 @@
 
 (global-set-key [(control meta backspace)] 'delete-backwards-non-word)
 
-(global-set-key (kbd "C-d") 'delete-blank-lines-or-char)
+
+(global-set-key (kbd "C-d") '(lambda () (interactive) (dired ".")))
 
 (global-set-key (kbd "C-c t") 'hs-toggle-hiding)
 (global-set-key (kbd "C-c h") 'hs-hide-all)
@@ -159,11 +193,12 @@
 ;; default meta in super
 (global-set-key (kbd "s-w") 'kill-ring-save)
 (global-set-key (kbd "s-x") 'execute-extended-command)
-(global-set-key (kbd "C-s-f") 'forward-sexp)
-(global-set-key (kbd "C-s-b") 'backward-sexp)
+(global-set-key (kbd "C-s-f") 'sp-forward-sexp)
+(global-set-key (kbd "C-s-b") 'sp-backward-sexp)
 (global-set-key (kbd "s-<") 'beginning-of-buffer)
 (global-set-key (kbd "s->") 'end-of-buffer)
-(global-set-key (kbd "s-a") 'ag)
+(global-set-key (kbd "s-a") 'ag2)
+(global-set-key (kbd "M-a") 'ag)
 (global-set-key (kbd "s-y") 'yank-pop)
 (global-set-key (kbd "C-s-x") 'eval-defun)
 (global-set-key (kbd "C-s-/") 'hippie-expand)
@@ -172,10 +207,22 @@
 (global-set-key (kbd "s-c") 'capitalize-word)
 (global-set-key (kbd "s-u") 'upcase-word)
 (global-set-key (kbd "s-l") 'downcase-word)
+(global-set-key (kbd "s-\\") 'delete-horizontal-space)
+(global-set-key (kbd "s-i") 'yas-expand)
+(global-set-key (kbd "s-.") 'elpy-goto-definition)
+(global-set-key (kbd "C-s-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-s-r") 'isearch-backward-regexp)
+(global-set-key (kbd "C-s-<backspace>") 'py-straighten)
+(global-set-key (kbd "s-q") 'fill-paragraph)
 
 
 (global-set-key (kbd "C-M-m") 'magit-status)
+
+
 (global-set-key (kbd "C-s-<return>") 'magit-status)
+
+(global-set-key (kbd "<XF86LaunchA>") 'kmacro-start-macro-or-insert-counter)
+(global-set-key (kbd "<XF86LaunchB>") 'kmacro-end-or-call-macro)
 
 (define-key restclient-mode-map (kbd "C-<return>") 'restclient-http-send-current)
 
@@ -188,7 +235,7 @@
 (key-chord-define-global "SF" 'avy-goto-word-0)
 
 
-(global-set-key (kbd "M-f") 'flymake-goto-next-error)
+
 
 (global-set-key (kbd "M-DEL") 'kill-word)
 
@@ -200,7 +247,7 @@
 ;; add to hook
 (add-hook 'markdown-mode-hook 'markdown-mode-config)
 
-(global-set-key (kbd "C-S-t") 'toggle-truncate-lines)
+(global-set-key (kbd "C-s-t") 'toggle-truncate-lines)
 
 ;;; Smart keybindings
 
@@ -223,8 +270,13 @@
 
 (global-set-key [backspace] 'backspace-blank-lines-or-char)
 
+
+
+
+;; (global-set-key (kbd "C-(") 'sp-forward-barf-sexp)
+(global-set-key (kbd "C-{") '(lambda () (interactive) (back-to-indentation) (insert "[") (move-end-of-line 1) (delete-horizontal-space) (insert "]") (backward-sexp)))
+(global-set-key (kbd "C-(") '(lambda () (interactive) (insert "()") (left-char 1) (ignore-errors (while (not (sp-forward-slurp-sexp 1))))))
 (global-set-key (kbd "C-)") 'sp-forward-slurp-sexp)
-(global-set-key (kbd "C-(") 'sp-forward-barf-sexp)
 
 
 (global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
@@ -248,11 +300,15 @@
 (global-set-key "\M-]" 'comint-dynamic-complete-filename)
 
 (global-set-key "\M-/" 'hippie-expand)
+(global-set-key (kbd "s-/") 'hippie-expand)
 
 (global-set-key (kbd "C-n") 'flycheck-next-error)
 (global-set-key (kbd "C-p") 'flycheck-previous-error)
 
 (global-set-key (kbd "C-x t") 'neotree-toggle)
+
+(global-set-key (kbd "C-c C-f") '(lambda () (interactive) (if (eq major-mode 'js-mode) (smart-reformat-json) (xml-pretty-print (region-beginning) (region-end)))))
+
 ;(global-set-key (kbd "C-s") 'helm-swoop)
 
 (global-set-key (kbd "C-M-c") 'compile)
