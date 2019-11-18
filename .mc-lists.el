@@ -15,4 +15,6 @@
         compile-goto-error
         end-of-buffer
         handle-select-window
+        mouse-set-region
+        smart-end-of-line
         ))

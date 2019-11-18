@@ -66,9 +66,10 @@
     howdoi
     smartparens
     json-snatcher
-    dired+
     counsel
     pycoverage
+    elscreen
+    importmagic
     ) "a list of packages to ensure are installed at launch.")
 
 (provide 'emp-external-packages)

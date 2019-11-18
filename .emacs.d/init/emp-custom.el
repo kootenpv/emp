@@ -17,6 +17,9 @@
  '(flycheck-check-syntax-automatically '(save idle-change new-line mode-enabled))
  '(flycheck-idle-change-delay 0.1)
  '(ido-use-url-at-point nil)
+ '(ivy-use-virtual-buffers t)
+ '(ivy-virtual-abbreviate 'full)
+ '(ivy-wrap t)
  '(jedi:install-imenu t)
  '(max-mini-window-height 0.25)
  '(notmuch-saved-searches
@@ -39,9 +42,10 @@
      ("\\.\\(?:doc\\|docx\\|xls\\|xlsx\\|ppt\\|pptx\\|odt\\|ods\\|odg\\|odp\\)\\'" "libreoffice" nil)))
  '(openwith-mode t)
  '(package-selected-packages
-   '(nvm nodejs-repl pyenv-mode flycheck-pycheckers openwith anaconda-mode jinja2-mode nginx-mode racer rust-mode dired+ flycheck-kotlin kotlin-mode gradle-mode importmagic company-quickhelp persistent-scratch emojify flycheck-pos-tip ## pydoc-info websocket ein systemd with-editor f neotree memoize doom-themes ht evil-visual-mark-mode evil-args evil clojure-mode afternoon-theme fiplr helm helm-mode-manager hi2 ido-ubiquitous ido-completing-read+ m-buffer hydra nim-mode dante crontab-mode ido-sort-mtime toggle-quotes rainbow-mode groovy-imports camcorder wgrep-ag dired-toggle-sudo toml-mode counsel swiper realgud howdoi wgrep intero gnus-alias notify git-timemachine persp-projectile persp-mode perspective projectile go-mode flymake-solidity typescript groovy-mode tide solidity-mode elscreen yaml-mode flymake-json pytest backup-walker sphinx-doc solarized-theme zenburn-theme ubuntu-theme kooten-theme markdown-mode elpy frame-cmds avy python-mode dockerfile-mode ag company-jedi yasnippet undo-tree switch-window restclient py-autopep8 powerline multiple-cursors mark-multiple mark-more-like-this magit key-chord json-reformat jedi-core imenu-anywhere git-gutter flymake-jslint flymake-cursor flycheck flx-ido expand-region etags-select buffer-move buffer-extension autopair auto-complete))
+   '(coverage rjsx-mode vlf ripgrep smartparens nvm nodejs-repl pyenv-mode flycheck-pycheckers openwith anaconda-mode jinja2-mode nginx-mode racer rust-mode dired+ flycheck-kotlin kotlin-mode gradle-mode importmagic company-quickhelp persistent-scratch emojify flycheck-pos-tip ## pydoc-info websocket ein systemd with-editor f neotree memoize doom-themes ht evil-visual-mark-mode evil-args evil clojure-mode afternoon-theme fiplr helm helm-mode-manager hi2 ido-ubiquitous ido-completing-read+ m-buffer hydra nim-mode dante crontab-mode ido-sort-mtime toggle-quotes rainbow-mode groovy-imports camcorder wgrep-ag dired-toggle-sudo toml-mode counsel swiper realgud howdoi wgrep intero gnus-alias notify git-timemachine persp-projectile persp-mode perspective projectile go-mode flymake-solidity typescript groovy-mode tide solidity-mode elscreen yaml-mode flymake-json pytest backup-walker sphinx-doc solarized-theme zenburn-theme ubuntu-theme kooten-theme markdown-mode elpy frame-cmds avy python-mode dockerfile-mode ag company-jedi yasnippet undo-tree switch-window restclient py-autopep8 powerline multiple-cursors mark-multiple mark-more-like-this magit key-chord json-reformat jedi-core imenu-anywhere git-gutter flymake-jslint flymake-cursor flycheck flx-ido expand-region etags-select buffer-move buffer-extension autopair auto-complete))
  '(py-ipython-command-args "--pylab --automagic --pdb")
  '(py-python3-command-args '("--simple-prompt -i --pprint"))
+ '(python-shell-completion-native-disabled-interpreters '("pypy" "ipython" "python"))
  '(python-shell-interpreter-args "--simple-prompt --pprint")
  '(realgud-safe-mode nil)
  '(recentf-max-saved-items 500)

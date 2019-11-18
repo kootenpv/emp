@@ -40,6 +40,8 @@
 
 (require 'python)
 
+
+
 ;; otherwise: pytest-run: Symbol’s value as variable is void: python-shell--interpreter-args
 (setq python-shell--interpreter "python")
 (setq python-shell--interpreter-args '(""))
@@ -56,13 +58,13 @@
 ;; (setenv "VIRTUAL_ENV" "spacy")
 (setenv "PYENV_VERSION" "")
 
-;(setenv "PATH" "/opt/pyenv/plugins/pyenv-virtualenv/shims:/home/pascal/.pyenv/shims:/opt/pyenv/plugins/pyenv-virtualenv/shims:/home/pascal/.pyenv/shims:/home/pascal/bin:/home/pascal/python/bin:/home/pascal/.nvm/versions/node/v7.10.0/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/pascal/.bashhub/bin:/home/pascal/.gem/ruby/2.4.0/bin")
-;(setenv "PATH" "/home/pascal/python/bin:/opt/pyenv/plugins/pyenv-virtualenv/shims:/home/pascal/.pyenv/shims:/opt/pyenv/plugins/pyenv-virtualenv/shims:/home/pascal/.pyenv/shims:/home/pascal/bin:/home/pascal/.nvm/versions/node/v7.10.0/bin:/opt/google-cloud-sdk/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/pascal/.bashhub/bin:/home/pascal/.gem/ruby/2.4.0/bin")
-(setenv "PATH" "/home/pascal/.local/share/virtualenvs/mypython--KaCTqkX/bin:/opt/pyenv/plugins/pyenv-virtualenv/shims:/home/pascal/.pyenv/shims:/opt/pyenv/plugins/pyenv-virtualenv/shims:/home/pascal/.pyenv/shims:/home/pascal/bin:/home/pascal/.nvm/versions/node/v7.10.0/bin:/opt/google-cloud-sdk/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/pascal/.bashhub/bin:/home/pascal/.gem/ruby/2.4.0/bin")
+                                        ;(setenv "PATH" "/opt/pyenv/plugins/pyenv-virtualenv/shims:/home/pascal/.pyenv/shims:/opt/pyenv/plugins/pyenv-virtualenv/shims:/home/pascal/.pyenv/shims:/home/pascal/bin:/home/pascal/python/bin:/home/pascal/.nvm/versions/node/v7.10.0/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/pascal/.bashhub/bin:/home/pascal/.gem/ruby/2.4.0/bin")
+                                        ;(setenv "PATH" "/home/pascal/python/bin:/opt/pyenv/plugins/pyenv-virtualenv/shims:/home/pascal/.pyenv/shims:/opt/pyenv/plugins/pyenv-virtualenv/shims:/home/pascal/.pyenv/shims:/home/pascal/bin:/home/pascal/.nvm/versions/node/v7.10.0/bin:/opt/google-cloud-sdk/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/pascal/.bashhub/bin:/home/pascal/.gem/ruby/2.4.0/bin")
+(setenv "PATH" "/home/pascal/.pyenv/versions/feb2018/bin/:/opt/pyenv/plugins/pyenv-virtualenv/shims:/home/pascal/.pyenv/shims:/opt/pyenv/plugins/pyenv-virtualenv/shims:/home/pascal/.pyenv/shims:/home/pascal/bin:/home/pascal/.nvm/versions/node/v7.10.0/bin:/opt/google-cloud-sdk/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/pascal/.bashhub/bin:/home/pascal/.gem/ruby/2.4.0/bin")
 
-(add-to-list 'exec-path "/home/pascal/.local/share/virtualenvs/mypython--KaCTqkX/bin")
+(add-to-list 'exec-path "/home/pascal/.pyenv/versions/feb2018/bin/")
 
-;(setenv "PYTHONPATH" "")
+                                        ;(setenv "PYTHONPATH" "")
 
 (defun s-trim-right (s)
   "Remove whitespace at the end of S."
@@ -70,12 +72,9 @@
       (replace-match "" t t s)
     s))
 
-(defun new-python-eval (arg)
-  ;; NOTE THAT I CHANGED IPYTHON's
-  ;; /Library/Python/2.7/site-packages/ipython-2.0.0_dev-py2.7.egg/IPython/core/magics/execution.py
-  ;; /Library/Python/2.7/site-packages/ipython-2.0.0_dev-py2.7.egg/IPython/terminal/interactiveshell.py
-  ;; IN ORDER TO PREVENT SILLY PRINTING
-  (interactive "p")
+
+
+(defun new-python-choose-buffer (arg)
   (when (eq arg 0)
     (setq python-python-command "ipython")
     (setq python-shell-interpreter "ipython")
@@ -88,18 +87,18 @@
     (setq python-python-command "ipython2")
     (setq python-shell-interpreter "ipython2")
     (setq  pybuffname (concat "*IPython" (int-to-string arg) "*")))
-  (when (eq arg 3)
-(setq python-python-command "/home/pascal/.local/share/virtualenvs/mypython--KaCTqkX/bin/ipython")
+  (when (eq arg 7)
+    (setq python-python-command "/home/pascal/.local/share/virtualenvs/mypython--KaCTqkX/bin/ipython")
     (setq python-shell-interpreter "/home/pascal/.local/share/virtualenvs/mypython--KaCTqkX/bin/ipython")
     (setq  pybuffname (concat "*IPython" (int-to-string arg) "*")))
-  (when (eq arg 7)
-    (setq python-python-command "/home/pascal/python/bin/ipython")
-    (setq python-shell-interpreter "/home/pascal/python/bin/ipython")
+  (when (eq arg 3)
+    (setq python-python-command "/home/pascal/.pyenv/versions/feb2018/bin/ipython")
+    (setq python-shell-interpreter "/home/pascal/.pyenv/versions/feb2018/bin/ipython")
     (setq  pybuffname (concat "*IPython" (int-to-string arg) "*")))
   ;; remote
   (when (eq arg 8)
-    (setq python-python-command "/home/pascal/.pyenv/versions/3.7.0/bin/ipython")
-    (setq python-shell-interpreter "/home/pascal/.pyenv/versions/3.7.0/bin/ipython")
+    (setq python-python-command "/home/pascal/.pyenv/versions/3.7.2/bin/ipython")
+    (setq python-shell-interpreter "/home/pascal/.pyenv/versions/3.7.2/bin/ipython")
     (setq  pybuffname (concat "*IPython" (int-to-string arg) "*")))
   (when (eq arg 4)
     (setq python-python-command "/usr/local/bin/ipython_fix")
@@ -117,47 +116,102 @@
   (when (not pybuffname)
     (setq python-python-command "/home/pascal/python/bin/ipython")
     (setq python-shell-interpreter "/home/pascal/python/bin/ipython")
-    (setq  pybuffname (concat "*IPython" (int-to-string arg) "*")))
-  (new-python-get-text)
-  (if (eq arg 0)
-      (shell-command (concat "echo \"" (s-replace "\"" "\\\"" (substring-no-properties (car kill-ring))) "\" | xclip -selection clipboard") nil))
+    (setq  pybuffname (concat "*IPython" (int-to-string arg) "*"))))
+
+(defun new-python-switch-buffer (arg)
   (if (get-buffer pybuffname)
-      (switch-to-buffer-other-window pybuffname)
+      (when (not (eq (get-buffer pybuffname) (current-buffer)))
+        (switch-to-buffer-other-window pybuffname))
     (delete-other-windows)
-    (if (not (string-match "pypy" python-python-command))
-        (progn
-          (py-shell nil t python-python-command pybuffname)
-          (switch-to-buffer-other-window pybuffname)
-          ;; on startup "hooks"
-          (insert "def _get_modules(): return set([x for x in globals() if isinstance(globals()[x], ModuleType) and not x.startswith('_')]);")
-          (comint-send-input)
-          (insert "def run_asyncio(coro): asyncio.get_event_loop().run_until_complete(coro)")
-          (comint-send-input)
-          (insert "import pdir; import pandas as pd; pd.set_option('precision', 10); import imp; import sys; from types import ModuleType; _init_modules = _get_modules(); del sys; import asyncio;asyncio.run = run_asyncio")
-          (comint-send-input))
-      (split-window-right)
-      (switch-window)
-      (ansi-term "ipypy" (concat "IPyPy" (int-to-string arg)))))
+    (when (not (string-match "pypy" python-python-command))
+      (py-shell nil t python-python-command pybuffname)
+      (switch-to-buffer-other-window pybuffname)
+      ;; on startup "hooks"
+      (insert "def _get_modules(): return set([x for x in globals() if isinstance(globals()[x], ModuleType) and not x.startswith('_')]);")
+      (comint-send-input)
+      (insert "import pdir; import pandas as pd; pd.set_option('precision', 10); import sys; from types import ModuleType; _init_modules = _get_modules(); del sys;")
+      (comint-send-input)
+      (ring-remove comint-input-ring)
+      (ring-remove comint-input-ring)))
+  (end-of-buffer))
+
+(defun new-python-save-text (input-text)
+  (kill-new input-text))
+
+(defun testerer ()
+  (interactive)
+  (when (looking-back "\]: ")
+    (message "OK")))
+
+(defun new-python-run-paste ()
+  (new-python-switch-buffer 1)
   (end-of-buffer)
-  (insert "%time %paste")
-  (if (eq major-mode 'term-mode)
-      (term-send-input)
-    (comint-send-input)
-    (comint-add-to-input-history (s-trim-right (substring-no-properties (car kill-ring)))))
-  (setq kill-ring (cdr kill-ring))
-  (sleep-for 0.01)
-  (search-backward "%time %paste")
+  (let ((input-text (s-trim-right (substring-no-properties (car kill-ring)))))
+    (when (or (looking-back "ipdb> ") (looking-back "(Pdb) "))
+      (insert "q")
+      (comint-send-input))
+    (when (and (not (eq (point) 801)) (not (looking-back "\n")))
+      (message "point %s" (point))
+      (when (not (looking-back "\]: "))
+      (comint-interrupt-subjob)))
+    (if (> (length input-text) 5000)
+        (progn
+          (insert "%time %cpaste")
+          (comint-send-input)
+          (insert (concat (s-trim-right (substring-no-properties (car kill-ring))) "\n--\n"))
+          (comint-send-input)
+          (comint-send-input)
+          (sleep-for 0.01)
+          (search-backward "%time %cpaste"))
+      (insert "%time %paste")
+      (comint-send-input)
+      (comint-add-to-input-history (s-trim-right (substring-no-properties (car kill-ring))))
+      (setq kill-ring (cdr kill-ring))
+      (sleep-for 0.01)
+      (search-backward "%time %paste")))
   (ignore-errors (delete-region (line-beginning-position) (+ 1 (line-end-position))))
   (end-of-buffer)
   (other-window -1))
+
+(defun new-python-run-text (text)
+  (new-python-save-text text)
+  (new-python-run-paste))
+
+(defun new-python-eval-text (text)
+  (new-python-run-text text)
+  (ring-cleanup))
+
+(defun get-last-comint-value ()
+  (ignore-errors (with-current-buffer (get-buffer pybuffname) (elt (cdr (last comint-input-ring)) (- (cadr comint-input-ring) 1)))))
+
+(defun new-python-eval (arg)
+  ;; NOTE THAT I CHANGED IPYTHON's
+  ;; /Library/Python/2.7/site-packages/ipython-2.0.0_dev-py2.7.egg/IPython/core/magics/execution.py
+  ;; /Library/Python/2.7/site-packages/ipython-2.0.0_dev-py2.7.egg/IPython/terminal/interactiveshell.py
+  ;; IN ORDER TO PREVENT SILLY PRINTING
+  (interactive "p")
+  (new-python-choose-buffer arg)
+  (if (fix-import-live)
+      (elpy-nav-backward-block)
+    (new-python-eval-text (new-python-get-text))))
+
+(defun importmagic-correct-point ()
+  (interactive)
+  (setq importmagic-python-interpreter "/home/pascal/.pyenv/versions/feb2018/bin/python")
+  (importmagic-mode 1)
+  (setq importmagic-configuration-style-alist '((multiline . parentheses) (max_columns . 99)))
+  (importmagic-fix-symbol-at-point))
 
 (add-hook 'python-mode-hook
           '(lambda()
              (define-key python-mode-map (kbd "C-<return>") 'new-python-eval)
              (define-key python-mode-map (kbd "C-M-<backspace>") 'py-straighten)
              (define-key python-mode-map (kbd "C-<") 'python-eval-upwards)
-             (define-key python-mode-map (kbd "C-c C-l") '(lambda () (interactive) (importmagic-mode) (ignore-errors (importmagic-fix-symbol-at-point)) (importmagic-mode -1)))
-             ;(define-key python-mode-map (kbd "<tab>") 'indent-for-tab-command)
+             ;; (define-key python-mode-map (kbd "C-c C-l") '(lambda () (interactive) (importmagic-mode) (ignore-errors (importmagic-fix-symbol-at-point)) (importmagic-mode -1)))
+
+             (define-key python-mode-map (kbd "C-c <return>") 'importmagic-correct-point)
+
+                                        ;(define-key python-mode-map (kbd "<tab>") 'indent-for-tab-command)
              (define-key python-mode-map (kbd "C->") 'python-eval-buffer)))
 
 (define-key python-mode-map (kbd "C-c c") 'python-send-my-buffer)
@@ -183,7 +237,7 @@
   )
 
 (add-hook 'comint-mode-hook 'add-inferior-python-keywords)
-;(add-hook 'comint-mode-hook 'smartparens-mode)
+                                        ;(add-hook 'comint-mode-hook 'smartparens-mode)
 
 
 
@@ -220,7 +274,6 @@
     )
   (goto-char (point-min))
   )
-
 
 (defun python-send-my-buffer (arg)
   (interactive "p")
@@ -281,18 +334,21 @@
 (defun new-python-get-text ()
   (interactive)
   (cond
-   ((region-active-p) (kill-ring-save (region-beginning) (region-end)))
+   ((region-active-p)
+    (let ((rb (region-beginning))
+          (re (region-end)))
+      (ignore-errors (deactivate-mark) (next-line))
+      (buffer-substring rb re)))
    (t (ignore-errors
-    (let ((start (new-python-get-start))
-          (end (new-python-get-end)))
-      (when (eq (point-max) end)
-        (goto-char end))
-      (kill-ring-save start end)
-      )))))
+        (let ((start (new-python-get-start))
+              (end (new-python-get-end)))
+          (when (eq (point-max) end)
+            (goto-char end))
+          (buffer-substring start end))))))
 
 (setenv "LC_CTYPE" "UTF-8")
 
-;(setenv "PYTHONPATH" "/Users/pascal/watson/WEX/API/")
+                                        ;(setenv "PYTHONPATH" "/Users/pascal/watson/WEX/API/")
 
 (defun pgrep (str)
   (interactive "sgrep for: ")
@@ -327,25 +383,25 @@
 (add-hook 'python-mode-hook
           '(lambda ()
              (progn
-               ;(elpy-enable)
+                                        ;(elpy-enable)
                (setq-local flymake-start-syntax-check-on-newline t)
                (setq elpy-rpc-python-command "python")
                ;;(elpy-use-ipython "/home/pascal/python/bin/ipython")
                ;; (setq elpy-rpc-backend "company")
                (setq elpy-rpc-backend "jedi")
                ;;(setq elpy-syntax-check-command (concat emacsd "pyflymake.py"))
-               (setq elpy-syntax-check-command "flake8")
-               ;;(setq elpy-syntax-check-command "pylint")
+                                        ;(setq elpy-syntax-check-command "flake8")
+               (setq elpy-syntax-check-command "pylint")
                ;; (jedi:ac-setup)
                (setq python-check-command "pylint")
                ;;(setq elpy-syntax-check-command "pylint")
-               (pyvenv-workon "mypython--KaCTqkX")
+               (pyvenv-workon "feb2018")
                (define-key elpy-mode-map (kbd "C-<return>") 'new-python-eval)
                (define-key elpy-mode-map (kbd "M-<left>") nil)
                (define-key elpy-mode-map (kbd "M-<right>") nil)
                (setq elpy-test-runner 'elpy-test-pytest-runner)
                                         ;(add-hook 'before-save-hook (lambda () (when (eq major-mode 'python-mode)) 'elpy-format-code))
-               ;(add-hook 'before-save-hook (lambda () (when (eq major-mode 'python-mode)) 'elpy-format-code))
+                                        ;(add-hook 'before-save-hook (lambda () (when (eq major-mode 'python-mode)) 'elpy-format-code))
                )))
 
 (company-mode 1)
@@ -358,7 +414,6 @@
 (require 'blacken)
 
 (setq blacken-line-length 100)
-(setq blacken-allow-py36 t)
 (setq blacken-fast-unsafe t)
 (setq blacken-skip-string-normalization t)
 
@@ -371,9 +426,9 @@
 
 (add-hook 'python-mode-hook 'blacken-mode)
 
-;(add-hook 'python-mode-hook #'(lambda () (setq flycheck-checker 'python-pylint)))
+                                        ;(add-hook 'python-mode-hook #'(lambda () (setq flycheck-checker 'python-pylint)))
 
-; (remove-hook 'elpy-modules 'elpy-module-flymake)
+                                        ; (remove-hook 'elpy-modules 'elpy-module-flymake)
 
 ;; (add-hook 'elpy-mode-hook
 ;;           '(lambda ()
@@ -389,7 +444,7 @@
                (company-mode 1)
                (define-key elpy-mode-map (kbd "C-<right>") 'right-word)
                (define-key elpy-mode-map (kbd "C-<left>") 'left-word)
-                )))
+               )))
 
 
 
@@ -401,22 +456,14 @@
 ;;(py-exception-name-face ((t (:foreground "#94bff3"))))
 
 (require 'linum)
-(require 'pycoverage)
-
-(defun my-coverage ()
-  (interactive)
-  (when (derived-mode-p 'python-mode)
-    (progn
-      (linum-mode t)
-      (pycoverage-mode))))
-
 
 (add-hook 'python-mode-hook
           (lambda ()
             (local-set-key "\C-ca" 'pytest-pdb-all)
             (local-set-key "\C-ct" 'pytest-all)
             (local-set-key "\C-c0" 'pytest-pdb-one)
-            (local-set-key "\C-cm" 'pytest-module)))
+            (local-set-key "\C-cm" 'pytest-module)
+            (local-set-key "\C-cc" 'coverage-mode)))
 
 (provide 'emp-python)
 
@@ -434,15 +481,29 @@
   (backspace-blank-lines-or-char)
   (newline-and-indent))
 
+(defun ring-cleanup ()
+  (new-python-switch-buffer 1)
+  (while (cl-position "\%time \%paste" (ring-elements comint-input-ring) :test 'string-equal)
+    (ring-remove comint-input-ring
+                 (cl-position "\%time \%paste" (ring-elements comint-input-ring) :test 'string-equal)))
+  (while (cl-position "\%time \%cpaste" (ring-elements comint-input-ring) :test 'string-equal)
+    (ring-remove comint-input-ring
+                 (cl-position "\%time \%cpaste" (ring-elements comint-input-ring) :test 'string-equal)))
+  (other-window -1))
+
 (defun py-ipython-shell-paste ()
   (interactive)
   (end-of-buffer)
+  (when (looking-back "ipdb> ")
+    (insert "q")
+    (comint-send-input)
+    (sleep-for 0.02))
   (insert "%time %paste")
   (if (eq major-mode 'term-mode)
       (term-send-input)
     (comint-send-input)
     (comint-add-to-input-history (s-trim-right (substring-no-properties (car kill-ring)))))
-  )
+  (ring-cleanup))
 
 (defun python-find-arg-bounds (arg)
   (interactive "p")
@@ -554,7 +615,7 @@
 ;;   (add-hook 'elpy-mode-hook 'flycheck-mode))
 
 
-;(global-set-key "\"" '(lambda () (interactive) (smartparens-mode -1) (insert "\"") (smartparens-mode 1)))
+                                        ;(global-set-key "\"" '(lambda () (interactive) (smartparens-mode -1) (insert "\"") (smartparens-mode 1)))
 
 (defun set-python-virtual-env (arg env)
   (interactive "P\nsVirtual env name: ")
@@ -579,8 +640,8 @@
 (defun cb-gud--setup-realgud-windows (&optional buffer)
   (interactive)
   (let* ((buffer (or buffer (current-buffer)))
-          (src-buffer (realgud-get-srcbuf buffer))
-          (cmd-buffer (realgud-get-cmdbuf buffer)))
+         (src-buffer (realgud-get-srcbuf buffer))
+         (cmd-buffer (realgud-get-cmdbuf buffer)))
     (display-buffer cmd-buffer)
     (select-window (display-buffer src-buffer))))
 
@@ -592,10 +653,10 @@
 (defun cb-gud--realgud-command-for-mode (mode)
   (pcase mode
     (`python-mode
-      (lambda ()
-        (let* ((file (shell-quote-argument (file-relative-name (buffer-file-name))))
-               (args (list "ipdb3" file)))
-          (realgud:run-process "ipdb" (buffer-file-name) args 'realgud:pdb-minibuffer-history))))))
+     (lambda ()
+       (let* ((file (shell-quote-argument (file-relative-name (buffer-file-name))))
+              (args (list "ipdb3" file)))
+         (realgud:run-process "ipdb" (buffer-file-name) args 'realgud:pdb-minibuffer-history))))))
 
 (defun realgud ()
   (interactive)
@@ -612,16 +673,56 @@
 
 (defun testblack ()
   (interactive)
- (let ((url-request-method        "POST")
-          (url-request-extra-headers `(("X-Line-Length" . "100")))
-          (url-request-data          (buffer-string)))
-   (let ((buffer (url-retrieve-synchronously "http://localhost:45484" nil))
-         (tmpfuck "")
-         (oldpoint (point)))
-     (with-current-buffer buffer
-       (setq tmpfuck (s-join "\n\n" (cdr (s-split "\n\n" (buffer-string) 1)))))
-     (message "ok %s" tmpfuck)
-     (when (not (string-equal tmpfuck ""))
-         (erase-buffer)
-     (insert tmpfuck)
-     (goto-char oldpoint)))))
+  (let ((url-request-method        "POST")
+        (url-request-extra-headers `(("X-Line-Length" . "100")))
+        (url-request-data          (buffer-string)))
+    (let ((buffer (url-retrieve-synchronously "http://localhost:45484" nil))
+          (tmpfuck "")
+          (oldpoint (point)))
+      (with-current-buffer buffer
+        (setq tmpfuck (s-join "\n\n" (cdr (s-split "\n\n" (buffer-string) 1)))))
+      (message "ok %s" tmpfuck)
+      (when (not (string-equal tmpfuck ""))
+        (erase-buffer)
+        (insert tmpfuck)
+        (goto-char oldpoint)))))
+
+(setq import-attempts '(("Counter" . "from collections import Counter")
+                        ("defaultdict" . "from collections import defaultdict")
+                        ("just" . "import just")))
+
+(defun fix-import-live ()
+  (interactive)
+  (let ((to-fix-text nil))
+    ;; ipython
+    (new-python-switch-buffer 1)
+    (let ((text (s-lines (buffer-substring-no-properties (max (point-min) (- (point-max) 2000)) (point-max)))))
+      (when (s-starts-with? "NameError" (nth (- (length text) 5) text))
+        (let ((sub (nth 0 (s-match "NameError: name '[^']+" (nth (- (length text) 5) text)))))
+          (setq sub (s-right (- (length sub) 17) sub))
+          ;; source
+          (other-window -1)
+          (save-excursion
+            (goto-char 0)
+            (when (and (not to-fix-text) (search-forward (concat "def " sub "(") nil t))
+              (setq to-fix-text (new-python-get-text)))
+            (goto-char 0)
+            (when (and (not to-fix-text) (search-forward (concat sub " = ") nil t))
+              (setq to-fix-text (new-python-get-text)))
+            (goto-char 0)
+            (when (and (not to-fix-text) (search-forward (concat "import " sub) nil t))
+              (previous-line)
+              (setq to-fix-text (new-python-get-text))))
+          ;; ipython
+          (other-window -1)
+          (let ((fix (cdr (assoc sub import-attempts))))
+            (when (and (not to-fix-text) fix)
+              (setq to-fix-text (concat fix "\n\n"))))))
+      (when to-fix-text
+        (new-python-run-text to-fix-text)
+                                        ;(beep 1)
+        ))
+    ;; guarantee a good return
+    (new-python-switch-buffer 1)
+    (other-window -1)
+    to-fix-text))

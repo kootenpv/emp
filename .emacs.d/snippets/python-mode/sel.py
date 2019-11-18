@@ -2,7 +2,12 @@
 # name: sel
 # key: sel
 # --
-import selenium
 from selenium import webdriver
-driver = webdriver.$1()
+
+chrome_options = webdriver.ChromeOptions()
+chrome_options.binary_location = "/usr/bin/google-chrome-beta"
+driver = webdriver.Chrome(executable_path="/usr/bin/chromedriver", options=chrome_options)
+
+url = $0
+
 driver.get(url)

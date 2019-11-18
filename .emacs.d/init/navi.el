@@ -38,7 +38,7 @@
                       (find-file (concat emacsd "init.el")) (Navi-mode -1)))
 
     (,(kbd "f S") . (lambda () (interactive)
-                      (find-file (concat emacsd "smart.el")) (Navi-mode -1)))
+                      (find-file "/home/pascal/.ssh/config") (Navi-mode -1)))
 
     (,(kbd "f s") . (lambda () (interactive)
                       (switch-to-buffer "*scratch*") (Navi-mode -1)))
@@ -60,7 +60,6 @@
 
     (,(kbd "f R") . (lambda () (interactive)
                       (find-file (concat empinit "emp-r.el")) (Navi-mode -1)))
-
 
     )
   :global t

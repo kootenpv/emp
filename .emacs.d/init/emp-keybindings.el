@@ -141,8 +141,6 @@
 
 (global-set-key (kbd "C-x e") 'eval-last-sexp)
 
-(global-set-key (kbd "C-k") 'kill-line-or-region)
-
 (global-set-key (kbd "C-S-g") 'minibuffer-keyboard-quit)
 
 (global-set-key (kbd "C-v") 'smart-delete-or-restore-windows)
@@ -156,7 +154,8 @@
 (global-set-key (kbd "M-SPC") 'one-or-zero-whitespace)
 (global-set-key (kbd "s-SPC") 'one-or-zero-whitespace)
 
-(global-set-key (kbd "C-c r") 'counsel-recentf)
+;;(global-set-key (kbd "C-c r") 'counsel-recentf)
+(global-set-key (kbd "C-c r") 'ivy-switch-buffer)
 
 (define-key isearch-mode-map [(backspace)] 'isearch-delete-char)
 
@@ -164,6 +163,7 @@
 (define-key web-mode-map (kbd "C-c a") 'switch-angular)
 
 (define-key dired-mode-map [backspace] 'dired-up-directory)
+(define-key dired-mode-map "o" 'dired-display-file)
 
 (with-eval-after-load 'python-mode
   (define-key py-ipython-shell-mode-map (kbd "C-<return>") 'py-ipython-shell-paste))
@@ -189,6 +189,39 @@
 (global-set-key (kbd "C-c t") 'hs-toggle-hiding)
 (global-set-key (kbd "C-c h") 'hs-hide-all)
 (global-set-key (kbd "C-c s") 'hs-show-all)
+
+;; (defun kill-ring-save-exclude-space ()
+;;   (interactive)
+;;   (let ((s (region-beginning))
+;;         (e (region-end))
+;;         (i 0))
+;;     (save-excursion
+;;       (goto-char s)
+;;       (while (looking-at " ")
+;;         (right-char))
+;;       (while (looking-back " ")
+;;         (left-char)
+;;         (setq i (+ i 1)))
+;;       (goto-char e)
+;;       (while (looking-back " ")
+;;         (left-char)
+;;         (setq e (- e 1))))
+;;     (deactivate-mark)
+;;     (kill-new
+;;      (replace-regexp-in-string (concat "^" (make-string i ?\s)) "" (buffer-substring-no-properties s e)))))
+
+;; (defun aware-yank ()
+;;   (interactive)
+;;   (let ((text (car kill-ring))
+;;         (offset 0))
+;;     (save-excursion
+;;       (while (looking-back " ")
+;;         (setq offset (+ offset 1))
+;;         (left-char))
+;;       (insert (replace-regexp-in-string "^" (make-string offset ?\s) text))
+;;       (delete-horizontal-space))))
+
+;; (replace-regexp-in-string (concat "^" (make-string i ?\s)) "" (buffer-substring-no-properties s e))
 
 ;; default meta in super
 (global-set-key (kbd "s-w") 'kill-ring-save)
@@ -271,12 +304,24 @@
 (global-set-key [backspace] 'backspace-blank-lines-or-char)
 
 
-
+(defun embracer-test ()
+  (interactive)
+  (insert "()")
+  (left-char 1)
+  (let ((inc-variable 0))
+    (ignore-errors
+      (while (sp-slurp-hybrid-sexp)
+        (setq inc-variable (+ inc-variable 1))))
+    (message "%d" inc-variable)
+    (while (> inc-variable 0)
+      (ignore-errors (sp-slurp-hybrid-sexp))
+      (setq inc-variable (- inc-variable 1))))
+)
 
 ;; (global-set-key (kbd "C-(") 'sp-forward-barf-sexp)
 (global-set-key (kbd "C-{") '(lambda () (interactive) (back-to-indentation) (insert "[") (move-end-of-line 1) (delete-horizontal-space) (insert "]") (backward-sexp)))
-(global-set-key (kbd "C-(") '(lambda () (interactive) (insert "()") (left-char 1) (ignore-errors (while (not (sp-forward-slurp-sexp 1))))))
-(global-set-key (kbd "C-)") 'sp-forward-slurp-sexp)
+(global-set-key (kbd "C-(") 'embracer-test)
+(global-set-key (kbd "C-)") 'sp-slurp-hybrid-sexp) ; sp-forward-slurp-sexp
 
 
 (global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
@@ -307,10 +352,15 @@
 
 (global-set-key (kbd "C-x t") 'neotree-toggle)
 
-(global-set-key (kbd "C-c C-f") '(lambda () (interactive) (if (eq major-mode 'js-mode) (smart-reformat-json) (xml-pretty-print (region-beginning) (region-end)))))
+(global-set-key (kbd "C-c C-f") 'reformat)
 
 ;(global-set-key (kbd "C-s") 'helm-swoop)
 
 (global-set-key (kbd "C-M-c") 'compile)
+
+(global-set-key (kbd "C-k") 'kill-region-or-modulous)
+;;(global-set-key (kbd "C-k") 'kill-line-or-region)
+
+(add-hook 'ag-mode-hook (lambda() (local-unset-key (kbd "C-o"))))
 
 (provide 'emp-keybindings)

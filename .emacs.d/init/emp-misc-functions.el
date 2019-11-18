@@ -277,6 +277,16 @@ might be bad."
     (xml-reformat-tags))
   )
 
+(defun reformat ()
+  (interactive)
+  (cond
+   ((eq major-mode 'nxml-mode)
+    (reformat-xml))
+   ((eq major-mode 'js-mode)
+    (smart-reformat-json))))
+
+
+
 (defun grip ()
   (interactive)
   (compile (concat "/home/pascal/python/bin/grip " (buffer-file-name)))

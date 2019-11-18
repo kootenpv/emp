@@ -1,4 +1,4 @@
-(setq ido-file-extensions-order '(".py" ".md" ".ts" ".html" ".r" ".tex" ".cpp" ".h" ".txt" ".el" ".js" ".rst"))
+(setq ido-file-extensions-order '(".py" ".md" ".ts" ".html" ".r" ".tex" ".cpp" ".h" ".txt" ".el" ".js" ".rst" "" t))
 
 (setq yas/key-syntaxes '("w_" "w_." "^ "))
 
@@ -10,9 +10,9 @@
 
 (require 'recentf)
 (recentf-mode 1)
-(setq recentf-max-saved-items 70)
-(setq recentf-max-menu-items 70)
-(run-at-time nil (* 5 60) 'recentf-save-list)
+(setq recentf-max-saved-items 150)
+(setq recentf-max-menu-items 150)
+(run-with-idle-timer 5 t '(lambda () (with-timeout (2 nil) (recentf-save-list))))
 
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
@@ -156,5 +156,5 @@
 (setq js-indent-level 2)
 
 (setq ivy-re-builders-alist
-      '((ivy-switch-buffer . ivy--regex-plus)
+      '((ivy-switch-buffer . ivy--regex-fuzzy)
         (t . ivy--regex-fuzzy)))

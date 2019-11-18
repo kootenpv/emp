@@ -26,6 +26,7 @@
 (yas-global-mode t)
 
 
+(setq comint-input-ignoredups t)
 
 (require 'multiple-cursors)
 
@@ -266,11 +267,23 @@
 
 ;;(setq magit-completing-read-function 'ivy-completing-read)
 (setq ivy-re-builders-alist
-     '((ivy-switch-buffer . ivy--regex-plus)
+     '((ivy-switch-buffer . ivy--regex-fuzzy)
        (t . ivy--regex-fuzzy)))
 (setq ivy-initial-inputs-alist nil)
 
 ;(require 'realgud)
+
+(defun dired-get-size ()
+  (interactive)
+  (let ((files (dired-get-marked-files)))
+    (with-temp-buffer
+      (apply 'call-process "/usr/bin/du" nil t nil "-sch" files)
+      (message "Size of all marked files: %s"
+               (progn
+                 (re-search-backward "\\(^[0-9.,]+[A-Za-z]+\\).*total$")
+                 (match-string 1))))))
+
+(define-key dired-mode-map (kbd "?") 'dired-get-size)
 
 (autoload 'dired-async-mode "dired-async.el" nil t)
 (dired-async-mode 1)
@@ -574,6 +587,7 @@ ESC or `q' to not overwrite any of the remaining files,
 (show-smartparens-global-mode t)
 
 (add-hook 'nxml-mode-hook '(lambda() (show-smartparens-global-mode -1)))
+(add-hook 'nxml-mode-hook (lambda() (local-unset-key (kbd "C-c C-f"))))
 
 (setq sp-escape-quotes-after-insert nil
       sp-escape-wrapped-region nil)
@@ -668,3 +682,4 @@ ESC or `q' to not overwrite any of the remaining files,
   (smart-indent-region))
 
 (require 'realgud)
+(require 'coverage-mode)
